@@ -3,14 +3,21 @@
     <NavHeader></NavHeader>
 
     <div id="content">
-      <div id="postsection">
+      <div v-if="!isOnAuthPage()" id="postsection">
         <div id="allposts">
           <router-view name="main"></router-view>
         </div>
       </div>
 
       
-      <router-view name="side"></router-view>
+      <div v-if="!isOnAuthPage()" id="rightsection">
+        <router-view name="side"></router-view>
+      </div>
+
+      <div id="authsection" v-if="isOnAuthPage()">
+        <router-view name="auth"></router-view>
+      </div>
+      
       
 
     
@@ -27,6 +34,13 @@ export default {
   components: {
     NavHeader,
   },
+  methods:{
+    isOnAuthPage()
+    {
+      return (this.$route.path == '/login' ||  this.$route.path =='/register')
+
+    }
+  }
 };
 </script>
 
@@ -51,6 +65,7 @@ export default {
   display: flex;
   background-color: #dae0e6;
   /* border:1px solid red; */
+  height: 100vh;
 
   padding: 20px;
 }
@@ -64,6 +79,15 @@ export default {
 
   height: 100vh;
   width: 80%;
+}
+
+#authsection{
+  display: flex;
+    justify-content: space-evenly;
+    /* align-items: center; */
+    margin-top: 80px;
+    width: 100%;
+
 }
 @media only screen and (max-width: 1065px) {
   /* #rightsection-view {
@@ -107,4 +131,25 @@ export default {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+#rightsection
+{
+    height: 80vh;
+    width: 50%;
+    display: flex;
+    justify-content: left;
+    padding-left: 30px;
+}
+
+
+@media only screen and (max-width: 1065px)
+ {
+
+#rightsection
+
+{
+    display: none;
+}
+ }
+
 </style>

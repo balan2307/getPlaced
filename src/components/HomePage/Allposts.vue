@@ -1,3 +1,5 @@
+<!-- Posts on home page -->
+
 <template>
   <div>
     <UserPost></UserPost>

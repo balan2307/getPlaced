@@ -1,3 +1,4 @@
+<!-- Individual post -->
 <template>
   <b-card class="mb-2 user-post">
     <div class="post-rating">
