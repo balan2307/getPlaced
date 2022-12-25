@@ -1,8 +1,7 @@
+<!-- Currently not in use -->
 <template>
   <div id="postsection">
     <div id="allposts">
-      <UserPost></UserPost>
-      <UserPost></UserPost>
 
     </div>
   </div>
@@ -10,12 +9,12 @@
 
 <script>
 
-import UserPost from "./Posts.vue"
+// import UserPost from "./Posts.vue"
 
 export default {
-  name: "AllPosts",
+  name: "DisplayMain",
   components:{
-    UserPost
+
   }
 };
 </script>

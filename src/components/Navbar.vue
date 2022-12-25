@@ -1,14 +1,14 @@
 <template>
 
     <b-navbar toggleable="lg" type="light">
-      <b-navbar-brand href="#">getPlaced</b-navbar-brand>
+      <b-navbar-brand href="#"> <router-link to="/">getPlaced</router-link></b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item href="#"></b-nav-item>
-          <b-nav-item href="#">Home</b-nav-item>
+          <b-nav-item href="#"><router-link to="/post/1">Home</router-link></b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
@@ -28,9 +28,21 @@
 </template>
 
 <script>
+
+
 export default {
   name: "NavHeader",
+ 
 };
 </script>
 .navbar{ background-color:'white' }
-<style></style>
+<style>
+nav a{
+  color: black;
+  text-decoration: none!important;
+}
+nav a:hover
+{
+  color:black
+}
+</style>

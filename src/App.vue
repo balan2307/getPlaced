@@ -3,36 +3,34 @@
     <NavHeader></NavHeader>
 
     <div id="content">
-      <AllPost>
+      <div id="postsection">
+        <div id="allposts">
+          <router-view name="main"></router-view>
+        </div>
+      </div>
 
+      
+      <router-view name="side"></router-view>
+      
 
-      </AllPost>
-      <RightSection></RightSection>
-
-     
+    
     </div>
   </div>
 </template>
 
 <script>
-
 import NavHeader from "./components/Navbar.vue";
-import AllPost from "./components/HomePage/DisplayPosts.vue";
-import RightSection from './components/HomePage/RightSection.vue'
+
 
 export default {
   name: "App",
   components: {
     NavHeader,
-    AllPost,
-    RightSection
   },
 };
 </script>
 
 <style>
-
-
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -46,6 +44,7 @@ export default {
 #rightsection,
 #postsection {
   height: 100vh;
+  width: 100%;
 }
 
 #content {
@@ -56,36 +55,56 @@ export default {
   padding: 20px;
 }
 
-*{
-  
-  font-family: 'Rubik';
+* {
+  font-family: "Rubik";
 }
 
-@media only screen and (max-width: 960px) {
-  #rightsection{
-    display: none;
-  }
+#allposts {
+  /* border: 1px solid red; */
 
-  #postsection ,#allposts{
+  height: 100vh;
+  width: 80%;
+}
+@media only screen and (max-width: 1065px) {
+  /* #rightsection-view {
+    display: none;
+  } */
+
+  #postsection,
+  #allposts {
     width: 100%;
   }
 
-
-  
-
-
-  html, body {
+  html,
+  body {
     margin: 0;
     height: 100%;
     height: 100vh;
-}
+  }
 
   * {
-  box-sizing: border-box;
+    box-sizing: border-box;
+  }
 }
-  
 
 
 
+#postsection {
+  width: 100%;
+
+  display: flex;
+  justify-content: right;
+  /* border: 1px solid black; */
+  overflow: scroll;
+  overflow-x: hidden;
+}
+#postsection::-webkit-scrollbar {
+  display: none;
+}
+
+
+#postsection {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 </style>

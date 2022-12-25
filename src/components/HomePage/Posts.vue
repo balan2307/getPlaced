@@ -1,6 +1,14 @@
 <template>
   <b-card class="mb-2 user-post">
-    <div class="post-rating"></div>
+    <div class="post-rating">
+      <div class="rate-components">
+
+      <box-icon style="margin-bottom: 5px;" name='upvote'></box-icon>
+      <span class="post-vote">5</span>
+      <box-icon style=" margin-top:9px;" name='downvote'></box-icon>
+      </div>
+
+    </div>
     <div class="post-content">
       <b-card-text class="post-time">
         Posted by u/BadExtension1309 7 hours ago
@@ -16,12 +24,12 @@
       </b-card-text>
 
       <div class="post-btn">
-        <b-button>
+        <!-- <b-button>
           <font-awesome-icon icon="fa-regular  fa-thumbs-up"  size="lg" />
          </b-button>
 
 
-        <b-button class="thumsdown-btn" > <font-awesome-icon icon="fa-regular  fa-thumbs-down"  size="lg" /></b-button>
+        <b-button class="thumsdown-btn" > <font-awesome-icon icon="fa-regular  fa-thumbs-down"  size="lg" /></b-button> -->
 
       </div>
 
@@ -102,6 +110,16 @@ export default {
 
 }
 
+.post-vote
+{
+  font-weight: bold;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+ 
+}
 .post-img
 {
     max-height: 400px;
@@ -116,11 +134,44 @@ export default {
 
 
 }
+.post-rating
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+ 
+}
+.rate-components
+{
+
+  margin-top:20px
+}
+
+/* .post-rating .rate-components
+{
+
+  display: flex;
+  flex-direction: columns;
+  align-content: flex-start;
+} */
 
 
 .thumsdown-btn
 {
   margin-left: 20px;
+
+}
+
+@media only screen and (max-width: 585px) {
+  .post-content
+  {
+    width: 90%;
+  }
+  .post-rating
+  {
+
+    width: 10%;
+  }
 
 }
 </style>

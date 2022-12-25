@@ -22,7 +22,10 @@
 </template>
 
 <script>
-export default {};
+
+export default {
+    name:'HomeRightSection'
+};
 </script>
 
 <style>
@@ -30,7 +33,7 @@ export default {};
 {
   /* border:1px solid #41ca25; */
   /* width: 50%; */
-  height: 40%;
+  height: 45%;
   width: 70%;
   display: flex;
   flex-direction: column;
@@ -91,7 +94,7 @@ export default {};
 
 }
 
-@media only screen and (max-width: 1060px) {
+@media only screen and (max-width: 1065px) {
  
     #postBtn .btn
 {
@@ -99,9 +102,33 @@ export default {};
     font-size: 15px;
 }
 
+#rightsection
 
- 
+{
+    display: none;
+}
+/* 
+#createpost
+{
+    height: 60%;
+} */
 
 }
+
+
+/* @media only screen and (max-width: 690px) {
+ 
+ #postBtn .btn
+{
+
+ font-size: 15px;
+}
+
+#createpost
+{
+ height: 80%;
+}
+
+} */
 
 </style>
