@@ -3,6 +3,7 @@
     <NavHeader></NavHeader>
 
     <div id="content">
+      {{ isAuthenticated }}
       <div v-if="!isOnAuthPage()" id="postsection">
         <div id="allposts">
           <router-view name="main"></router-view>
@@ -27,6 +28,7 @@
 
 <script>
 import NavHeader from "./components/Navbar.vue";
+import {mapGetters} from 'vuex'
 
 
 export default {
@@ -40,6 +42,10 @@ export default {
       return (this.$route.path == '/login' ||  this.$route.path =='/register')
 
     }
+  },
+  computed:{
+    ...mapGetters(['isAuthenticated'])
+
   }
 };
 </script>
@@ -65,7 +71,7 @@ export default {
   display: flex;
   background-color: #dae0e6;
   /* border:1px solid red; */
-  height: 100vh;
+  /* height: 100vh; */
 
   padding: 20px;
 }

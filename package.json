@@ -1,12 +1,14 @@
 {
   "name": "getplaced-project",
   "version": "0.1.0",
+  "main": "index.js",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "start": "npm run serve"
+    "start": "npm run serve",
+    "server": "nodemon src/Server/index.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
@@ -14,13 +16,21 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/vue-fontawesome": "^2.0.9",
+    "axios": "^1.2.1",
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.1",
     "bootstrap": "^4.6.2",
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.8.3",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
+    "express-router": "0.0.1",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.8.1",
     "nodemon": "^2.0.20",
     "vue": "^2.7.14",
-    "vue-router": "^3.6.5"
+    "vue-router": "^3.6.5",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
