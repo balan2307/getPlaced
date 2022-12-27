@@ -1,21 +1,19 @@
 const express=require('express');
 const bodyParser=require('body-parser');
-const mongoose=require('mongoose')
 const cors=require('cors');
-
+const dotenv=require('dotenv');
 
 // const User=require('../models/User')
 const app=express();
+const mongoInit=require('./db/conn');
 app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
+dotenv.config();
+mongoInit()
+const PORT=process.env.SERVER_PORT || 3000;
 
-const PORT=process.env.PORT || 3000;
-const DB='mongodb+srv://esakki:Esakki2001@cluster0.rzlyho4.mongodb.net/getPlaced?retryWrites=true&w=majority'
-mongoose.set('strictQuery', true);
-mongoose.connect(DB).then(()=>{
-    console.log("Connection successful");
-}).catch((err)=>console.log(err,"No connection"))
+
 
 
 const InitRoutes=require('./routes/index');

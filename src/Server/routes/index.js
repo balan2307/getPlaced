@@ -9,7 +9,7 @@ const InitRoutes = (app) => {
 
     
 
-  app.use("/", adminRouter);
+  app.use("/", adminRouter)
   app.use('/test',auth,testRouter)
   console.log("Routes Initialized Successfully")
 
@@ -19,6 +19,6 @@ const InitRoutes = (app) => {
 
 module.exports=InitRoutes;
 
-// app.listen(PORT ,()=>{
+// app.listen(PORT ,()=>{s
 //     console.log(`server started on PORT ${PORT}`)
 // })

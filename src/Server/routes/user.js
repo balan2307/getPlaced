@@ -10,6 +10,8 @@ router.route('/login')
 router.route('/register')
 .post(UserController.RegisterUser);
 
+router.route('/username/:id')
+.get(UserController.getUserName);
 
 router.route('/users')
 .get(UserController.getAllUsers)

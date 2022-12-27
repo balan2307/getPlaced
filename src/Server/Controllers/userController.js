@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const User=require('../models/User')
 const jwt = require('jsonwebtoken');
 
-module.exports.loginUser=async(req,res,next)=>{
+module.exports.loginUser=async(req,res)=>{
     const{email,password}=req.body;
     console.log(("Password received"))
  
@@ -26,7 +26,7 @@ module.exports.loginUser=async(req,res,next)=>{
              })
            }
 
-           let token = jwt.sign({ userId: user._id}, 'secretkey');
+           let token = jwt.sign({ userId: user._id}, 'secretkey',{expiresIn: "6d" });
          
            return res.status(200).json({
              title: 'login success',
@@ -40,7 +40,7 @@ module.exports.loginUser=async(req,res,next)=>{
 }
 
 
-module.exports.RegisterUser=async(req,res,next)=>{
+module.exports.RegisterUser=async(req,res)=>{
     const {email,username,password}=req.body;
     const newUser=new User({
         email,
@@ -65,12 +65,26 @@ module.exports.RegisterUser=async(req,res,next)=>{
 }
 
 
-module.exports.getAllUsers=async(req,res,next)=>{
+module.exports.getAllUsers=async(req,res)=>{
     const users=await User.find({email:'thevarbalan32@gmail.com'});
     console.log("testing",users)
     return res.status(200).json({
       title: 'Test success'
     })
     // return users
+
+}
+
+module.exports.getUserName=async(req,res)=>{
+
+  console.log("testing username before")
+  const {id}=req.params;
+  const user=await User.findOne({_id:id});
+  console.log("testing username",user.username)
+  return res.status(200).json({
+    title:"Success",
+    username:user.username
+  })
+  // return users
 
 }

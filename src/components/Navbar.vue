@@ -16,10 +16,10 @@
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
             <template #button-content>
-              <em>User</em>
+              <em style="border:1px solid red">Username</em>
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+            <b-dropdown-item href="#" @click="logout">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -28,10 +28,39 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex';
+// import {getUserName} from '../services/user'
 
 export default {
   name: "NavHeader",
+  data()
+  {
+
+    return{
+      username:''
+    }
+  },
+  methods:{
+    logout() {
+                this.$store.dispatch( 'logout' )
+                    .then( () => this.$router.push( { name: 'LoginPage' } ) );
+            }
+
+  },
+  computed:{
+    ...mapGetters(['isAuthenticated','getUid']),
+   
+
+  },
+  async mounted()
+  {
+    // console.log("Created")
+    // const uid=this.$store.getters.getUid;
+    // console.log("Uid ",uid)
+    // const res=await getUserName(uid);
+    // console.log("Username is ",res)
+    // this.username=res;
+  }
  
 };
 </script>

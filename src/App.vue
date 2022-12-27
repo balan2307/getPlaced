@@ -3,7 +3,7 @@
     <NavHeader></NavHeader>
 
     <div id="content">
-      {{ isAuthenticated }}
+  
       <div v-if="!isOnAuthPage()" id="postsection">
         <div id="allposts">
           <router-view name="main"></router-view>

@@ -49,6 +49,7 @@ export default {
     }
     catch(err){
       console.log("error caught",err)
+      //redirect to login
     }
     // axios.post('http://localhost:3000/login',userCred).then((res) => {
     //       this.error = '';

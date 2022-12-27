@@ -1,16 +1,31 @@
 const KEY_TOKEN='token';
 const KEY_UID='uid';
+// import { getUserName } from '@/Server/Controllers/userController';
 import { login } from '@/services/auth';
 
 const auth={
-    store:{
+    state:{
         token:localStorage.getItem(KEY_TOKEN) || '',
-        uid:localStorage.getItem(KEY_UID) ||''
+        uid:localStorage.getItem(KEY_UID) ||'',
+        username:""
+        
     },
     getters:{
-
+        
         isAuthenticated(state){
+            // console.log("token ",state.token)
             return state.token!=''
+        },
+        getUserName(state)
+        {
+            // console.log("called",state.token)
+            return state.username;
+
+        },
+        getUid(state)
+        {
+            console.log("Uid called",state.uid)
+            return state.uid;
         }
  
     },
@@ -20,6 +35,10 @@ const auth={
         },
         setUid(state,uid){
             state.uid=uid 
+        },
+        setUserName(state,name)
+        {
+            state.username=name
         }
     },
 
@@ -31,11 +50,7 @@ const auth={
                 console.log("Response",data)
                 const {token,uid}=data;
                 localStorage.setItem(KEY_TOKEN,token);
-               
-                
-
-
-                
+                localStorage.setItem(KEY_UID,uid);
 
                 commit('setToken',token)
                 commit('setUid',uid)
@@ -48,7 +63,29 @@ const auth={
                 throw err.message;
             }
 
+        },
+
+        logout( { commit } ) {
+            localStorage.removeItem( KEY_TOKEN );
+            localStorage.removeItem( KEY_UID );
+   
+        
+            commit( 'setToken', '' );
+            commit( 'setUid', '' );
+    
+            return Promise.resolve();
         }
+
+        // getUserName({state})
+        // {
+
+        //     if(state.uid)
+
+        //     {
+        //         await getUsername(uid);
+        //     }
+
+        // }
     }
 }
 
