@@ -2,11 +2,12 @@ const KEY_TOKEN='token';
 const KEY_UID='uid';
 // import { getUserName } from '@/Server/Controllers/userController';
 import { login } from '@/services/auth';
-
+import { getUserId } from '@/services/user';
+// localStorage.getItem(KEY_UID)
 const auth={
     state:{
         token:localStorage.getItem(KEY_TOKEN) || '',
-        uid:localStorage.getItem(KEY_UID) ||'',
+        uid:  getUserId(localStorage.getItem(KEY_TOKEN)) ||'',
         username:""
         
     },
@@ -26,6 +27,10 @@ const auth={
         {
             console.log("Uid called",state.uid)
             return state.uid;
+        },
+        getToken(state)
+        {
+            return state.token;
         }
  
     },

@@ -14,7 +14,7 @@
       
 
         <div id="postBtn">
-            <router-link to="/posts/add"> <b-button variant="primary"  size="md">Create Post</b-button></router-link>
+            <router-link :to="`/user/posts/${getUid}/add`" > <b-button variant="primary"  size="md">Create Post</b-button></router-link>
            
         </div>
       
@@ -22,8 +22,14 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+
 export default {
-    name:'CreatePostCard'
+    name:'CreatePostCard',
+    computed:
+    {  ...mapGetters(['getUid'])
+        
+    }
 
 }
 </script>

@@ -34,15 +34,15 @@ const router=new Router({
         },
         {
             name:'UserProfile',
-            path:'/profile/:id',
+            path:'/user/profile/:id',
             components:{
                 'main':UserPosts,
                 'side':UserProfileCard
             }
         },
         {
-            name:'UserProfile',
-            path:'/profile/:id/update',
+            name:'UserProfileEdit',
+            path:'/user/profile/:id/edit',
             components:{
                 'main':ProfileForm,
                 'side':UserProfileCard
@@ -51,7 +51,7 @@ const router=new Router({
         ,
         {
             name:'PostForm',
-            path:'/posts/add',
+            path:'/user/posts/:id/add',
             components:{
                 'main':PostForm,
                 'side':UserProfileCard

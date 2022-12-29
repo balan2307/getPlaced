@@ -2,19 +2,21 @@
 <template>
      <div id="userprofile">
         <div id="header">
+            <LoadingIcon :loading="loading"/>
 
         </div>
         <div id="info">
-            <b-img class="profile-image" src="https://picsum.photos/300/150/?image=41" fluid alt="Fluid image"></b-img>
-            <div id="user-info">
-                <div>
-            <h4 id="username">BadExtension</h4>
+            <b-img   class="profile-image" :src="profileImage" fluid alt="Profile Image"></b-img>
+            <box-icon  @click="removeProf" id="removeprofile" type='solid' name='message-alt-x'></box-icon>
+            <div v-if="!loading" id="user-info-header">
+                <div id="user-info">
+            <h4 id="username">{{ username }}</h4>
             <hr>
-            <p> <span>Name: </span>Esakki  </p>
-            <p> <span>College: </span>SIES GST </p>
-            <p><span>University: </span>Mumbai </p>
-            <p><span>Year of Graduation: </span>2023 </p>
-            <p><span>Joined on </span>25-12-2022 </p>
+            <p v-if="fullname"> <span>Name: </span>{{ fullname }} </p>
+            <p v-if="collegename"> <span>College: </span>{{ collegename }} </p>
+            <p v-if="university"><span>University: </span>{{  university }}</p>
+            <p v-if="yearofgraduation"><span>Year of Graduation: </span>{{ yearofgraduation }}</p>
+            <p><span>Joined on </span>{{ joined }} </p>
             </div>
 
             </div>
@@ -24,8 +26,8 @@
       
 
         <div id="postBtn">
-            <b-button variant="primary"  size="md">Follow</b-button>
-            <b-button variant="primary"  size="md"> <router-link to="/profile/1/update">Update</router-link> </b-button>
+            <b-button variant="outline-success"  size="md">Follow</b-button>
+            <b-button variant="outline-secondary" id="follow-btn" style="color:black" size="md"> <router-link :to="`/user/profile/${uid}/edit`" >Update</router-link> </b-button>
         </div>
       
     </div>
@@ -33,8 +35,77 @@
 </template>
 
 <script>
+import { eventBus } from '@/main'
+import LoadingIcon from '../Helper/Loading.vue'
+
+import axios from 'axios'
 export default {
-    name:'UserProfileCard'
+    name:'UserProfileCard',
+    components:{LoadingIcon},
+    data()
+    {
+        return{
+            fullname:'',
+            username:'',
+            collegename:'',
+            university:'',
+            yearofgraduation:'',
+            profileImage:null,
+            uid:this.$route.params.id,
+            joined:'',
+            loading:false
+        }
+
+    },
+    methods:
+    {
+        removeProf()
+        {
+
+            console.log("Remove profs")
+        }
+
+
+    },
+    created()
+    {
+        // console.log("UID check",this.uid)
+        console.log("User Info created")
+        this.loading=true;
+        axios.get(`http://localhost:3000/user/profile/${this.$route.params.id}`).then((res) => {
+            
+          console.log("Data received",res.data.profile)
+          const{name,username,yearofgrad,university,college,profileImage,joined}=res.data.profile;
+          Object.assign(this, {fullname:name,username, collegename:college, university, yearofgraduation:yearofgrad,joined,
+            profileImage:profileImage ? profileImage.url : 'https://res.cloudinary.com/esakki/image/upload/v1672306019/getPlaced/no-image_zlgu0l.jpg'});
+         
+            this.loading=false;
+
+        }, err => {
+          console.log("error",err.response)
+          this.error = err.response.data.error
+        })
+
+        eventBus.$on("profileUpdated",(data)=>{
+            // console.log("Data from Bus",data);
+            // this.username=data.username;
+            // this.fullname=data.name;
+            // this.collegename=data.collegename;
+            // this.university=data.university;
+            // this.yearofgraduation=data.yearofgraduation;
+            
+
+            const {name, username,collegename, university, yearofgraduation,profileImage} = data;
+            Object.assign(this, {fullname:name,username, collegename, university, yearofgraduation,
+            profileImage:profileImage ? profileImage : (!this.profileImage ? 'https://res.cloudinary.com/esakki/image/upload/v1672306019/getPlaced/no-image_zlgu0l.jpg' : this.profileImage)});
+
+
+        })
+
+
+  
+  
+    }
 
 }
 </script>
@@ -46,7 +117,7 @@ export default {
 {
   /* border:1px solid #41ca25; */
   /* width: 50%; */
-  height: 85%;
+  height: 90%;
   width: 70%;
   display: flex;
   flex-direction: column;
@@ -55,20 +126,34 @@ export default {
   border-radius: 5px;
 }
 
+#removeprofile
+{
+
+    color: white;
+    position: relative;
+    bottom: 100px;
+    left: 60px;
+}
+
 #postBtn
 {
     /* border: 1px solid red; */
-    height: 20%;
+    height: 40%;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
     display: flex;
     justify-content: center;
-    align-items: center;
+  
+    gap: 1em;
 }
+
 
 #postBtn .btn
 {
 
     border-radius: 1rem;
-    width: 80%;
+    width: 40%;
 }
 
 
@@ -110,7 +195,7 @@ export default {
     background-color: #33a8ff;
 }
 
-#user-info
+#user-info-header
 {
     position: relative;
     bottom: 60px;
@@ -119,11 +204,25 @@ export default {
     /* text-align: center; */
 }
 
+#user-info p{
+    font-size: 1.1rem;
+}
+
 #username
 {
     font-weight:600;
     font-size: 20px;
     text-align: center;
+}
+
+#follow-btn a
+{
+    color: black!important;
+}
+
+#follow-btn a:hover
+{
+    color: rgb(247, 247, 247)!important;
 }
 
 .profile-image
@@ -159,5 +258,16 @@ export default {
 
 
 }
+
+@media only screen and (max-width: 1510px) {
+ 
+ #userprofile
+ {
+   
+     height: 59%;
+ }
+ 
+ 
+ }
 
 </style>

@@ -10,7 +10,7 @@ const InitRoutes = (app) => {
     
 
   app.use("/", adminRouter)
-  app.use('/test',auth,testRouter)
+  app.use('/test',testRouter)
   console.log("Routes Initialized Successfully")
 
 

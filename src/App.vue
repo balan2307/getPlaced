@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <NavHeader></NavHeader>
+    <NavHeader :user="getName"></NavHeader>
 
     <div id="content">
   
@@ -29,13 +29,21 @@
 <script>
 import NavHeader from "./components/Navbar.vue";
 import {mapGetters} from 'vuex'
-
-
+import {getUserName} from './services/user'
+// getUserId
 export default {
   name: "App",
   components: {
-    NavHeader,
+    NavHeader
   },
+  data(){
+    return{
+      uname:""
+    }
+
+  },
+
+  
   methods:{
     isOnAuthPage()
     {
@@ -44,7 +52,42 @@ export default {
     }
   },
   computed:{
-    ...mapGetters(['isAuthenticated'])
+    ...mapGetters(['isAuthenticated','getToken']),
+    getName()
+    {
+      return this.name;
+    }
+
+  },
+  // async created(){
+  //   const uname=await getUserName(localStorage.getItem('uid'));
+   
+  //   this.uname=uname;
+  //   console.log("Uname ",uname,this.uname)
+
+  //   if(!this.isAuthenticated)
+  //   {
+  //     console.log("GO back and login");
+  //     this.$router.push('/login')
+  //   }
+
+  // },
+  async mounted()
+  {
+    // const t=getUserId(localStorage.getItem('token'))
+    // console.log("Decoded",t)
+
+    const uname=await getUserName(localStorage.getItem('uid'));
+   
+   this.uname=uname;
+  //  console.log("Uname ",uname,this.uname)
+
+   if(!this.isAuthenticated)
+   {
+     console.log("GO back and login");
+     this.$router.push('/login')
+   }
+
 
   }
 };
@@ -95,7 +138,7 @@ export default {
     width: 100%;
 
 }
-@media only screen and (max-width: 1065px) {
+@media only screen and (max-width: 1380px) {
   /* #rightsection-view {
     display: none;
   } */
@@ -148,7 +191,7 @@ export default {
 }
 
 
-@media only screen and (max-width: 1065px)
+@media only screen and (max-width: 1380px)
  {
 
 #rightsection

@@ -16,9 +16,9 @@
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
             <template #button-content>
-              <em style="border:1px solid red">Username</em>
+              <em >{{ getUid }} </em>
             </template>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
+            <b-dropdown-item > <router-link :to="`/user/profile/${getUid}`">Profile</router-link></b-dropdown-item>
             <b-dropdown-item href="#" @click="logout">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -33,6 +33,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: "NavHeader",
+  props:['user'],
   data()
   {
 
@@ -45,21 +46,33 @@ export default {
                 this.$store.dispatch( 'logout' )
                     .then( () => this.$router.push( { name: 'LoginPage' } ) );
             }
+      
 
   },
   computed:{
     ...mapGetters(['isAuthenticated','getUid']),
+    getuser()
+    {
+      // console.log("Store ",this.$store.state.uid)
+      return this.$store.state.uid;
+    }
    
 
   },
-  async mounted()
+   created()
   {
+   
     // console.log("Created")
     // const uid=this.$store.getters.getUid;
     // console.log("Uid ",uid)
     // const res=await getUserName(uid);
     // console.log("Username is ",res)
     // this.username=res;
+  }
+  ,
+  mounted()
+  {
+    // console.log("navbar mounted")
   }
  
 };

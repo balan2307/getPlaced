@@ -15,7 +15,12 @@ const userSchema=new Schema({
     password:String,
     college:String,
     university:String,
-    yearofgrad:String
+    yearofgrad:String,
+    profileImage:{
+        url:String,
+        filename:String
+    },
+    joined:String
     
 })
 

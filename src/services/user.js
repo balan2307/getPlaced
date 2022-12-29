@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { Buffer } from 'buffer';
 
 export const getUserName=async(uid)=>{
 
@@ -16,3 +16,12 @@ export const getUserName=async(uid)=>{
     }
 
 }
+
+export const getUserId=function (token)
+{
+    if(!token) return '';
+
+    return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString()).userId;
+
+}
+
