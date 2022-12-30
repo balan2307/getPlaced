@@ -138,7 +138,7 @@ export default {
     width: 100%;
 
 }
-@media only screen and (max-width: 1380px) {
+@media only screen and (max-width: 1080px) {
   /* #rightsection-view {
     display: none;
   } */
@@ -155,9 +155,9 @@ export default {
     height: 100vh;
   }
 
-  * {
+  /* * {
     box-sizing: border-box;
-  }
+  } */
 }
 
 
@@ -191,7 +191,7 @@ export default {
 }
 
 
-@media only screen and (max-width: 1380px)
+@media only screen and (max-width: 900px)
  {
 
 #rightsection

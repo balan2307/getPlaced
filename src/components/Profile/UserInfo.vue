@@ -7,7 +7,7 @@
         </div>
         <div id="info">
             <b-img   class="profile-image" :src="profileImage" fluid alt="Profile Image"></b-img>
-            <box-icon  @click="removeProf" id="removeprofile" type='solid' name='message-alt-x'></box-icon>
+            <!-- <box-icon  @click="removeProf" id="removeprofile" type='solid' name='message-alt-x'></box-icon> -->
             <div v-if="!loading" id="user-info-header">
                 <div id="user-info">
             <h4 id="username">{{ username }}</h4>
@@ -259,14 +259,19 @@ export default {
 
 }
 
-@media only screen and (max-width: 1510px) {
+@media only screen and (max-width: 900px) {
  
- #userprofile
- {
+ /* #userprofile
+ {s
    
      height: 59%;
  }
- 
+  */
+
+  #userprofile
+  {
+    height: fit-content
+  }
  
  }
 
