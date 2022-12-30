@@ -272,7 +272,41 @@ export default {
   {
     height: fit-content
   }
+
+
  
  }
+
+ @media only screen and (max-width:1070px)
+ {
+  #postBtn
+  {
+    position: relative;
+    top: 20px;
+  }
+
+  #user-info p {
+    font-size: 1rem;
+}
+
+.profile-image
+ {
+    width: 100px;
+    height: 100px;
+    left: 31%;
+ }
+
+ #userprofile
+ {
+
+    width: 90%;
+ }
+
+ #rightsection{
+    height: 90vh;
+ }
+ }
+
+
 
 </style>
