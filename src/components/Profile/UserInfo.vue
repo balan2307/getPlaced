@@ -205,7 +205,7 @@ export default {
 }
 
 #user-info p{
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 #username
@@ -285,9 +285,9 @@ export default {
     top: 20px;
   }
 
-  #user-info p {
+  /* #user-info p {
     font-size: 1rem;
-}
+} */
 
 .profile-image
  {
@@ -306,6 +306,15 @@ export default {
     height: 90vh;
  }
  }
+
+ @media only screen
+and (min-width : 1224px) {
+
+    #userprofile
+    {
+        border: 1px solid red;
+    }
+}
 
 
 
