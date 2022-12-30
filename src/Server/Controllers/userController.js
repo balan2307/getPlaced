@@ -171,3 +171,25 @@ module.exports.getUserProfile=async(req,res)=>{
   })
 
 };
+
+
+module.exports.deleteProfileImage=async(req,res)=>{
+
+  const {id}=req.params;
+  const profile=await User.findOne({_id:id});
+  try{
+  await cloudinary.uploader.destroy(profile.profileImage.filename);
+  await User.findByIdAndUpdate(id,{profileImage:{}},{new: true});
+  }
+
+  catch(err)
+  {
+    console.log("Error",err)
+
+  }
+
+
+ 
+
+};
+

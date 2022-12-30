@@ -92,4 +92,22 @@ form input
     border-radius: 5px;
 }
 
+@media only screen and (max-width:1070px)
+ {
+
+
+  #createpost{
+    height: 60%;
+    width: 80%;
+  }
+
+  #postBtn{
+    top:0
+  }
+
+  #postBtn .btn
+  {
+    width: 60%;
+  }
+ }
 </style>

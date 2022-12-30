@@ -114,9 +114,8 @@ export default {
   display: flex;
   background-color: #dae0e6;
   /* border:1px solid red; */
-  /* height: 100vh; */
+  height: 100vh;
 
-  padding: 20px;
 }
 
 * {
@@ -179,6 +178,7 @@ export default {
 #postsection {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+  padding-top: 25px
 }
 
 #rightsection
@@ -188,6 +188,7 @@ export default {
     display: flex;
     justify-content: left;
     padding-left: 30px;
+    padding-top: 25px
 }
 
 

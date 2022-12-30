@@ -175,6 +175,12 @@ export default {
   },
   created() {
 
+    eventBus.$on("removeProfileImage", () => {
+      console.log("Profile removal req")
+      this.$refs.file.reset();
+
+    })
+
     this.loading=true;
     axios
       .get(`http://localhost:3000/user/profile/${this.$route.params.id}`)

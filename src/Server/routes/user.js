@@ -22,6 +22,11 @@ router.route('/user/profile/:id')
 
 router.route('/users')
 .get(UserController.getAllUsers)
+
+
+router.route('/user/deleteImage/:id')
+.post(UserController.deleteProfileImage)
+
 module.exports=router;
 
 router.route('/users')
