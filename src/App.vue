@@ -72,8 +72,21 @@ export default {
   //   }
 
   // },
+  created()
+  {
+
+    // console.log("Created")
+    if(!this.isAuthenticated && this.$router.currentRoute.path!="/login")
+   {
+     console.log("GO back and login");
+     this.$router.push('/login')
+   }
+
+
+  },
   async mounted()
   {
+    // console.log("Mounted")
     // const t=getUserId(localStorage.getItem('token'))
     // console.log("Decoded",t)
 
@@ -82,11 +95,7 @@ export default {
    this.uname=uname;
   //  console.log("Uname ",uname,this.uname)
 
-   if(!this.isAuthenticated)
-   {
-     console.log("GO back and login");
-     this.$router.push('/login')
-   }
+  
 
 
   }
@@ -115,6 +124,7 @@ export default {
   background-color: #dae0e6;
   /* border:1px solid red; */
   height: 100vh;
+  padding: 0 25px;
 
 }
 
@@ -122,6 +132,12 @@ export default {
   font-family: "Rubik";
 }
 
+html,
+  body {
+    margin: 0;
+    height: 100%;
+    height: 100vh;
+  }
 #allposts {
   /* border: 1px solid red; */
 
@@ -147,12 +163,7 @@ export default {
     width: 100%;
   }
 
-  html,
-  body {
-    margin: 0;
-    height: 100%;
-    height: 100vh;
-  }
+
 
   /* * {
     box-sizing: border-box;
@@ -171,13 +182,13 @@ export default {
   overflow-x: hidden;
 }
 #postsection::-webkit-scrollbar {
-  display: none;
+  display: none!important;
 }
 
 
 #postsection {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none!important;  /* IE and Edge */
+  scrollbar-width: none!important;  /* Firefox */
   padding-top: 25px
 }
 

@@ -118,9 +118,10 @@ module.exports.updateProfile=async(req,res)=>{
   }
 
 
-   const {name,username,college,university,yearofgraduation:yearofgrad,image}=req.body;
+   const {name,username,college,university,yearofgraduation:yearofgrad,image,bio}=req.body;
    const getUser=await User.findOne({_id:id});
-   console.log("ID profile",id,getUser.profileImage,typeof(getUser.profileImage))
+  //  console.log("ID profile",id,getUser.profileImage,typeof(getUser.profileImage))
+   console.log("Bio ",bio)
 
    if(req.file)
    {
@@ -139,7 +140,7 @@ module.exports.updateProfile=async(req,res)=>{
 
     }
     
-  await User.findByIdAndUpdate(id,{name,username,college,university,yearofgrad,profileImage},{new: true});
+  await User.findByIdAndUpdate(id,{name,username,college,university,yearofgrad,profileImage,bio},{new: true});
       }
       catch(err)
       {
@@ -151,7 +152,7 @@ module.exports.updateProfile=async(req,res)=>{
    {
     console.log("Image not uploaded")
     // await cloudinary.uploader.destroy(getUser.profileImage.filename);
-      await User.findByIdAndUpdate(id,{name,username,college,university,yearofgrad},{new: true});
+      await User.findByIdAndUpdate(id,{name,username,college,university,yearofgrad,bio},{new: true});
 
    }
    
@@ -164,7 +165,7 @@ module.exports.getUserProfile=async(req,res)=>{
 
   const {id}=req.params;
   const profile=await User.findOne({_id:id});
-  console.log("Profile backend",profile)
+  // console.log("Profile backend",profile)
   return res.status(200).json({
     title:"Success",
     profile

@@ -19,17 +19,24 @@
         name="message-alt-x"
       ></box-icon>
 
+    
+
       <div v-if="!loading" id="user-info-header">
         <div id="user-info">
-          <h4 id="username">{{ username }}</h4>
-          <hr />
-          <p v-if="fullname"><span>Name: </span>{{ fullname }}</p>
-          <p v-if="collegename"><span>College: </span>{{ collegename }}</p>
-          <p v-if="university"><span>University: </span>{{ university }}</p>
-          <p v-if="yearofgraduation">
-            <span>Year of Graduation: </span>{{ yearofgraduation }}
+          <h4 id="fullname">{{ fullname }}</h4>
+          <h5 id="username">@{{ username }}</h5>
+          <p id="user-bio">
+            {{ bio }}
           </p>
-          <p><span>Joined on </span>{{ joined }}</p>
+          <!-- <hr /> -->
+          <!-- <p class="info-label"  v-if="fullname"><span>Name: </span>{{ fullname }}</p>
+          <p class="info-label" v-if="collegename"><span>College: </span>{{ collegename }}</p>
+          <p class="info-label" v-if="university"><span>University: </span>{{ university }}</p>
+          <p class="info-label" v-if="yearofgraduation">
+            <span>Year of Graduation: </span>{{ yearofgraduation }}
+          </p> -->
+          <p id="joined-info">  <span class="mr-1"><box-icon id="calendar-icon" type='solid' name='calendar'></box-icon> </span>Joined {{ joined }}</p>
+          <p  id="grad-info" >  <span class="mr-1"><box-icon id="graduate-icon" type='solid' name='graduation'></box-icon> </span>{{ university }} ,{{ yearofgraduation }} </p>
         </div>
       </div>
     </div>
@@ -45,6 +52,7 @@
       >
         <router-link :to="`/user/profile/${uid}/edit`">Update</router-link>
       </b-button>
+   
     </div>
   </div>
 </template>
@@ -63,13 +71,16 @@ export default {
       username: "",
       collegename: "",
       university: "",
+      bio:"",
       yearofgraduation: "",
       profileImage: null,
       uid: this.$route.params.id,
       joined: "",
       loading: false,
       show: false,
-      showupdatebtn:true
+      showupdatebtn: this.$router.currentRoute,
+      default_image:
+        "https://res.cloudinary.com/esakki/image/upload/v1672415855/getPlaced/no-image_cwaz3f.jpg",
     };
   },
   methods: {
@@ -77,8 +88,7 @@ export default {
       eventBus.$emit("removeProfileImage");
 
       this.show = false;
-      this.profileImage =
-        "https://res.cloudinary.com/esakki/image/upload/v1672306019/getPlaced/no-image_zlgu0l.jpg";
+      this.profileImage = this.default_image;
 
       console.log("Remove profs");
       axios
@@ -96,7 +106,7 @@ export default {
   },
   created() {
     // console.log("UID check",this.uid)
-    console.log("User Info created", this.show, this.profileImage);
+    console.log("User Info created", this.showupdatebtn);
     this.loading = true;
     axios
       .get(`http://localhost:3000/user/profile/${this.$route.params.id}`)
@@ -111,7 +121,9 @@ export default {
             college,
             profileImage,
             joined,
+            bio
           } = res.data.profile;
+
           Object.assign(this, {
             fullname: name,
             username,
@@ -119,9 +131,8 @@ export default {
             university,
             yearofgraduation: yearofgrad,
             joined,
-            profileImage: profileImage
-              ? profileImage.url
-              : "https://res.cloudinary.com/esakki/image/upload/v1672306019/getPlaced/no-image_zlgu0l.jpg",
+            bio,
+            profileImage: profileImage ? profileImage.url : this.default_image,
           });
           console.log("User Info check 2", this.show, this.profileImage);
           this.loading = false;
@@ -129,7 +140,7 @@ export default {
         },
         (err) => {
           console.log("error", err.response);
-          this.error = err.response.data.error;
+          // this.error = err.response.data.error;
         }
       );
 
@@ -148,6 +159,7 @@ export default {
         university,
         yearofgraduation,
         profileImage,
+        bio
       } = data;
       Object.assign(this, {
         fullname: name,
@@ -155,10 +167,11 @@ export default {
         collegename,
         university,
         yearofgraduation,
+        bio,
         profileImage: profileImage
           ? profileImage
           : !this.profileImage
-          ? "https://res.cloudinary.com/esakki/image/upload/v1672306019/getPlaced/no-image_zlgu0l.jpg"
+          ? this.default_image
           : this.profileImage,
       });
       if (profileImage) this.show = true;
@@ -171,8 +184,8 @@ export default {
 #userprofile {
   /* border:1px solid #41ca25; */
   /* width: 50%; */
-  /* height: 90vh;; */
- 
+  /* height: 85vh; */
+
   width: 70%;
   display: flex;
   flex-direction: column;
@@ -181,11 +194,21 @@ export default {
   border-radius: 5px;
 }
 
+.info-label span {
+  font-weight: 500;
+  color: #838383;
+}
+
+#joined-info ,#grad-info {
+  color: #c53f00;
+  font-size: 0.9em;
+}
+
 #removeprofile {
   color: white;
   position: relative;
-  bottom: 100px;
-  left: 60px;
+  bottom: 98px;
+  left: -15px;
 }
 
 #postBtn {
@@ -210,6 +233,11 @@ export default {
   color: white;
 }
 
+#calendar-icon,#graduate-icon{
+  position: relative;
+  top: 5px;
+}
+
 #info {
   height: 60%;
 
@@ -217,11 +245,11 @@ export default {
 }
 
 #info p span {
-  font-weight: 400;
+  /* font-weight: 400; */
 }
-#info p {
+/* #info p {
   font-size: 1rem;
-}
+} */
 
 #divider {
   width: 90%;
@@ -236,7 +264,7 @@ export default {
 }
 
 #header {
-  height: 25%;
+  height:35%;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 
@@ -246,19 +274,25 @@ export default {
 #user-info-header {
   position: relative;
   bottom: 60px;
-  display: flex;
+  /* display: flex; */
+  /* left: -40px; */
   justify-content: center;
   /* text-align: center; */
 }
 
-#user-info p {
+/* #user-info p {
   font-size: 1rem;
+} */
+
+#fullname {
+  font-weight: 600;
+  font-size: 20px;
+  text-align: left;
 }
 
 #username {
-  font-weight: 600;
-  font-size: 20px;
-  text-align: center;
+  color: #979797;
+  font-size: 1em;
 }
 
 #follow-btn a {
@@ -271,25 +305,43 @@ export default {
 
 .profile-image {
   border-radius: 50%;
-  width: 130px;
-  height: 130px;
+  width: 100px;
+  height: 100px;
   position: relative;
   margin-bottom: 10px;
-  left: 29%;
+  left: 1%;
   bottom: 60px;
+}
+
+#user-bio
+{
+  font-size: 0.9em;
+}
+
+@media screen and (max-width: 1200px) {
+  #userprofile {
+    /* border: 1px solid red; */
+    height: 85vh;
+  }
+  #user-info-header
+  {
+    left: 0px;
+  }
 }
 
 @media only screen and (max-width: 1065px) {
   #postBtn .btn {
     font-size: 15px;
   }
+
+ 
 }
 
-@media only screen and (max-width: 1235px) {
+/* @media only screen and (max-width: 1235px) {
   .profile-image {
-    left: 24%;
+    left: 1%;
   }
-}
+} */
 
 @media only screen and (max-width: 900px) {
   /* #userprofile
@@ -317,17 +369,16 @@ export default {
   .profile-image {
     width: 100px;
     height: 100px;
-    left: 31%;
+    /* left: 31%; */
   }
 
   #userprofile {
-    width: 90%;
-
-   
+    width: 40vh;
   }
 
   #rightsection {
     height: 90vh;
+    border: 1px solid red;
   }
 
   #postBtn .btn {
@@ -336,22 +387,18 @@ export default {
   }
 
   #removeprofile {
-    bottom: 90px;
-    left: 50px;
+    /* bottom: 90px; */
+    left: -15px;
   }
 
-
-  #divider
-  {
+  #divider {
     position: relative;
     top: 25px;
     margin-top: 15px;
   }
-}
 
-@media only screen and (min-width: 1224px) {
-  #userprofile {
-    /* border: 1px solid red; */
-  }
+  /* #userprofile {
+    border: 1px solid red;
+  } */
 }
 </style>

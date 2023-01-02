@@ -4,51 +4,27 @@
     <hr />
     <LoadingIcon :loading="loading" />
     <div id="formbody" v-if="!loading">
+
       <b-form
         ref="form"
         @submit="onSubmit"
-        @reset="onReset"
         enctype="multipart/form-data"
       >
-        <b-form-input
+        <!-- <b-form-input
           id="input-1"
           v-model="form.name"
           type="text"
           placeholder="Your name"
         
-        ></b-form-input>
+        ></b-form-input> -->
 
-        <b-form-input
-          id="input-2"
-          v-model="form.username"
-          type="text"
-          placeholder="Username"
-
-        ></b-form-input>
-
-        <b-form-input
-          id="input-3"
-          v-model="form.collegename"
-          type="text"
-          placeholder="College Name"
-    
-        ></b-form-input>
-
-        <b-form-input
-          id="input-4"
-          v-model="form.university"
-          type="text"
-          placeholder="University"
-   
-        ></b-form-input>
-
-        <b-form-input
-          id="input-5"
-          v-model="form.yearofgraduation"
-          type="text"
-          placeholder="Year of graduation"
-    
-        ></b-form-input>
+        <InputField v-model="form.name" placeholder="Name" id="input-1"></InputField>
+        <InputField v-model="form.username" placeholder="Username" id="input-2"></InputField>
+        <FormSelect v-model="form.bio" placeholder="Bio" row="3"></FormSelect>
+        <!-- <InputField v-model="form.collegename" placeholder="College name" id="input-3"></InputField> -->
+        <InputField v-model="form.university" placeholder="University" id="input-4"></InputField>
+        <InputField v-model="form.yearofgraduation" placeholder="Year of Graduation" id="input-5"></InputField>
+        <!-- <FormSelect :options="options" v-model="check"></FormSelect> -->
 
         <b-form-file
           v-model="form.profileimage"
@@ -75,33 +51,45 @@
 import { eventBus } from "@/main";
 import axios from "axios";
 import LoadingIcon from '../../Helper/Loading.vue'
+import InputField from '../Input/InputText.vue' 
+import FormSelect from  '../Input/TextArea.vue'
+// import FormSelect from '../Input/SelectText.vue'
 
 export default {
   name: "PostForm",
   components:{
-    LoadingIcon
+    LoadingIcon,
+    InputField,
+    FormSelect
   },
   data() {
     return {
       form: {
         name: "",
         username: "",
-        collegename: "",
+        bio:"",
         university: "",
         yearofgraduation: "",
         profileimage:null,
       },
+      options: [
+          { value: null, text: 'Please select an option' },
+          { value: 'a', text: 'This is First option' },
+          { value: 'b', text: 'Selected Option' },
+          { value: 'd', text: 'This one is disabled' }
+        ],
       image: "",
       loading:false,
-      error:false
+      error:false,
+      check:"",
+
     };
   },
   methods: {
     async onSubmit(event) {
       event.preventDefault();
-      console.log("CHECCK 1")
-
-      console.log("PRof submit",this.form)
+      console.log("Check ",this.check )
+ 
       const userDetails = JSON.parse(JSON.stringify(this.form));
       if(this.$refs.file.files[0])
       {
@@ -109,12 +97,11 @@ export default {
       userDetails.profileImage=this.image;
       }
 
-      console.log("CHECCK 2")
       
       eventBus.$emit("profileUpdated", userDetails);
     
 
-      console.log("form det",this.image);
+      // console.log("form det",this.image);
 
       const fd = new FormData();
 
@@ -132,12 +119,13 @@ export default {
         college: this.form.collegename,
         university: this.form.university,
         yearofgraduation: this.form.yearofgraduation,
+        bio:this.form.bio
       };
-      console.log("Post data",data)
+      console.log("Post data",data,typeof(data))
 
       Object.keys(data).forEach((key) =>{
 
-       console.log("loop check",data[key])
+      //  console.log("loop check",data[key])
        if(data[key]!=null && data[key]!=undefined) fd.append(key, data[key])
       }
       );
@@ -159,43 +147,33 @@ export default {
 
       console.log("Profile form");
     },
-    onReset(event) {
-      event.preventDefault();
-      // Reset our form values
-      this.form.email = "";
-      this.form.name = "";
-      this.form.food = null;
-      this.form.checked = [];
-      // Trick to reset/clear native browser form validation state
-      this.show = false;
-      this.$nextTick(() => {
-        this.show = true;
-      });
-    },
+
   },
   created() {
 
     eventBus.$on("removeProfileImage", () => {
-      console.log("Profile removal req")
+      // console.log("Profile removal req",this.$refs.file)
       this.$refs.file.reset();
 
     })
+    console.log("check form",this.check)
 
     this.loading=true;
     axios
       .get(`http://localhost:3000/user/profile/${this.$route.params.id}`)
       .then(
         (res) => {
-          console.log("Data received", res.data.profile);
-          const { name, username, yearofgrad, university, college } =
+          // console.log("Data received", res.data.profile);
+          const { name, username, yearofgrad, university, college ,bio} =
             res.data.profile;
             console.log("Profile check",res.data.profile)
-          Object.assign(this.form, {
+            Object.assign(this.form, {
             name,
             username,
             collegename: college,
             university,
             yearofgraduation: yearofgrad,
+            bio
           });
 
           this.loading=false;

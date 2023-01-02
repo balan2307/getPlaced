@@ -1,7 +1,7 @@
 <!-- Posts on home page -->
 
 <template>
-  <div>
+  <div id="displayallposts">
     <UserPost></UserPost>
     <UserPost></UserPost>
     <UserPost></UserPost>
@@ -19,5 +19,9 @@ export default {
 </script>
 
 <style>
+#displayallposts
+{
+  padding-bottom: 10px;
+}
 
 </style>

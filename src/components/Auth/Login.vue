@@ -43,6 +43,7 @@ export default {
     const userCred=JSON.parse(JSON.stringify(this.user));
     e.preventDefault();
     try{
+      
       const uid=await this.$store.dispatch('login',userCred);
       console.log("UID ",uid)
       this.$router.push({name:'HomeMain'})
@@ -51,18 +52,7 @@ export default {
       console.log("error caught",err)
       //redirect to login
     }
-    // axios.post('http://localhost:3000/login',userCred).then((res) => {
-    //       this.error = '';
-    //       console.log("Login Res",res)
-    //       if (res.status === 200) {
-    //         localStorage.setItem('token', res.data.token);
-    //         console.log("Check token",res.data)
-    //         this.$router.push('/');
-    //       }
-    //     }, err => {
-    //       console.log("error",err.response)
-    //       this.error = err.response.data.error
-    //     })
+
 
   }
  }

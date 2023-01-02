@@ -9,6 +9,8 @@
         <b-navbar-nav>
           <b-nav-item href="#"></b-nav-item>
           <b-nav-item href="#"><router-link to="/post/1">Home</router-link></b-nav-item>
+          <b-nav-item href="#"><router-link to="/user/post/63b144f73b786619a47bb9f6">Test</router-link></b-nav-item>
+
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
@@ -62,7 +64,7 @@ export default {
    created()
   {
    
-    // console.log("Created")
+    console.log("Created nav",this.getUid)
     // const uid=this.$store.getters.getUid;
     // console.log("Uid ",uid)
     // const res=await getUserName(uid);

@@ -11,6 +11,7 @@ import PostForm from '../components/Forms/Posts/CreatePost'
 import ProfileForm from '../components/Forms/Profile/ProfileForm'
 import LoginPage from '../components/Auth/Login'
 import RegisterPage from '../components/Auth/Register'
+import PostEditForm from '../components/Forms/Posts/EditPost'
 
 const router=new Router({
     mode:'history',
@@ -54,8 +55,18 @@ const router=new Router({
             path:'/user/posts/:id/add',
             components:{
                 'main':PostForm,
-                'side':UserProfileCard
+                'side':CreatePostCard
             }
+
+        },
+        {
+            name:'PostEdit',
+            path:'/user/post/:id',
+            components:{
+                'main':PostEditForm,
+                'side':CreatePostCard
+            }
+
 
         },
         {

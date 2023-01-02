@@ -1,113 +1,319 @@
 <template>
-  
   <div id="postform">
     <p id="form-header">Create a post</p>
-    <hr>
+    <hr />
     <div id="formbody">
-    <b-form @submit="onSubmit" @reset="onReset" >
-
-      
-        <b-form-input
+      <b-form @submit="onSubmit" enctype="multipart/form-data">
+        <InputField
+          v-model="form.title"
           id="input-1"
-          v-model="form.name"
-          type="text"
-          placeholder="Your name"
-          required
-        ></b-form-input>
+          placeholder="Title"
+        ></InputField>
 
-        <b-form-input
+        <div id="image-placeholder" v-if="showbtn" class="mb-2">
+          <box-icon
+            id="removeprofile"
+            type="solid"
+            name="message-alt-x"
+            @click="removeselectedImage"
+          ></box-icon>
+          <b-img
+            :src="placeholderimage"
+            id="imagepreview"
+            fluid
+            alt="Fluid image"
+          ></b-img>
+        </div>
+
+        <TextArea
+          id="post-content"
+          class="mb-3"
+          v-model="form.content"
+          row="3"
+          placeholder="Describe your interview Expereince"
+        ></TextArea>
+
+        <InputField
+          v-model="form.company"
           id="input-2"
-          v-model="form.username"
-          type="text"
-          placeholder="Username"
-          required
-        ></b-form-input>
- 
+          placeholder="Company for which you attended the interview"
+        ></InputField>
 
-    
-    </b-form>
+        <div id="selectoption" class="mb-3">
+          <div id="modeselect">
+            <FormSelect
+              :options="mode"
+              @modeOncampus="modeselected"
+              v-model="form.mode"
+              :choice="form.mode"
+              name="campusmode"
+            ></FormSelect>
+          </div>
+
+          <div id="modedifficulty">
+            <FormSelect
+              :options="difficulty"
+              v-model="form.difficulty"
+              @change="modeselected"
+              :choice="form.difficulty"
+              name="difficultymode"
+            ></FormSelect>
+          </div>
+        </div>
+
+        <!-- <TextArea id="post-tags" v-model="form.content" row="1" placeholder="Mention any post related tags"></TextArea> -->
+
+        <InputField
+          v-if="campusmode"
+          v-model="form.college"
+          id="input-3"
+          placeholder="College Name"
+        ></InputField>
+
+        <InputField
+          class="mb-1"
+          id="post-tags"
+          v-model="form.tags"
+          placeholder="Mention any post related tags separated by space"
+        ></InputField>
+
+        <input
+          ref="file"
+          @change="previewImage"
+          type="file"
+          name="image"
+          style="display: none"
+        />
+
+        <div id="image-upload" class="mb-3">
+          Upload image
+          <box-icon
+            id="post-image"
+            name="image-alt"
+            @click="$refs.file.click()"
+          ></box-icon>
+        </div>
+
+        <b-button variant="info" type="submit">Submit</b-button>
+<!-- 
+        <b-button variant="info" type="submit">Submit</b-button> -->
+      </b-form>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+import InputField from "../Input/InputText.vue";
+import FormSelect from "../Input/SelectText.vue";
+import TextArea from "../Input/TextArea.vue";
+import { mapGetters } from 'vuex';
+
+
 export default {
-    name:'PostForm',
-    data() {
-      return {
-        form: {
-          email: '',
-          name: '',
-          username:''
+  name: "PostForm",
+  components: { InputField, FormSelect, TextArea },
+  computed:{
 
-        }
-      }
-    }
-    ,
-    methods:
-    {
-      onSubmit(event) {
-        event.preventDefault()
-        alert(JSON.stringify(this.form))
+    ...mapGetters(['getUid']),
+    
+  },
+  data() {
+    return {
+      form: {
+        title: "",
+        content: "",
+        company: "",
+        mode: "",
+        difficulty: "",
+        tags: "",
+        college: "",
       },
-      onReset(event) {
-        event.preventDefault()
-        // Reset our form values
-        this.form.email = ''
-        this.form.name = ''
-        this.form.food = null
-        this.form.checked = []
-        // Trick to reset/clear native browser form validation state
-        this.show = false
-        this.$nextTick(() => {
-          this.show = true
-        })
+      placeholderimage: "",
+      imageuploaded: "",
+      showbtn: false,
+      campusmode: false,
+      createPost:false,
+      difficulty_mode:'',
+
+      mode: [
+        { value: null, text: "Select a mode" },
+        { value: "onCampus", text: "On Campus" },
+        { value: "offCampus", text: "Off Campus" },
+      ],
+      difficulty: [
+        { value: null, text: "Select the difficulty level" },
+        { value: "Easy", text: "Easy" },
+        { value: "Medium", text: "Medium" },
+        { value: "Hard", text: "Hard" },
+      ],
+    };
+  },
+  methods: {
+     onSubmit(event) {
+      event.preventDefault();
+      console.log("post sumbit ", this.form, this.$refs.file.files[0]);
+      const data = JSON.parse(JSON.stringify(this.form));
+
+      for (let key in data) {
+        if (data[key] == "") delete data[key];
       }
-    }
 
+      console.log("Data ",data,typeof(data))
 
-}
+      const fd = new FormData();
+      Object.keys(data).forEach((key) => {
+        if (data[key] != null && data[key] != undefined) {
+          console.log("loop",key,data[key])
+          fd.append(key, data[key]);
+        }
+      });
+      fd.append("id",this.getUid)
+
+      console.log("FD ",fd)
+
+      if(this.$refs.file.files.length!=0){
+      
+        console.log("Image uploaded",this.$refs.file.files[0],this.$refs.file.files[0].name)
+      fd.append("image", this.$refs.file.files[0], this.$refs.file.files[0].name);
+      }
+
+     
+      try{
+       axios.post("http://localhost:3000/user/post",fd)
+       
+      }
+      catch(err)
+      {
+        console.llog("err",err)
+      }
+        
+     
+    },
+
+    modeselected() {
+      console.log("Mode selected");
+      if (this.form.mode == "onCampus") {
+        console.log("Oncampus");
+        this.campusmode = true;
+        console.log("mode ", this.campusmode);
+      } else this.campusmode = false;
+    },
+    previewImage() {
+      console.log("Image");
+      this.showbtn = true;
+      this.placeholderimage = URL.createObjectURL(this.$refs.file.files[0]);
+      const placeholder = document.getElementById("image-placeholder");
+      console.log("checkkk ", placeholder);
+    },
+    removeselectedImage() {
+      this.$refs.file.value = null;
+      this.showbtn = false;
+    },
+  },
+   created() {
+   
+  },
+};
 </script>
 
 <style>
-#postform
-{
-    margin-top: 20px;
+#postform {
+  margin-top: 20px;
+  padding-bottom: 10px;
 }
-#form-header
-
-{
-    font-size: 1.2em;
-    font-weight: 600;
+#form-header {
+  font-size: 1.2em;
+  font-weight: 600;
 }
-form input
-{
-    margin-bottom: 5px;
+form input {
+  margin-bottom: 5px;
 }
 
-#formbody
-{
-    background-color: white;
-    padding: 10px;
-    border-radius: 5px;
+#formbody {
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
 }
 
-@media only screen and (max-width:1070px)
- {
+#modeselect,
+#modedifficulty {
+  width: 48%;
+  display: inline-block;
+}
 
+#post-image {
+  position: relative;
+  top: 5px;
+}
 
-  #createpost{
+#image-placeholder {
+  border: 1px solid #ced4da;
+  border-radius: 3px;
+  padding: 5px;
+  width: 50%;
+}
+
+#image-upload {
+  color: #7d858c;
+}
+#post-content::-webkit-scrollbar,
+#post-tags::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+#post-content,
+#post-tags {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+#post-tags {
+  font-weight: 600;
+}
+
+#post-tags::placeholder {
+  font-weight: 400;
+}
+
+#selectoption {
+  display: flex;
+  justify-content: space-between;
+}
+
+#post-content:focus,
+#post-tags:focus {
+  /* border: none!important; */
+  /* border-color: rgb(31, 32, 32); */
+  outline: none !important;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  /* border:1px solid red */
+}
+
+#removeprofile {
+  position: relative;
+  left: 280px;
+}
+
+#imagepreview {
+  width: 100%;
+  height: 200px;
+}
+
+@media only screen and (max-width: 1070px) {
+  #createpost {
     height: 60%;
     width: 80%;
   }
 
-  #postBtn{
-    top:0
+  #postBtn {
+    top: 0;
   }
 
-  #postBtn .btn
-  {
+  #postBtn .btn {
     width: 60%;
   }
- }
+}
 </style>

@@ -3,6 +3,7 @@
 
 const adminRouter=require('./user')
 const testRouter=require('./test')
+const postRouter=require('./post')
 const auth = require("../middleware/auth");
 
 const InitRoutes = (app) => {
@@ -11,6 +12,7 @@ const InitRoutes = (app) => {
 
   app.use("/", adminRouter)
   app.use('/test',testRouter)
+  app.use('/user',postRouter)
   console.log("Routes Initialized Successfully")
 
 

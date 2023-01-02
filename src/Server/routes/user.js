@@ -29,4 +29,4 @@ router.route('/user/deleteImage/:id')
 
 module.exports=router;
 
-router.route('/users')
+

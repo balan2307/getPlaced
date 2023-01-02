@@ -10,17 +10,20 @@ const userSchema=new Schema({
     email:{
         unique:true,
         type:String
-    }
-        ,
+    },
+    bio:{
+        type:String
+    },
     password:String,
-    college:String,
     university:String,
     yearofgrad:String,
     profileImage:{
         url:String,
         filename:String
     },
-    joined:String
+    joined:String,
+    followers:Number,
+    following:Number
     
 })
 
