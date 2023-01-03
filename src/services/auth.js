@@ -19,7 +19,7 @@ import axios from 'axios';
 
 export const login = ( credentials ) => {
     return axios.post(
-                'http://localhost:3000/login',
+                'http://localhost:3000/user/login',
                 credentials,
                 {
                     headers: {

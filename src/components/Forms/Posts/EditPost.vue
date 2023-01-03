@@ -1,7 +1,7 @@
 
 <template>
     <div id="postform">
-      <p id="form-header">Create a post</p>
+      <p id="form-header">Edit post</p>
       <hr />
       <div id="formbody">
         <b-form @submit="onSubmit" enctype="multipart/form-data">
@@ -64,7 +64,7 @@
   
           <!-- <TextArea id="post-tags" v-model="form.content" row="1" placeholder="Mention any post related tags"></TextArea> -->
   
-          <InputField
+          <InputField 
             v-if="campusmode"
             v-model="form.college"
             id="input-3"
@@ -152,7 +152,7 @@
       };
     },
     methods: {
-       onSubmit(event) {
+       async onSubmit(event) {
         event.preventDefault();
         const postImage=this.$refs.file.files[0];
         console.log("post sumbit ", this.form,postImage );
@@ -180,6 +180,8 @@
         
           console.log("Image uploaded",this.$refs.file.files[0],this.$refs.file.files[0].name)
         fd.append("image", this.$refs.file.files[0], this.$refs.file.files[0].name);
+
+        data.image=URL.createObjectURL(this.$refs.file.files[0]);
         }
         if(this.placeholderimage && postImage==undefined)
         {
@@ -196,7 +198,18 @@
        
         try{
    
-          axios.post(`http://localhost:3000/user/post/${this.$route.params.id}`,fd)
+         console.log("Before emit")
+         data.id=this.$route.params.id ;
+         eventBus.$emit("postUpdated",data);
+
+         const response=await axios.post(`http://localhost:3000/user/post/${this.$route.params.id}`,fd);
+         console.log("Response ",response)
+
+
+         if(response.status==200) this.$router.push({ name:'PostDetail' ,params: { id: this.$route.params.id }})
+      //  this.$router.push({ path:'/'})
+
+        
         }
         catch(err)
         {

@@ -16,7 +16,7 @@ router.route('/register')
 router.route('/username/:id')
 .get(UserController.getUserName);
 
-router.route('/user/profile/:id')
+router.route('/profile/:id')
 .get(UserController.getUserProfile)
 .post(upload.single('image'),UserController.updateProfile)
 

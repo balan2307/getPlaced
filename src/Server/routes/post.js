@@ -5,12 +5,18 @@ const {storage}=require('../cloudinary/index')
 const multer  = require('multer')
 const upload = multer({ storage })
 
-router.route('/post')
+router.route('/user/post')
 .post(upload.single('image'),PostController.createPost)
 
-router.route('/post/:id')
+router.route('/user/post/:id')
 .get(PostController.getPost)
 .post(upload.single('image'),PostController.editPost)
+.delete(PostController.deletePost)
+
+
+router.route('/user/posts')
+.get(PostController.getAllPosts)
+
 
 module.exports=router;
 

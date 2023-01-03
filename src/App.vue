@@ -29,7 +29,7 @@
 <script>
 import NavHeader from "./components/Navbar.vue";
 import {mapGetters} from 'vuex'
-import {getUserName} from './services/user'
+// import {getUserName} from './services/user'
 // getUserId
 export default {
   name: "App",
@@ -90,9 +90,11 @@ export default {
     // const t=getUserId(localStorage.getItem('token'))
     // console.log("Decoded",t)
 
-    const uname=await getUserName(localStorage.getItem('uid'));
+  //   const uname=await getUserName(localStorage.getItem('uid'));
    
-   this.uname=uname;
+  //  this.uname=uname;
+
+
   //  console.log("Uname ",uname,this.uname)
 
   

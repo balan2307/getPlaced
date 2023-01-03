@@ -3,34 +3,53 @@
   <b-card class="mb-2 user-post">
     <div class="post-rating">
       <div class="rate-components">
-
+      
       <box-icon style="margin-bottom: 5px;" name='upvote'></box-icon>
       <span class="post-vote">5</span>
       <box-icon style=" margin-top:9px;" name='downvote'></box-icon>
       </div>
 
     </div>
-    <div class="post-content">
-      <b-card-text class="post-time">
-        Posted by u/BadExtension1309 7 hours ago
+    <div class="post-content" @click="showPostDetails">
+      <b-card-text class="post-time" v-if="post.user">
+        Posted by @{{ post.user.username }}
       </b-card-text>
-      <h5 class="post-title">How do I display user data from a database?</h5>
-      <b-img class="post-img" src="https://images.unsplash.com/photo-1671726374905-7d2f959acb9d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60" fluid-grow alt="Fluid-grow image"></b-img>
+     
+      <h5 class="post-title">{{post.title}}</h5>
+      <!-- <p>Test {{ test }}</p> -->
+   
+      <b-img v-if="post.image" class="post-img" :src="post.image.url" fluid-grow alt="Fluid-grow image"></b-img>
       <b-card-text>
-        For my project, I wanted to display some information that I kept inside
-        a database. However for the user to log in and sign up I used some of
-        the functions that I imported from the firebase authentication. If I
-        wanted to display some data like the user's username that is stored in
-        the database how would I be able to grab it and display it?
+    {{ post.content }}
       </b-card-text>
+      <div class="interview-info">
+       <!-- <div><p><span class="interview-info-label">Company:</span> <span>TCS</span></p></div> -->
+       <!-- <div><p><span class="interview-info-label">Mode:</span> <span>OnCampus</span></p></div> -->
+       <div v-if="post.college"><p><span class="interview-info-label">College:</span> <span>{{ post.college }}</span></p></div>
+       <div><p><span class="interview-info-label">Difficulty:</span> <span>{{ post.difficulty }}</span></p></div>
 
-      <div class="post-btn">
-        <!-- <b-button>
-          <font-awesome-icon icon="fa-regular  fa-thumbs-up"  size="lg" />
-         </b-button>
+      </div>
+      <!-- <p>{{ showtags }}</p> -->
+
+    
+      <div class="post-tags" v-if="post.tags">
+       
+        <span v-for="(tag ,index) in  post.tags" :key="index" class="tag">{{ tag}}</span>
+
+       
+
+      </div>
+
+      <!-- {{ post.user._id }} -->
+      <div class="post-btn mt-3" v-if="showBtn && post.user && (post.user._id == getUid)" >
+        <span id="editbtn"> <router-link :to="`/user/post/${post._id}`">Edit</router-link> </span>
+        <span id="deletebtn" @click="deletePost" class="ml-2"> <b-button>Delete</b-button></span>
 
 
-        <b-button class="thumsdown-btn" > <font-awesome-icon icon="fa-regular  fa-thumbs-down"  size="lg" /></b-button> -->
+      </div>
+
+      <div class="post-dateinfo ">
+        <!-- <p>{{post.postdate}}</p> -->
 
       </div>
 
@@ -39,8 +58,64 @@
 </template>
 
 <script>
+// import { deletePost } from '@/Server/Controllers/postController';
+
+// import { eventBus } from "@/main";
+import axios from 'axios';
+import {mapGetters} from 'vuex'
+
 export default {
   name: "UserPost",
+  props:['post'],
+  data()
+  {
+    return{
+       showtags:false,
+       showBtn:false,
+       test:""
+    }
+  },
+  computed:
+  {
+    ...mapGetters(['getUid']),
+
+  },
+  methods:{
+
+    showPostDetails()
+    {
+      console.log("show psot")
+      this.$router.push({ name:'PostDetail' ,params: { id: this.post._id }})
+    },
+
+    async deletePost(event){
+      event.stopPropagation()
+      const response =await axios.delete(`http://localhost:3000/user/post/${this.$route.params.id}`)
+      if(response)  this.$router.push({ path:'/'})
+    }
+  },
+  created()
+  {
+
+   
+    if(this.post.tags && this.post.tags[0]!=null) this.showtags=true;
+  
+
+    const route=this.$router.currentRoute
+    if(route.matched[0].path=="/post/:id") {
+      this.showBtn=true;
+    }
+    
+  
+   
+  },
+  mounted()
+
+  {
+    console.log("POstt createdd",this.post,)
+   
+
+  }
 };
 </script>
 
@@ -67,6 +142,30 @@ export default {
     /* border-radius:0!important; */
 }
 
+#editbtn
+{
+  color: black;
+}
+
+#deletebtn
+
+{
+  color: red;
+}
+
+#deletebtn .btn
+{
+  padding: 0;
+    border: none;
+    color: red;
+    vertical-align: top;
+}
+
+.post-btn a
+{
+  text-decoration: none;
+}
+
 
 .post-rating {
   width: 5%;
@@ -90,26 +189,6 @@ export default {
   padding: 10px;
 }
 
-.post-btn
-{
-  
-  display: flex;
-  width: 50%;
-
-}
-.post-btn .btn:hover
-{
-  background-color: rgb(124, 114, 114);
-  border: none;
-
-
-}
-.post-btn .btn
-{
-  background-color: white;
-  border: none;
-
-}
 
 .post-vote
 {
@@ -131,9 +210,28 @@ export default {
 {
   background-color: white;
   color: black;
-  border: none;
+ 
 
 
+}
+.interview-info-label
+{
+  /* display: flex;
+  flex-direction: column; */
+  font-weight: 500;
+  color: white;
+  background-color: #d59e72;
+  padding: 4px;
+  border-radius: 5px;
+}
+.interview-info-label + span{
+  font-weight: bold;
+}
+
+.interview-info{
+  display: flex;
+    /* justify-content: space-between; */
+    flex-direction: column;
 }
 .post-rating
 {
@@ -163,6 +261,23 @@ export default {
 
 }
 
+.post-tags
+{
+  display: flex;
+
+  /* border: 1px solid red; */
+}
+
+.tag
+{
+  border: 1px solid black;
+  margin-right: 15px;
+  padding: 3px;
+  background-color: #0f0f0f;
+  color: white;
+  border-radius: 5px;
+}
+
 @media only screen and (max-width: 585px) {
   .post-content
   {
@@ -172,6 +287,12 @@ export default {
   {
 
     width: 10%;
+  }
+  .interview-info
+  {
+    /* display: flex;
+    justify-content: center; */
+    flex-direction: column;
   }
 
 }

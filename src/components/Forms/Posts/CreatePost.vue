@@ -150,7 +150,7 @@ export default {
     };
   },
   methods: {
-     onSubmit(event) {
+     async onSubmit(event) {
       event.preventDefault();
       console.log("post sumbit ", this.form, this.$refs.file.files[0]);
       const data = JSON.parse(JSON.stringify(this.form));
@@ -180,7 +180,14 @@ export default {
 
      
       try{
-       axios.post("http://localhost:3000/user/post",fd)
+      const response=await axios.post("http://localhost:3000/user/post",fd);
+      console.log("respsonse what",response)
+      if(response.status==200)
+      {
+        // this.$router.push('/')
+        console.log("Response frontend",response)
+        this.$router.push({ path:'/'})
+      }
        
       }
       catch(err)

@@ -1,4 +1,4 @@
-const { default: axios } = require('axios');
+// const { default: axios } = require('axios');
 const {cloudinary}=require('../cloudinary');
 const Post=require('../models/Post')
 module.exports.createPost=async(req,res)=>{
@@ -20,6 +20,19 @@ module.exports.createPost=async(req,res)=>{
     let path=""
     let image=""
 
+   
+    if(post.tags==undefined) post.tags=[]
+    const {mode}=post;
+    let newtags=[mode]
+    const tags=post.tags;
+
+    newtags
+    .forEach((tag)=>{
+        if(!tags.includes(tag)) post.tags.push(tag)
+
+    })
+   
+
 
     if(req.file)
     {
@@ -35,9 +48,13 @@ module.exports.createPost=async(req,res)=>{
         const newPost=new Post(post);
         console.log("Before")
         const saved=await newPost.save();
-        console.log("Aafter")
-
-        console.log("Saved ",saved)
+        if(saved)
+        {
+            console.log("saved backend ",saved)
+            return res.status(200).json({
+                title:"Success"
+              })
+        }
 
     }
     catch(err)
@@ -54,7 +71,8 @@ module.exports.getPost=async(req,res)=>{
 
 
     const {id}=req.params;
-    const post=await Post.find({_id:id})
+    const post=await Post.find({_id:id}).populate('user',{'username':1})
+    console.log("Get post backend",post)
      return res.status(200).json({
         title:"Success",
         post
@@ -82,7 +100,28 @@ module.exports.editPost=async(req,res)=>{
     if(updatedPost.tags!=undefined)
     {
         updatedPost.tags=updatedPost.tags.split(" ")
+        
+        
     }
+    if(updatedPost.tags==undefined) updatedPost.tags=[]
+    const {mode}=updatedPost;
+    const newtags=[mode];
+    const tags=updatedPost.tags;
+
+    newtags
+    .forEach((tag)=>{
+        if(!tags.includes(tag))
+        {
+          tags.push(tag)
+          if(tag=='onCampus' && tags.includes('offCampus')) tags.splice(tags.indexOf('offCampus'),1)
+          if(tag=='offCampus' && tags.includes('onCampus')) tags.splice(tags.indexOf('onCampus'),1)
+        }
+
+    })
+    updatedPost.tags=tags;
+    console.log("Tags added",updatedPost,tags,newtags)
+   
+
     if(!req.file)
     {
         console.log("Check for deletion",updatedPost.imagedeletion)
@@ -128,7 +167,11 @@ module.exports.editPost=async(req,res)=>{
     try
     {
        const edited= await Post.findByIdAndUpdate(id,updatedPost)
-       if(edited) console.log("Edit complete")
+       if(edited) {
+        return res.status(200).json({
+            title:"Success"
+          })
+       }
     }
     catch(err)
     {
@@ -144,11 +187,36 @@ module.exports.editPost=async(req,res)=>{
 
 
 module.exports.deletePost=async(req,res)=>{
+   
     const {id}=req.params;
-    const post=await Post.find({_id:id});
+    console.log("Delete req backend")
+    let post=await Post.find({_id:id});
+    post=post[0]
+    // console.log("post found",post)
+    // console.log("Image check",post.image)
     if(post.image!=undefined && post.image.url!=undefined)
     {
+        console.log("inside clooud check")
         await cloudinary.uploader.destroy(post.image.filename);
     }
-    await Post.findByIdAndDelete({id:id});
+    const response=await Post.findByIdAndDelete({_id:id});
+    // console.log("Respons backends")
+    if(response) { 
+     return res.status(200).json({
+        title:"Success",
+
+      })
+    }
+
+}
+
+module.exports.getAllPosts=async(req,res)=>{
+    console.log("inside getallposts")
+    const posts=await Post.find({}).populate('user',{'username':1});
+    console.log("All posts backend",posts)
+    return res.status(200).json({
+        title:"Success",
+        posts
+      })
+
 }

@@ -48,7 +48,7 @@
     {
       e.preventDefault();
       const userCred=JSON.parse(JSON.stringify(this.user));
-      axios.post('http://localhost:3000/register',userCred).then(() => {
+      axios.post('http://localhost:3000/user/register',userCred).then(() => {
           this.error = '';
           this.$router.push('/login');
         }, err => {
