@@ -31,7 +31,8 @@
   </template>
   
   <script>
-  import axios from 'axios'
+  // import axios from 'axios'
+  import {registerUser} from '@/services/user'
   export default {
    name:'RegisterPage',
    data(){
@@ -48,13 +49,18 @@
     {
       e.preventDefault();
       const userCred=JSON.parse(JSON.stringify(this.user));
-      axios.post('http://localhost:3000/user/register',userCred).then(() => {
-          this.error = '';
-          this.$router.push('/login');
-        }, err => {
-          console.log("error",err.response)
-          this.error = err.response.data.error
-        })
+      registerUser(userCred,this.$router)
+
+      // axios.post('http://localhost:3000/user/register',userCred).then(() => {
+      //     this.error = '';
+      //     this.$router.push('/login');
+      //   }, err => {
+      //     console.log("error",err.response)
+      //     this.error = err.response.data.error
+      //   })
+
+
+
   
 
 

@@ -23,7 +23,7 @@
     {{ post.content }}
       </b-card-text>
       <div class="interview-info">
-       <!-- <div><p><span class="interview-info-label">Company:</span> <span>TCS</span></p></div> -->
+       <div><p><span class="interview-info-label">Company:</span> <span>{{ post.company }}</span></p></div>
        <!-- <div><p><span class="interview-info-label">Mode:</span> <span>OnCampus</span></p></div> -->
        <div v-if="post.college"><p><span class="interview-info-label">College:</span> <span>{{ post.college }}</span></p></div>
        <div><p><span class="interview-info-label">Difficulty:</span> <span>{{ post.difficulty }}</span></p></div>
@@ -34,7 +34,9 @@
     
       <div class="post-tags" v-if="post.tags">
        
-        <span v-for="(tag ,index) in  post.tags" :key="index" class="tag">{{ tag}}</span>
+        <span @click="taggedposts" v-for="(tag ,index) in  post.tags" :key="index" class="tag">
+       <router-link :to="`/posts/${tag}`"> #{{ tag}}</router-link> 
+        </span>
 
        
 
@@ -60,8 +62,9 @@
 <script>
 // import { deletePost } from '@/Server/Controllers/postController';
 
-// import { eventBus } from "@/main";
-import axios from 'axios';
+
+import {deletePost} from '@/services/post'
+// import axios from 'axios';
 import {mapGetters} from 'vuex'
 
 export default {
@@ -81,6 +84,13 @@ export default {
 
   },
   methods:{
+    taggedposts(e)
+    {
+      e.stopPropagation();
+   
+      
+
+    },
 
     showPostDetails()
     {
@@ -89,13 +99,18 @@ export default {
     },
 
     async deletePost(event){
+      this.loading=true;
       event.stopPropagation()
-      const response =await axios.delete(`http://localhost:3000/user/post/${this.$route.params.id}`)
-      if(response)  this.$router.push({ path:'/'})
+      const response =await deletePost(this.$route.params.id)
+      if(response) {
+        this.loading=false
+       this.$router.push({ path:'/'})
+      }
     }
   },
   created()
   {
+    // console.log("Possts created",this.post)
 
    
     if(this.post.tags && this.post.tags[0]!=null) this.showtags=true;
@@ -112,7 +127,7 @@ export default {
   mounted()
 
   {
-    console.log("POstt createdd",this.post,)
+    // console.log("POstt createdd",this.post,)
    
 
   }
@@ -265,7 +280,13 @@ export default {
 {
   display: flex;
 
+
   /* border: 1px solid red; */
+}
+
+.post-tags a{
+  text-decoration: none;
+  color: white;
 }
 
 .tag

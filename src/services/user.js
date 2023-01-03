@@ -25,3 +25,37 @@ export const getUserId=function (token)
 
 }
 
+
+export const registerUser=async(userCred,router)=>{
+
+  await axios.post('http://localhost:3000/user/register',userCred).then(() => {
+        // this.error = '';
+       router.push('/login');
+      }, err => {
+        console.log("error",err.response)
+        // this.error = err.response.data.error
+      })
+}
+
+export const deleteUserProfileImage=async(id)=> {
+
+  try {
+    await axios.post(`http://localhost:3000/user/deleteImage/${id}`);
+    // this.error = "";
+  } catch (err) {
+    console.log("error", err.response);
+    // this.error = err.response.data.error;
+  }
+}
+
+export const getUserProfile=async(id)=>
+{
+  try {
+    await axios.post(`http://localhost:3000/user/profile/${id}`);
+    // this.error = "";
+  } catch (err) {
+    console.log("error", err.response);
+    // this.error = err.response.data.error;
+  }
+
+}

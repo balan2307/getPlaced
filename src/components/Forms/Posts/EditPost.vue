@@ -3,7 +3,8 @@
     <div id="postform">
       <p id="form-header">Edit post</p>
       <hr />
-      <div id="formbody">
+      <LoadingIcon :loading="loading"></LoadingIcon>
+      <div id="formbody" v-if="!loading">
         <b-form @submit="onSubmit" enctype="multipart/form-data">
           <InputField
             v-model="form.title"
@@ -111,10 +112,12 @@
   import TextArea from "../Input/TextArea.vue";
   import { mapGetters } from 'vuex';
   import { eventBus } from "@/main";
+  import {editPost} from '@/services/post'
+  import LoadingIcon from '@/components/Helper/Loading.vue'
   
   export default {
     name: "PostEditForm",
-    components: { InputField, FormSelect, TextArea },
+    components: { InputField, FormSelect, TextArea ,LoadingIcon},
     computed:{
   
       ...mapGetters(['getUid']),
@@ -137,6 +140,7 @@
         campusmode: false,
         createPost:false,
         difficulty_mode:'',
+        loading:false,
   
         mode: [
           { value: null, text: "Select a mode" },
@@ -197,12 +201,14 @@
   
        
         try{
+          this.loading=true;
    
          console.log("Before emit")
          data.id=this.$route.params.id ;
          eventBus.$emit("postUpdated",data);
+        //  axios.post(`http://localhost:3000/user/post/${this.$route.params.id}`,fd)
 
-         const response=await axios.post(`http://localhost:3000/user/post/${this.$route.params.id}`,fd);
+         const response=await editPost(this.$route.params.id,fd);
          console.log("Response ",response)
 
 
@@ -214,6 +220,10 @@
         catch(err)
         {
           console.llog("err",err)
+        }
+        finally{
+          this.loading=false
+
         }
           
        
@@ -241,6 +251,7 @@
       },
     },
      created() {
+
       if (this.mode == "onCampus") console.log("Created");
       const router=this.$router.currentRoute.matched[0].path;
       if(router.includes('add'))
@@ -257,11 +268,12 @@
       
   
         console.log("Entered")
-  
+        this.loading=true;
         axios
         .get(`http://localhost:3000/user/post/${this.$route.params.id}`)
         .then(
           (res) => {
+            
   
             const {college,company,difficulty,title,content,mode,tags,image} =res.data.post[0];
                if(mode=='onCampus') this.campusmode=true;
@@ -282,12 +294,14 @@
               content,
               mode
             })
+
             this.form.tags=tags.join(" ")
             let data={
               'campusmode':mode,
               'difficultymode':difficulty
             }
             eventBus.$emit("modeUpdated",data);
+            this.loading=false;
             
    
           

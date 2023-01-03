@@ -6,7 +6,7 @@
   
       <div v-if="!isOnAuthPage()" id="postsection">
         <div id="allposts">
-          <router-view name="main"></router-view>
+          <router-view name="main" :key="$route.path"></router-view>
         </div>
       </div>
 

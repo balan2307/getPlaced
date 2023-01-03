@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const PostController=require('../Controllers/postController')
 const {storage}=require('../cloudinary/index')
-const multer  = require('multer')
+const multer  = require('multer');
+const Post = require("../models/Post");
 const upload = multer({ storage })
 
 router.route('/user/post')
@@ -16,6 +17,9 @@ router.route('/user/post/:id')
 
 router.route('/user/posts')
 .get(PostController.getAllPosts)
+
+router.route('/posts/:tag')
+.get(PostController.getTaggedPosts)
 
 
 module.exports=router;

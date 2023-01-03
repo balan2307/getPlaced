@@ -103,11 +103,12 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 import InputField from "../Input/InputText.vue";
 import FormSelect from "../Input/SelectText.vue";
 import TextArea from "../Input/TextArea.vue";
 import { mapGetters } from 'vuex';
+import {createPost} from '@/services/post'
 
 
 export default {
@@ -180,7 +181,8 @@ export default {
 
      
       try{
-      const response=await axios.post("http://localhost:3000/user/post",fd);
+        // axios.post("http://localhost:3000/user/post",fd
+      const response=await createPost(fd);
       console.log("respsonse what",response)
       if(response.status==200)
       {

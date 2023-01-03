@@ -4,8 +4,12 @@
 
  
   <div id="displayallposts" >
+    <LoadingIcon :loading="loading"></LoadingIcon>
  
+
+    <div v-if="!loading">
     <UserPost v-for="(post,index) in posts" :key="index" :post="post"></UserPost>
+    </div>
   
     
   </div>
@@ -16,13 +20,15 @@
 <script>
 import UserPost from "./Posts.vue"
 import axios from "axios"
+import LoadingIcon from '../Helper/Loading.vue'
 export default {
     name:'AllPosts',
-    components:{UserPost},
+    components:{UserPost,LoadingIcon},
     data()
     {
       return{
-        posts:[]
+        posts:[],
+        loading:false
       }
     },
 
@@ -33,13 +39,18 @@ export default {
 
      try{
 
+      this.loading=true;
      const posts= await axios.get('http://localhost:3000/user/posts')
      this.posts=posts.data.posts
-     console.log("all posts frontend",this.posts)
+    //  console.log("all posts frontend",this.posts)
      }
      catch(err)
      {
       console.log("Err",err)
+     }
+     finally
+     {
+      this.loading=false;
      }
 
     }

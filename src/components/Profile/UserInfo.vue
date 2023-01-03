@@ -60,6 +60,7 @@
 <script>
 import { eventBus } from "@/main";
 import LoadingIcon from "../Helper/Loading.vue";
+import {deleteUserProfileImage} from '@/services/user'
 
 import axios from "axios";
 export default {
@@ -84,30 +85,34 @@ export default {
     };
   },
   methods: {
-    removeProf() {
+    async removeProf() {
       eventBus.$emit("removeProfileImage");
 
       this.show = false;
       this.profileImage = this.default_image;
 
       console.log("Remove profs");
-      axios
-        .post(`http://localhost:3000/user/deleteImage/${this.$route.params.id}`)
-        .then(
-          () => {
-            this.error = "";
-          },
-          (err) => {
-            console.log("error", err.response);
-            this.error = err.response.data.error;
-          }
-        );
+      // axios
+      //   .post(`http://localhost:3000/user/deleteImage/${this.$route.params.id}`)
+      //   .then(
+      //     () => {
+      //       this.error = "";
+      //     },
+      //     (err) => {
+      //       console.log("error", err.response);
+      //       this.error = err.response.data.error;
+      //     }
+      //   );
+
+        await deleteUserProfileImage(this.$route.params.id);
     },
   },
   created() {
     // console.log("UID check",this.uid)
     console.log("User Info created", this.showupdatebtn);
     this.loading = true;
+
+    
     axios
       .get(`http://localhost:3000/user/profile/${this.$route.params.id}`)
       .then(

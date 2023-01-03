@@ -113,9 +113,11 @@ module.exports.updateProfile=async(req,res)=>{
 
    console.log("backend prof",req.body)
 
-   function isEmpty(obj) {
-    return Object.keys(obj).length === 0;
-  }
+  //  function isEmpty(obj) {
+  //   console.log("OBJ ",obj,Object.keys(obj).length)
+
+  //   return Object.keys(obj).length === 0;
+  // }
 
 
    const {name,username,college,university,yearofgraduation:yearofgrad,image,bio}=req.body;
@@ -131,8 +133,8 @@ module.exports.updateProfile=async(req,res)=>{
       profileImage={url:path,filename}
       try{
         
-      
-    if(isEmpty(getUser.profileImage))
+    // console.log("check if empty",getUser.profileImage,getUser,isEmpty(getUser.profileImage))
+    if(getUser.profileImage!=undefined && getUser.profileImage.filename!=undefined)
     {
 
       console.log("Entered if")
@@ -179,7 +181,8 @@ module.exports.deleteProfileImage=async(req,res)=>{
   const {id}=req.params;
   const profile=await User.findOne({_id:id});
   try{
-  await cloudinary.uploader.destroy(profile.profileImage.filename);
+    console.log("Deleting prof image",profile.profileImage.filename)
+    if(profile.profileImage!=undefined && profile.profileImage.filename!=undefined) await cloudinary.uploader.destroy(profile.profileImage.filename);
   await User.findByIdAndUpdate(id,{profileImage:{}},{new: true});
   }
 

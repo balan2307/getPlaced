@@ -11,7 +11,7 @@ module.exports.createPost=async(req,res)=>{
     let date=new Date().toLocaleString();
     let time=Date.now();
 
-    post.tags=post.tags.split(" ");
+    post.tags=post.tags.replace(/\s+/g, ' ').trim().split(" ");
     post.postdate=date;
     post.time=time;
     post.user=id;
@@ -24,13 +24,19 @@ module.exports.createPost=async(req,res)=>{
     if(post.tags==undefined) post.tags=[]
     const {mode}=post;
     let newtags=[mode]
-    const tags=post.tags;
+    let tags=post.tags;
 
     newtags
     .forEach((tag)=>{
-        if(!tags.includes(tag)) post.tags.push(tag)
+        if(!tags.includes(tag)) tags.push(tag)
 
     })
+
+    tags=tags.map(tag=>tag.toLowerCase());
+    post.tags=tags;
+
+
+
    
 
 
@@ -92,33 +98,35 @@ module.exports.editPost=async(req,res)=>{
     console.log("Body ",updatedPost,req.file);
     let post=await Post.find({_id:id})
     post=post[0]
-    console.log("Postt",post)
+    // console.log("Postt",post)
     
     let filename=""
     let path=""
     
     if(updatedPost.tags!=undefined)
     {
-        updatedPost.tags=updatedPost.tags.split(" ")
+        updatedPost.tags=updatedPost.tags.replace(/\s+/g, ' ').trim().split(" ")
         
         
     }
     if(updatedPost.tags==undefined) updatedPost.tags=[]
     const {mode}=updatedPost;
-    const newtags=[mode];
-    const tags=updatedPost.tags;
+    const newtags=[mode.toLowerCase()];
+    let tags=updatedPost.tags;
 
     newtags
     .forEach((tag)=>{
         if(!tags.includes(tag))
         {
           tags.push(tag)
-          if(tag=='onCampus' && tags.includes('offCampus')) tags.splice(tags.indexOf('offCampus'),1)
-          if(tag=='offCampus' && tags.includes('onCampus')) tags.splice(tags.indexOf('onCampus'),1)
+          if(tag=='oncampus' && tags.includes('offcampus')) tags.splice(tags.indexOf('offcampus'),1)
+          if(tag=='offcampus' && tags.includes('oncampus')) tags.splice(tags.indexOf('oncampus'),1)
         }
 
     })
+    tags=tags.map(tag=>tag.toLowerCase());
     updatedPost.tags=tags;
+
     console.log("Tags added",updatedPost,tags,newtags)
    
 
@@ -218,5 +226,20 @@ module.exports.getAllPosts=async(req,res)=>{
         title:"Success",
         posts
       })
+
+}
+
+module.exports.getTaggedPosts=async(req,res)=>{
+    let {tag}=req.params;
+     tag=tag.toLowerCase();
+    console.log("get tagged post",tag);
+    const posts=await Post.findByTag(tag).populate('user')
+    if(posts)
+    {
+        return res.status(200).json({
+        title:"Success",
+        posts
+      })
+    }
 
 }

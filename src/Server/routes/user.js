@@ -24,7 +24,7 @@ router.route('/users')
 .get(UserController.getAllUsers)
 
 
-router.route('/user/deleteImage/:id')
+router.route('/deleteImage/:id')
 .post(UserController.deleteProfileImage)
 
 module.exports=router;

@@ -1,5 +1,8 @@
 <template>
   <div id="showdetails">
+
+    <LoadingIcon :loading="loading"></LoadingIcon>
+    <div v-if="!loading">
   
     <UserPost :post="post"></UserPost>
     <!-- {{ post[0].title }} -->
@@ -23,6 +26,7 @@
 
     </div>
     </div>
+    </div>
    
   
 </div>
@@ -31,35 +35,36 @@
 
 <script>
 import UserPost from "../HomePage/Posts.vue"
-import axios from "axios";
+// import axios from "axios";
+import {getPost} from '@/services/post'
 // import { eventBus } from "@/main";
-// import LoadingIcon from '../Helper/Loading.vue'
+import LoadingIcon from '../Helper/Loading.vue'
 
 export default {
   name: "PostDetails",
-  components:{UserPost},
+  components:{UserPost,LoadingIcon},
   // props:['username'],
   data(){
 
     return{
-      post:[]
+      post:[],
+      loading:false
     }
   },
   async created()
   {
-    const post=await axios.get(`http://localhost:3000/user/post/${this.$route.params.id}`)
+    //getting the post using the function declared in servicess.js
+    this.loading=true;
+    const post=await getPost(this.$route.params.id)
     if(post.status==200)
     {
     this.post=post.data.post[0];
     // console.log("Userr details",this.post,typeof(this.post))
+    this.loading=false;
     }
 
-  },
-  mounted()
-  {
-    // console.log("check user mounted",this.post)
-    
   }
+
 };
 </script>
 

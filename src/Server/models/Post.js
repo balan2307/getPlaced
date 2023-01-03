@@ -64,5 +64,14 @@ const postSchema=new Schema({
     
 })
 
+
+
+postSchema.statics.findByTag=function(tag){
+
+    return this.find({tags:{$in:[tag]}})
+}
+
+
 const Post=mongoose.model('Post',postSchema);
+
 module.exports=Post;

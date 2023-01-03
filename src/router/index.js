@@ -4,6 +4,7 @@ import  Router from 'vue-router'
 // import  HomeRightSection from '../components/HomePage/RightSection'
 import PostDetail from '../components/PostExpand/PostDetail'
 import AllPosts from '../components/HomePage/Allposts.vue'
+import TaggedPosts from '../components/HomePage/TaggedPosts'
 import CreatePostCard from '../components/HomePage/CreatePostSection'
 import UserProfileCard from '../components/Profile/UserInfo'
 import UserPosts from '../components/Profile/UserPosts'
@@ -25,6 +26,14 @@ const router=new Router({
             }
         }
         ,
+        {
+            name:'PostTagged',
+            path:'/posts/:tag',
+            components:{
+                'main':TaggedPosts,
+                'side':CreatePostCard
+            }
+        },
         {
             name:'PostDetail',
             path:'/post/:id',
