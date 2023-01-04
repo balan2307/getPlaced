@@ -49,10 +49,11 @@
 
 <script>
 import { eventBus } from "@/main";
-import axios from "axios";
+// import axios from "axios";
 import LoadingIcon from '../../Utils/Loading.vue'
 import InputField from '../Input/InputText.vue' 
 import FormSelect from  '../Input/TextArea.vue'
+import {getUserProfile,EditProfile} from '@/services/user'
 // import FormSelect from '../Input/SelectText.vue'
 
 export default {
@@ -133,23 +134,25 @@ export default {
 
       if(this.form.profileimage) fd.append("image", this.$refs.file.files[0], this.form.profileimage.name);
 
-      axios
-        .post(`http://localhost:3000/user/profile/${this.$route.params.id}`, fd)
-        .then(
-          () => {
-            this.error = "";
-          },
-          (err) => {
-            console.log("error", err.response);
-            this.error = err.response.data.error;
-          }
-        );
+      // axios
+      //   .post(`http://localhost:3000/user/profile/`, fd)
+      //   .then(
+      //     () => {
+      //       this.error = "";
+      //     },
+      //     (err) => {
+      //       console.log("error", err.response);
+      //       this.error = err.response.data.error;
+      //     }
+      //   );
+
+        await EditProfile(this.$route.params.id,fd)
 
       console.log("Profile form");
     },
 
   },
-  created() {
+  async created() {
 
     eventBus.$on("removeProfileImage", () => {
       // console.log("Profile removal req",this.$refs.file)
@@ -159,13 +162,11 @@ export default {
     console.log("check form",this.check)
 
     this.loading=true;
-    axios
-      .get(`http://localhost:3000/user/profile/${this.$route.params.id}`)
-      .then(
-        (res) => {
-          // console.log("Data received", res.data.profile);
-          const { name, username, yearofgrad, university, college ,bio} =
-            res.data.profile;
+
+
+    const res= await getUserProfile(this.$route.params.id)
+          
+          const { name, username, yearofgrad, university, college ,bio} =res.data.profile;
             console.log("Profile check",res.data.profile)
             Object.assign(this.form, {
             name,
@@ -177,12 +178,9 @@ export default {
           });
 
           this.loading=false;
-        },
-        (err) => {
-          console.log("error", err.response);
-          this.error = err.response.data.error;
-        }
-      );
+
+        
+      
   },
 };
 </script>

@@ -19,8 +19,6 @@
         name="message-alt-x"
       ></box-icon>
 
-    
-
       <div v-if="!loading" id="user-info-header">
         <div id="user-info">
           <h4 id="fullname">{{ fullname }}</h4>
@@ -35,8 +33,25 @@
           <p class="info-label" v-if="yearofgraduation">
             <span>Year of Graduation: </span>{{ yearofgraduation }}
           </p> -->
-          <p id="joined-info">  <span class="mr-1"><box-icon id="calendar-icon" type='solid' name='calendar'></box-icon> </span>Joined {{ joined }}</p>
-          <p  id="grad-info" >  <span class="mr-1"><box-icon id="graduate-icon" type='solid' name='graduation'></box-icon> </span>{{ university }} ,{{ yearofgraduation }} </p>
+          <p id="joined-info">
+            <span class="mr-1"
+              ><box-icon
+                id="calendar-icon"
+                type="solid"
+                name="calendar"
+              ></box-icon> </span
+            >Joined {{ joined }}
+          </p>
+          <p id="grad-info">
+            <span class="mr-1"
+              ><box-icon
+                id="graduate-icon"
+                type="solid"
+                name="graduation"
+              ></box-icon>
+            </span>
+            <span>{{ university ,}}</span> {{ yearofgraduation }}
+          </p>
         </div>
       </div>
     </div>
@@ -52,7 +67,6 @@
       >
         <router-link :to="`/user/profile/${uid}/edit`">Update</router-link>
       </b-button>
-   
     </div>
   </div>
 </template>
@@ -60,9 +74,9 @@
 <script>
 import { eventBus } from "@/main";
 import LoadingIcon from "../Utils/Loading.vue";
-import {deleteUserProfileImage} from '@/services/user'
+import { deleteUserProfileImage, getUserProfile } from "@/services/user";
 
-import axios from "axios";
+// import axios from "axios";
 export default {
   name: "UserProfileCard",
   components: { LoadingIcon },
@@ -72,7 +86,7 @@ export default {
       username: "",
       collegename: "",
       university: "",
-      bio:"",
+      bio: "",
       yearofgraduation: "",
       profileImage: null,
       uid: this.$route.params.id,
@@ -92,70 +106,56 @@ export default {
       this.profileImage = this.default_image;
 
       console.log("Remove profs");
-      // axios
-      //   .post(`http://localhost:3000/user/deleteImage/${this.$route.params.id}`)
-      //   .then(
-      //     () => {
-      //       this.error = "";
-      //     },
-      //     (err) => {
-      //       console.log("error", err.response);
-      //       this.error = err.response.data.error;
-      //     }
-      //   );
 
-        await deleteUserProfileImage(this.$route.params.id);
+      await deleteUserProfileImage(this.$route.params.id);
     },
+    async getProfile(id) {
+  const res = await getUserProfile(id);
+  const {
+    name,
+    username,
+    yearofgrad,
+    university,
+    college,
+    profileImage,
+    joined,
+    bio
+  } = res.data.profile;
+  Object.assign(this, {
+    fullname: name,
+    username,
+    collegename: college,
+    university,
+    yearofgraduation: yearofgrad,
+    joined,
+    bio,
+    profileImage: profileImage ? profileImage.url : this.default_image
+  });
+  this.loading = false;
+  if (profileImage && profileImage.url) this.show = true;
+}
+
+
   },
-  created() {
-    // console.log("UID check",this.uid)
+  async created() {
+  
     console.log("User Info created", this.showupdatebtn);
     this.loading = true;
 
-    
-    axios
-      .get(`http://localhost:3000/user/profile/${this.$route.params.id}`)
-      .then(
-        (res) => {
-          console.log("Data received", res.data.profile);
-          const {
-            name,
-            username,
-            yearofgrad,
-            university,
-            college,
-            profileImage,
-            joined,
-            bio
-          } = res.data.profile;
+ 
 
-          Object.assign(this, {
-            fullname: name,
-            username,
-            collegename: college,
-            university,
-            yearofgraduation: yearofgrad,
-            joined,
-            bio,
-            profileImage: profileImage ? profileImage.url : this.default_image,
-          });
-          console.log("User Info check 2", this.show, this.profileImage);
-          this.loading = false;
-          if (profileImage && profileImage.url) this.show = true;
-        },
-        (err) => {
-          console.log("error", err.response);
-          // this.error = err.response.data.error;
-        }
-      );
+    if (this.$route.matched[0].path == "/post/:id") {
+      eventBus.$on("getProfileid", async (id) => {
+        this.getProfile(id);
+      });
+    } else {
+      this.getProfile(this.$route.params.id);
+    }
+
+
 
     eventBus.$on("profileUpdated", (data) => {
-      // console.log("Data from Bus",data);
-      // this.username=data.username;
-      // this.fullname=data.name;
-      // this.collegename=data.collegename;
-      // this.university=data.university;
-      // this.yearofgraduation=data.yearofgraduation;
+
 
       const {
         name,
@@ -164,7 +164,7 @@ export default {
         university,
         yearofgraduation,
         profileImage,
-        bio
+        bio,
       } = data;
       Object.assign(this, {
         fullname: name,
@@ -204,7 +204,8 @@ export default {
   color: #838383;
 }
 
-#joined-info ,#grad-info {
+#joined-info,
+#grad-info {
   color: #c53f00;
   font-size: 0.9em;
 }
@@ -238,7 +239,8 @@ export default {
   color: white;
 }
 
-#calendar-icon,#graduate-icon{
+#calendar-icon,
+#graduate-icon {
   position: relative;
   top: 5px;
 }
@@ -269,7 +271,7 @@ export default {
 }
 
 #header {
-  height:35%;
+  height: 35%;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 
@@ -318,8 +320,7 @@ export default {
   bottom: 60px;
 }
 
-#user-bio
-{
+#user-bio {
   font-size: 0.9em;
 }
 
@@ -328,8 +329,7 @@ export default {
     /* border: 1px solid red; */
     height: 85vh;
   }
-  #user-info-header
-  {
+  #user-info-header {
     left: 0px;
   }
 }
@@ -338,8 +338,6 @@ export default {
   #postBtn .btn {
     font-size: 15px;
   }
-
- 
 }
 
 /* @media only screen and (max-width: 1235px) {

@@ -31,7 +31,7 @@
   </template>
   
   <script>
-  // import axios from 'axios'
+
   import {registerUser} from '@/services/user'
   export default {
    name:'RegisterPage',

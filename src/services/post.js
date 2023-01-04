@@ -1,3 +1,4 @@
+// import Post from '@/Server/models/Post';
 import axios from 'axios';
 
 
@@ -15,6 +16,18 @@ export const getPost=async(id)=>
     return response;
 
 }
+
+export const getAllPosts=async()=>{
+    const response=await axios.get('http://localhost:3000/user/posts');
+    return response;
+}
+
+export const getTaggedPosts=async(tag)=>{
+    const response=await axios.get(`http://localhost:3000/posts/${tag}`);
+    return response;
+}
+
+
 
 
 export const editPost=async(id,fd)=>
@@ -52,3 +65,11 @@ export const downvotePost=async(postid,userid)=>
     // return response;
 }
 
+export const getUserPosts=async(id)=>
+{
+    console.log("User posts",id)
+    const posts=await axios.get(`http://localhost:3000/user/posts/${id}`)
+    return posts;
+
+
+}

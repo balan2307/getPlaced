@@ -48,14 +48,32 @@ export const deleteUserProfileImage=async(id)=> {
   }
 }
 
-export const getUserProfile=async(id)=>
-{
+
+
+export const getUserProfile=async(id)=>{
+
   try {
-    await axios.post(`http://localhost:3000/user/profile/${id}`);
+    const res=await axios.get(`http://localhost:3000/user/profile/${id}`);
+    console.log("Res",res)
+    if(res) return res;
+    // this.error = "";
+  } catch (err) {
+    console.log("error", err);
+    // this.error = err.response.data.error;
+  }
+
+
+}
+
+
+export const EditProfile=async(id,fd)=>{
+
+  try {
+    await axios.post(`http://localhost:3000/user/profile/${id}`, fd);
     // this.error = "";
   } catch (err) {
     console.log("error", err.response);
     // this.error = err.response.data.error;
   }
-
 }
+

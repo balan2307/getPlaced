@@ -22,8 +22,9 @@
   <script>
   import UserPost from "./Posts.vue"
   import LoadingIcon from '../Utils/Loading.vue'
+  import {getTaggedPosts} from '@/services/post'
 
-  import axios from "axios"
+
   export default {
       name:'TaggedPosts',
       components:{UserPost,LoadingIcon},
@@ -48,7 +49,7 @@
        
        console.log("Tag frontend",tag)
        this.loading=true;
-       const posts= await axios.get(`http://localhost:3000/posts/${tag}`)
+       const posts= await getTaggedPosts(tag)
        this.posts=posts.data.posts
        console.log("all tagged posts frontend",this.posts)
        }

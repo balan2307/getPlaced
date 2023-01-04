@@ -13,6 +13,8 @@ import ProfileForm from '../components/Forms/Profile/ProfileForm'
 import LoginPage from '../components/Auth/Login'
 import RegisterPage from '../components/Auth/Register'
 import PostEditForm from '../components/Forms/Posts/EditPost'
+import onCampus from '@/components/HomePage/PostSection/onCampus'
+import offCampus from '@/components/HomePage/PostSection/offCampus'
 
 const router=new Router({
     mode:'history',
@@ -23,7 +25,19 @@ const router=new Router({
             components:{
                 'main':AllPosts,
                 'side':CreatePostCard
-            }
+            },
+            children:[
+                {
+                    name:'offCampusSection',
+                    path:'',
+                    component:onCampus
+                },
+                   {
+                    name:'offCampusSection',
+                    path:'/offcampus',
+                    component:offCampus
+                }
+            ]
         }
         ,
         {
@@ -39,7 +53,7 @@ const router=new Router({
             path:'/post/:id',
             components:{
                 'main':PostDetail,
-                'side':CreatePostCard
+                'side':UserProfileCard
             }
         },
         {
@@ -49,6 +63,7 @@ const router=new Router({
                 'main':UserPosts,
                 'side':UserProfileCard
             }
+          
         },
         {
             name:'UserProfileEdit',

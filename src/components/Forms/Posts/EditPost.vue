@@ -106,13 +106,13 @@
   
   <script>
 
-  import axios from 'axios';
+  // import axios from 'axios';
   import InputField from "../Input/InputText.vue";
   import FormSelect from "../Input/SelectText.vue";
   import TextArea from "../Input/TextArea.vue";
   import { mapGetters } from 'vuex';
   import { eventBus } from "@/main";
-  import {editPost} from '@/services/post'
+  import {editPost,getPost} from '@/services/post'
   import LoadingIcon from '@/components/Utils/Loading.vue'
   
   export default {
@@ -250,7 +250,7 @@
         this.showbtn = false;
       },
     },
-     created() {
+    async created() {
 
       if (this.mode == "onCampus") console.log("Created");
       const router=this.$router.currentRoute.matched[0].path;
@@ -269,10 +269,10 @@
   
         console.log("Entered")
         this.loading=true;
-        axios
-        .get(`http://localhost:3000/user/post/${this.$route.params.id}`)
-        .then(
-          (res) => {
+        // axios
+        // .get(`http://localhost:3000/user/post/${this.$route.params.id}`)
+         const res=await getPost(this.$route.params.id)
+
             
   
             const {college,company,difficulty,title,content,mode,tags,image} =res.data.post[0];
@@ -307,13 +307,8 @@
           
   
          
-          },
-          (err) => {
-            console.log("error", err.response);
-            // this.error = err.response.data.error;
-          }
-        );
-  
+          
+       
          
           // this.form.mode='onCampus'
   

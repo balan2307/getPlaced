@@ -291,3 +291,13 @@ module.exports.downvotePost=async(req,res)=>{
     }
 
 }
+
+module.exports.getUserPosts=async(req,res)=>{
+    const {id}=req.params;
+    console.log("backend userposts")
+    const posts=await Post.find({user:id}).populate('user');
+    return res.status(200).json({
+        title:"Success",
+        posts
+      })
+}

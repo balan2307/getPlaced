@@ -5,11 +5,30 @@
  
   <div id="displayallposts" >
     <LoadingIcon :loading="loading"></LoadingIcon>
+
+
+
+  <div>
+    <div id="tab">
+    <div id="tab1" :class="tab1active" >
+      <span class="tab-name" @click="makeactive" ><router-link :class="link1active" to="/"> OnCampus</router-link> </span>
+    </div>
+    
+    <div id="tab2" :class="tab2active">
+      <span class="tab-name" @click="makeactive" ><router-link :class="link2active" to="/offcampus"> OffCampus</router-link></span>
+
+    </div>
+    </div>
+
+
+
+    <router-view></router-view>
+  </div>
  
 
-    <div v-if="!loading">
+    <!-- <div v-if="!loading">
     <UserPost v-for="(post,index) in posts" :key="index" :post="post"></UserPost>
-    </div>
+    </div> -->
   
     
   </div>
@@ -18,40 +37,55 @@
 </template>
 
 <script>
-import UserPost from "./Posts.vue"
-import axios from "axios"
+// import UserPost from "./Posts.vue"
 import LoadingIcon from '../Utils/Loading.vue'
+// import {getAllPosts} from '@/services/post'
 export default {
     name:'AllPosts',
-    components:{UserPost,LoadingIcon},
+    components:{LoadingIcon},
     data()
     {
       return{
         posts:[],
-        loading:false
+        loading:false,
+        tab1active:'',
+        tab2active:'',
+        link1active:'',
+        link2active:''
+      }
+    },
+    methods:{
+      makeactive()
+      {
+
+        console.log("make active")
       }
     },
 
-    async created()
+    created()
     {
-    console.log("INside created")
+     
+  
 
+      if (this.$route.path == "/")
+      {
+        this.tab1active='active';
+        this.tab2active=''
+        this.link1active='a-active'
+        this.link2active=''
 
-     try{
+        
 
-      this.loading=true;
-     const posts= await axios.get('http://localhost:3000/user/posts')
-     this.posts=posts.data.posts
-    //  console.log("all posts frontend",this.posts)
-     }
-     catch(err)
-     {
-      console.log("Err",err)
-     }
-     finally
-     {
-      this.loading=false;
-     }
+      }
+      else
+      {
+        this.tab2active='active';
+        this.tab1active=''
+        this.link2active='a-active'
+        this.link1active=''
+
+      }
+    
 
     }
 
@@ -59,9 +93,74 @@ export default {
 </script>
 
 <style>
+
+
+
+
+
+
 #displayallposts
 {
   padding-bottom: 10px;
 }
+
+#tab{
+  display: flex;
+    justify-content: space-evenly;
+    
+}
+
+#tab1 a,#tab2 a{
+  color:rgb(14, 13, 13);
+  text-decoration: none;
+}
+
+#tab1,#tab2{
+  width:50%;
+  text-align:center;
+  padding: 3px;
+  border: 1px solid rgb(218, 211, 211);
+  border-radius: 8px;
+  background-color: white;
+}
+
+#tab1{
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+#tab2{
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+
+
+
+#tab1:hover,#tab2:hover{
+  background-color: rgb(201, 211, 211);
+  
+}
+
+.a-active{
+  color:rgb(255, 255, 255)!important;
+  text-decoration: none;
+}
+
+.active
+{
+
+  background-color: #848f8b!important;
+}
+
+
+
+
+
+
+.tab-name{
+  font-weight: 500;
+  font-size: 1.2em;
+}
+
 
 </style>

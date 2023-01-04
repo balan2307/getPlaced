@@ -35,9 +35,9 @@
 
 <script>
 import UserPost from "../HomePage/Posts.vue"
-// import axios from "axios";
+
 import {getPost} from '@/services/post'
-// import { eventBus } from "@/main";
+import { eventBus } from "@/main";
 import LoadingIcon from '../Utils/Loading.vue'
 
 export default {
@@ -59,6 +59,8 @@ export default {
     if(post.status==200)
     {
     this.post=post.data.post[0];
+
+    eventBus.$emit("getProfileid",this.post.user._id);
     // console.log("Userr details",this.post,typeof(this.post))
     this.loading=false;
     }

@@ -29,5 +29,8 @@ router.route('/user/:userid/post/:postid/upvote')
 router.route('/user/:userid/post/:postid/downvote')
 .patch(PostController.downvotePost)
 
+router.route('/user/posts/:id')
+.get(PostController.getUserPosts)
+
 module.exports=router;
 
