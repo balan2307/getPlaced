@@ -22,5 +22,12 @@ router.route('/posts/:tag')
 .get(PostController.getTaggedPosts)
 
 
+router.route('/user/:userid/post/:postid/upvote')
+.patch(PostController.upvotePost)
+
+
+router.route('/user/:userid/post/:postid/downvote')
+.patch(PostController.downvotePost)
+
 module.exports=router;
 

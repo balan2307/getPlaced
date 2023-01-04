@@ -20,7 +20,7 @@
 <script>
 import UserPost from "./Posts.vue"
 import axios from "axios"
-import LoadingIcon from '../Helper/Loading.vue'
+import LoadingIcon from '../Utils/Loading.vue'
 export default {
     name:'AllPosts',
     components:{UserPost,LoadingIcon},

@@ -59,7 +59,7 @@
 
 <script>
 import { eventBus } from "@/main";
-import LoadingIcon from "../Helper/Loading.vue";
+import LoadingIcon from "../Utils/Loading.vue";
 import {deleteUserProfileImage} from '@/services/user'
 
 import axios from "axios";

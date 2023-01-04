@@ -1,15 +1,7 @@
 <!-- Individual post -->
 <template>
   <b-card class="mb-2 user-post">
-    <div class="post-rating">
-      <div class="rate-components">
-      
-      <box-icon style="margin-bottom: 5px;" name='upvote'></box-icon>
-      <span class="post-vote">5</span>
-      <box-icon style=" margin-top:9px;" name='downvote'></box-icon>
-      </div>
-
-    </div>
+    <VotingWidget :vote="vote" :userupvoted="userupvoted" :userdownvoted="userdownvoted"  @upvote="upvote"  @downvote="downvote"  ></VotingWidget>
     <div class="post-content" @click="showPostDetails">
       <b-card-text class="post-time" v-if="post.user">
         Posted by @{{ post.user.username }}
@@ -61,29 +53,71 @@
 
 <script>
 // import { deletePost } from '@/Server/Controllers/postController';
+import VotingWidget from '@/components/Utils/VotingWidget.vue'
 
 
-import {deletePost} from '@/services/post'
+import {deletePost,upvotePost,downvotePost} from '@/services/post'
 // import axios from 'axios';
 import {mapGetters} from 'vuex'
 
 export default {
   name: "UserPost",
   props:['post'],
+  components:{VotingWidget},
   data()
   {
     return{
        showtags:false,
        showBtn:false,
-       test:""
+       test:"",
+       upvotes:this.post.upvotes.length,
+       downvotes:this.post.downvotes.length
     }
   },
   computed:
   {
     ...mapGetters(['getUid']),
+    vote()
+    {
+      return (this.upvotes-this.downvotes)
+    },
+    userupvoted()
+    {
+      if(this.post.upvotes!=undefined && this.post.upvotes.indexOf(this.getUid)!=-1) return true;
+      else return false;
+
+    },
+    userdownvoted()
+    {
+
+      if(this.post.downvotes!=undefined && this.post.downvotes.indexOf(this.getUid)!=-1) return true;
+      else return false;
+
+    }
 
   },
   methods:{
+
+    upvote(data)
+    {
+    
+      const {up,dw}=data;
+      this.upvotes+=up;
+      this.downvotes+=dw
+  
+      upvotePost(this.post._id,this.getUid)
+
+    },
+    downvote(data)
+    {
+      
+      const {up,dw}=data;
+      this.upvotes+=up;
+      this.downvotes+=dw
+      downvotePost(this.post._id,this.getUid)
+
+    },
+    
     taggedposts(e)
     {
       e.stopPropagation();
@@ -182,15 +216,7 @@ export default {
 }
 
 
-.post-rating {
-  width: 5%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f2f2f2;
-  border-top-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
+
 
 .post-time {
   color: #aba6a2;
@@ -205,16 +231,6 @@ export default {
 }
 
 
-.post-vote
-{
-  font-weight: bold;
-  font-size: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
- 
-}
 .post-img
 {
     max-height: 400px;
@@ -248,18 +264,8 @@ export default {
     /* justify-content: space-between; */
     flex-direction: column;
 }
-.post-rating
-{
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
- 
-}
-.rate-components
-{
 
-  margin-top:20px
-}
+
 
 /* .post-rating .rate-components
 {

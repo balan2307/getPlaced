@@ -33,4 +33,22 @@ export const deletePost=async(id)=>
     
 }
 
+export const upvotePost=async(postid,userid)=>
+{
+
+    console.log("Upvote ",userid,postid)
+    await axios.patch(`http://localhost:3000/user/${userid}/post/${postid}/upvote`);
+    // console.log("Response ",response)
+    // return response;
+}
+
+
+export const downvotePost=async(postid,userid)=>
+{
+
+    console.log("Downvote ",userid,postid)
+     await axios.patch(`http://localhost:3000/user/${userid}/post/${postid}/downvote`);
+    // console.log("Response ",response)
+    // return response;
+}
 

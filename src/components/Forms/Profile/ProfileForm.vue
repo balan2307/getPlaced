@@ -50,7 +50,7 @@
 <script>
 import { eventBus } from "@/main";
 import axios from "axios";
-import LoadingIcon from '../../Helper/Loading.vue'
+import LoadingIcon from '../../Utils/Loading.vue'
 import InputField from '../Input/InputText.vue' 
 import FormSelect from  '../Input/TextArea.vue'
 // import FormSelect from '../Input/SelectText.vue'

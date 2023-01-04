@@ -21,7 +21,7 @@
   
   <script>
   import UserPost from "./Posts.vue"
-  import LoadingIcon from '../Helper/Loading.vue'
+  import LoadingIcon from '../Utils/Loading.vue'
 
   import axios from "axios"
   export default {

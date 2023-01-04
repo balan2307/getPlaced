@@ -1,6 +1,8 @@
 // const { default: axios } = require('axios');
 const {cloudinary}=require('../cloudinary');
 const Post=require('../models/Post')
+var mongoose = require('mongoose');
+
 module.exports.createPost=async(req,res)=>{
 
     console.log("create post backend",req.body,req.file)
@@ -219,9 +221,9 @@ module.exports.deletePost=async(req,res)=>{
 }
 
 module.exports.getAllPosts=async(req,res)=>{
-    console.log("inside getallposts")
+    // console.log("inside getallposts")
     const posts=await Post.find({}).populate('user',{'username':1});
-    console.log("All posts backend",posts)
+    // console.log("All posts backend",posts)
     return res.status(200).json({
         title:"Success",
         posts
@@ -240,6 +242,52 @@ module.exports.getTaggedPosts=async(req,res)=>{
         title:"Success",
         posts
       })
+    }
+
+}
+
+
+module.exports.upvotePost=async(req,res)=>{
+    let {userid,postid}=req.params;
+    const post=await Post.findOne({_id:postid});
+    // userid = mongoose.mongo.ObjectId(userid);
+
+
+    if(post.upvotes!=undefined && post.upvotes.indexOf(userid)!=-1)
+    {
+        console.log("backend remove upvote")
+
+        await Post.findByIdAndUpdate(postid,{$pull:{upvotes:userid}});
+
+    }
+    else
+    {
+        console.log("backend upvote")
+        await Post.findByIdAndUpdate(postid,{$push:{upvotes:userid}});
+        await Post.findByIdAndUpdate(postid,{$pull:{downvotes:userid}});
+
+    }
+
+}
+
+
+
+module.exports.downvotePost=async(req,res)=>{
+    const {userid,postid}=req.params;
+    const post=await Post.findOne({_id:postid});
+    if(post.downvotes!=undefined && post.downvotes.indexOf(userid)!=-1)
+    {
+        console.log("backend remove downvote")
+
+        await Post.findByIdAndUpdate(postid,{$pull:{downvotes:userid}});
+
+    }
+    else
+    {
+        console.log("backend downpvote")
+        await Post.findByIdAndUpdate(postid,{$push:{downvotes:userid}});
+        await Post.findByIdAndUpdate(postid,{$pull:{upvotes:userid}});
+
     }
 
 }

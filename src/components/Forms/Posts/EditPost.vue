@@ -113,7 +113,7 @@
   import { mapGetters } from 'vuex';
   import { eventBus } from "@/main";
   import {editPost} from '@/services/post'
-  import LoadingIcon from '@/components/Helper/Loading.vue'
+  import LoadingIcon from '@/components/Utils/Loading.vue'
   
   export default {
     name: "PostEditForm",
