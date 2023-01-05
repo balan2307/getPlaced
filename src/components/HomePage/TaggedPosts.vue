@@ -12,6 +12,8 @@
    
       <UserPost v-for="(post,index) in posts" :key="index" :post="post"></UserPost>
       </div>
+
+      <PaginationComponent :pages="pages" :currentpage="page" ></PaginationComponent>
     
       
     </div>
@@ -22,19 +24,28 @@
   <script>
   import UserPost from "./Posts.vue"
   import LoadingIcon from '../Utils/Loading.vue'
-  import {getTaggedPosts} from '@/services/post'
+  import {getPostsPages} from '@/services/post'
+  import PaginationComponent from '@/components/Utils/Pagination.vue'
 
 
   export default {
       name:'TaggedPosts',
-      components:{UserPost,LoadingIcon},
+      components:{UserPost,LoadingIcon,PaginationComponent},
       data()
       {
         return{
           posts:[],
-          loading:false
+          loading:false,
+          pages:0
         }
       },
+       computed:{
+
+        page()
+        {
+        return this.$route.query.page || 1
+        }
+    },
 
   
      async created()
@@ -49,7 +60,9 @@
        
        console.log("Tag frontend",tag)
        this.loading=true;
-       const posts= await getTaggedPosts(tag)
+       let postlimit=2;
+       const posts=await getPostsPages(tag,this.page,postlimit)
+       this.pages=posts.data.pages;
        this.posts=posts.data.posts
        console.log("all tagged posts frontend",this.posts)
        }

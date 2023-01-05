@@ -188,7 +188,7 @@ export default {
       {
         // this.$router.push('/')
         console.log("Response frontend",response)
-        this.$router.push({ path:'/'})
+        this.$router.push({ path:'/oncampus'})
       }
        
       }

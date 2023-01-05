@@ -30,6 +30,9 @@ export const getTaggedPosts=async(tag)=>{
 
 
 
+
+
+
 export const editPost=async(id,fd)=>
 {
 
@@ -65,10 +68,31 @@ export const downvotePost=async(postid,userid)=>
     // return response;
 }
 
-export const getUserPosts=async(id)=>
+export const getPostsPages=async(tag,currpage,perpage)=>{
+
+    console.log("services getpostpages")
+    const response=await axios.get(`http://localhost:3000/posts/pages/${tag}` ,{
+        params:{
+            page:currpage,
+            limit:perpage
+        }
+
+    })
+
+    return response
+
+
+}
+
+export const getUserPosts=async(id,currpage,perpage)=>
 {
     console.log("User posts",id)
-    const posts=await axios.get(`http://localhost:3000/user/posts/${id}`)
+    const posts=await axios.get(`http://localhost:3000/user/posts/${id}`,{
+        params:{
+            page:currpage,
+            limit:perpage
+        }
+    })
     return posts;
 
 

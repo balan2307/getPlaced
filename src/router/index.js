@@ -28,17 +28,25 @@ const router=new Router({
             },
             children:[
                 {
-                    name:'offCampusSection',
-                    path:'',
+                    name:'onCampusSection',
+                    path:'onCampus',
                     component:onCampus
                 },
                    {
                     name:'offCampusSection',
-                    path:'/offcampus',
+                    path:'offcampus',
                     component:offCampus
                 }
             ]
         }
+        ,
+       
+            {
+                path: '/oncampus',
+                component: onCampus,
+                props: (route) => ({ page: route.query.page }),
+              }
+        
         ,
         {
             name:'PostTagged',

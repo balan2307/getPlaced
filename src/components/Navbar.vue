@@ -1,14 +1,14 @@
 <template>
 
     <b-navbar toggleable="lg" type="light">
-      <b-navbar-brand href="#"> <router-link to="/">getPlaced</router-link></b-navbar-brand>
+      <b-navbar-brand href="#"> <router-link to="/oncampus">getPlaced</router-link></b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item href="#"></b-nav-item>
-          <b-nav-item href="#"><router-link to="/">Home</router-link></b-nav-item>
+          <b-nav-item href="#"><router-link to="/oncampus">Home</router-link></b-nav-item>
           <!-- <b-nav-item href="#"><router-link to="/user/post/63b144f73b786619a47bb9f6">Test</router-link></b-nav-item> -->
 
         </b-navbar-nav>

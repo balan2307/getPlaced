@@ -19,8 +19,10 @@ router.route('/user/posts')
 .get(PostController.getAllPosts)
 
 router.route('/posts/:tag')
-.get(PostController.getTaggedPosts)
+.get(PostController.getTaggedPostsCount)
 
+router.route('/posts/pages/:tag')
+.get(PostController.getPostPages)
 
 router.route('/user/:userid/post/:postid/upvote')
 .patch(PostController.upvotePost)
@@ -31,6 +33,8 @@ router.route('/user/:userid/post/:postid/downvote')
 
 router.route('/user/posts/:id')
 .get(PostController.getUserPosts)
+
+
 
 module.exports=router;
 

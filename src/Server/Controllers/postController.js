@@ -231,7 +231,7 @@ module.exports.getAllPosts=async(req,res)=>{
 
 }
 
-module.exports.getTaggedPosts=async(req,res)=>{
+module.exports.getTaggedPostsCount=async(req,res)=>{
     let {tag}=req.params;
      tag=tag.toLowerCase();
     console.log("get tagged post",tag);
@@ -295,9 +295,43 @@ module.exports.downvotePost=async(req,res)=>{
 module.exports.getUserPosts=async(req,res)=>{
     const {id}=req.params;
     console.log("backend userposts")
-    const posts=await Post.find({user:id}).populate('user');
+    const {page,limit}=req.query;
+    let skip=(page-1)*limit;
+    const count=await Post.find({user:id}).count();
+    const pages=Math.ceil(count/limit);
+    const posts=await Post.find({user:id}).populate('user').skip(skip).limit(limit);
     return res.status(200).json({
         title:"Success",
+        posts,
+        pages
+      })
+}
+
+
+module.exports.getPostPages=async(req,res)=>{
+
+    console.log("backedn getpost")
+    const {tag}=req.params;
+    const {page,limit}=req.query;
+    //limit is page size
+    console.log("Params",tag,page,limit)
+    let skip=(page-1)*limit;
+
+
+    const count=await Post.findByTag(tag).count();
+    const posts=await Post.findByTag(tag).populate('user').skip(skip).limit(limit);
+    const pages=Math.ceil(count/limit);
+    console.log("backend posts",posts)
+    return res.status(200).json({
+        title:"Success",
+        pages,
         posts
       })
+
+
+
+
+    // console.log(("getPostpages backend",tag,req.params,req.query))
+
+    
 }

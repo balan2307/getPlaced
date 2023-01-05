@@ -11,7 +11,7 @@
   <div>
     <div id="tab">
     <div id="tab1" :class="tab1active" >
-      <span class="tab-name" @click="makeactive" ><router-link :class="link1active" to="/"> OnCampus</router-link> </span>
+      <span class="tab-name" @click="makeactive" ><router-link :class="link1active" to="/oncampus"> OnCampus</router-link> </span>
     </div>
     
     <div id="tab2" :class="tab2active">
@@ -22,7 +22,7 @@
 
 
 
-    <router-view></router-view>
+    <router-view :key="$route.fullPath"></router-view>
   </div>
  
 
@@ -66,8 +66,9 @@ export default {
     {
      
   
+      console.log("Route check",this.$route)
 
-      if (this.$route.path == "/")
+      if (this.$route.path == "/oncampus")
       {
         this.tab1active='active';
         this.tab2active=''
