@@ -12,7 +12,7 @@
 
       
       <div v-if="!isOnAuthPage()" id="rightsection">
-        <router-view name="side"></router-view>
+        <router-view name="side" :key="$route.fullPath"></router-view>
       </div>
 
       <div id="authsection" v-if="isOnAuthPage()">

@@ -42,8 +42,10 @@
               ></box-icon> </span
             >Joined {{ joined }}
           </p>
-          <p id="grad-info">
+          
+          <p id="grad-info" v-if="university || yearofgraduation">
             <span class="mr-1"
+             
               ><box-icon
                 id="graduate-icon"
                 type="solid"
@@ -58,12 +60,15 @@
     <hr id="divider" />
 
     <div id="postBtn">
-      <b-button variant="outline-success" size="md">Follow</b-button>
+      
+      <b-button v-if="!sameUser" variant="outline-success" size="md">Follow</b-button>
       <b-button
+        
         variant="outline-secondary"
         id="follow-btn"
         style="color: black"
         size="md"
+        v-if="sameUser"
       >
         <router-link :to="`/user/profile/${uid}/edit`">Update</router-link>
       </b-button>
@@ -75,6 +80,8 @@
 import { eventBus } from "@/main";
 import LoadingIcon from "../Utils/Loading.vue";
 import { deleteUserProfileImage, getUserProfile } from "@/services/user";
+import {mapGetters} from 'vuex'
+
 
 // import axios from "axios";
 export default {
@@ -109,6 +116,7 @@ export default {
 
       await deleteUserProfileImage(this.$route.params.id);
     },
+ 
     async getProfile(id) {
   const res = await getUserProfile(id);
   const {
@@ -137,6 +145,15 @@ export default {
 
 
   },
+  computed:{
+      ...mapGetters(['getUid']),
+
+      sameUser()
+      {
+        console.log("check user")
+        return this.getUid==this.uid
+      }
+    },
   async created() {
   
     console.log("User Info created", this.showupdatebtn);
@@ -146,9 +163,13 @@ export default {
 
     if (this.$route.matched[0].path == "/post/:id") {
       eventBus.$on("getProfileid", async (id) => {
+        //to show the profile info in the details page of the post
+        console.log("If Profile")
         this.getProfile(id);
       });
     } else {
+      //to show the profile info in the profile page of the user
+      console.log("Else Profile")
       this.getProfile(this.$route.params.id);
     }
 

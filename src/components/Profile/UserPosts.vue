@@ -6,6 +6,12 @@
     <UserPost  v-for="(post,index) in posts" :key="index" :post="post"></UserPost>
     </div>
 
+    <div id="infoheader" v-if="posts.length==0">
+      <p>No posts yet posted  </p>
+
+    </div>
+  
+
 
     <PaginationComponent :pages="pages" :currentpage="page"></PaginationComponent>
     </div>
@@ -51,11 +57,16 @@ async created()
 }
 </script>
 
-<style>
+<style >
 #userposts
 {
   
   padding-bottom: 10px;
 
+}
+
+#infoheader{
+  font-weight: bold;
+  font-size: 2em;
 }
 </style>

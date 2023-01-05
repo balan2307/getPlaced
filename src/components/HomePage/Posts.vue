@@ -4,7 +4,7 @@
     <VotingWidget :vote="vote" :userupvoted="userupvoted" :userdownvoted="userdownvoted"  @upvote="upvote"  @downvote="downvote"  ></VotingWidget>
     <div class="post-content" @click="showPostDetails">
       <b-card-text class="post-time" v-if="post.user">
-        Posted by @{{ post.user.username }}
+        Posted by  <b-button class="profile-btn" @click="visitProfile">@{{ post.user.username }}</b-button>
       </b-card-text>
      
       <h5 class="post-title">{{post.title}}</h5>
@@ -131,6 +131,13 @@ export default {
       console.log("show psot")
       this.$router.push({ name:'PostDetail' ,params: { id: this.post._id }})
     },
+    visitProfile(event)
+    {
+      event.stopPropagation();
+      console.log("Visit profile")
+      this.$router.push({ name:'UserProfile' ,params:{id:this.post.user._id}})
+
+    },
 
     async deletePost(event){
       this.loading=true;
@@ -151,6 +158,7 @@ export default {
   
 
     const route=this.$router.currentRoute
+    //to show edit button only on details page
     if(route.matched[0].path=="/post/:id") {
       this.showBtn=true;
     }
@@ -245,6 +253,23 @@ export default {
 
 
 }
+
+.profile-btn
+{
+  padding: 0;
+    background-color: white;
+    color: #60768d;
+    font-size: 1em;
+    border: none;
+}
+.profile-btn:hover
+{
+
+    background-color: white;
+    color: #60768d;
+ 
+}
+
 .interview-info-label
 {
   /* display: flex;
@@ -285,6 +310,8 @@ export default {
 .post-tags
 {
   display: flex;
+  flex-wrap: wrap-reverse;
+  row-gap: 4px;
 
 
   /* border: 1px solid red; */

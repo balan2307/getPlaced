@@ -1,4 +1,5 @@
 <template>
+  
 
     <b-navbar toggleable="lg" type="light">
       <b-navbar-brand href="#"> <router-link to="/oncampus">getPlaced</router-link></b-navbar-brand>
@@ -31,6 +32,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+
 // import {getUserName} from '../services/user'
 
 export default {
@@ -64,7 +66,7 @@ export default {
    created()
   {
    
-    console.log("Created nav",this.getUid)
+    console.log("Created nav",this.$publicpath)
     // const uid=this.$store.getters.getUid;
     // console.log("Uid ",uid)
     // const res=await getUserName(uid);
@@ -75,7 +77,15 @@ export default {
   mounted()
   {
     // console.log("navbar mounted")
-  }
+  },
+
+
+  // metaInfo: {
+  //     script: [
+  //       { src: 'https://cdn.jsdelivr.net/vue.js', async: true, defer: true }
+  //     ],
+  //   }
+  
  
 };
 </script>
