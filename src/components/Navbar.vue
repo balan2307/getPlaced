@@ -66,7 +66,7 @@ export default {
    created()
   {
    
-    console.log("Created nav",this.$publicpath)
+    console.log("Created nav",`${this.$publicpath}/stylesheets/navbar.css`)
     // const uid=this.$store.getters.getUid;
     // console.log("Uid ",uid)
     // const res=await getUserName(uid);
@@ -88,9 +88,17 @@ export default {
   
  
 };
+
 </script>
-.navbar{ background-color:'white' }
+
 <style>
+ /* @import ""; */
+ /* @import url(`${this.$publicpath}/stylesheets/navbar.css`); */
+ @import url('./../../public/stylesheets/navbar.css');
+
+
+/* .navbar{ background-color:'white' }
+
 nav a{
   color: black;
   text-decoration: none!important;
@@ -98,5 +106,5 @@ nav a{
 nav a:hover
 {
   color:black
-}
+} */
 </style>

@@ -12,11 +12,14 @@
 
       
       <div v-if="!isOnAuthPage()" id="rightsection">
+     
         <router-view name="side" :key="$route.fullPath"></router-view>
       </div>
 
       <div id="authsection" v-if="isOnAuthPage()">
+        <div class="authforms">
         <router-view name="auth"></router-view>
+        </div>
       </div>
       
       
@@ -155,6 +158,16 @@ html,
     width: 100%;
 
 }
+
+.authforms{
+  width: 40%;
+}
+
+#authsection + div{
+
+  border:1px solid rgb(180, 172, 172);
+ 
+}
 @media only screen and (max-width: 1080px) {
   /* #rightsection-view {
     display: none;
@@ -170,6 +183,16 @@ html,
   /* * {
     box-sizing: border-box;
   } */
+}
+
+@media only screen and (max-width:550px)
+{
+  .authforms{
+  width: 90%;
+
+}
+
+
 }
 
 

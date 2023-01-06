@@ -3,21 +3,47 @@
   
   <b-form id="loginform" @submit="onSubmit">
     
-    <b-input-group id="field1"  class="mb-2 ">
-      <b-form-input v-model="user.email" id="inline-form-input-email" type="email" placeholder="Email"></b-form-input>
-    </b-input-group>
+    <b-input-group id="field1" class="mb-2">
+        <InputField
+          v-model="user.email"
+          :class="{ invalid: $v.user.email.$error }"
+          @blur="$v.user.email.$touch()"
+          type="email"
+          placeholder="Email"
+        ></InputField>
+        <p class="feedback" v-if="$v.user.email.$error ">Please provide a valid email address</p>
+      </b-input-group>
 
-    <b-form-input
-    id="field2"
-      class="mb-2"
-      type="password"
-      placeholder="Password"  v-model="user.password"
+     
+        <InputField type="password" 
+      v-model="user.password" placeholder="Password"
+      :class="{ invalid: $v.user.password.$error }"
+      @blur="$v.user.password.$touch()"
+      ></InputField>
 
-    ></b-form-input>
 
+      <p class="feedback" v-if="!$v.user.password.minLength && $v.user.password.$error"> 
+           Password should be atleast
+          {{ $v.user.password.$params.minLength.min }} characters
+        </p>
+        <p class="feedback" v-if="!$v.user.password.containsUppercase && $v.user.password.$error"> 
+          Password should contain atleast 1 Uppercase character
+        </p>
+        <p class="feedback" v-if="!$v.user.password.containsLowercase && $v.user.password.$error"> 
+          Password should contain atleast 1 Lowercase character
+        </p>
+        <p class="feedback" v-if="!$v.user.password.containsNumber && $v.user.password.$error"> 
+          Password should contain atleast 1 digit
+        </p>
+        <p class="feedback" v-if="!$v.user.password.containsSpecial && $v.user.password.$error"> 
+          Password should contain atleast 1 special character
+        </p>
+     
+
+   
 
      <div id="loginbtn">
-    <b-button variant="primary" type="submit">Login</b-button>
+    <b-button variant="primary" type="submit" :disabled="$v.$invalid">Login</b-button>
     </div>
   </b-form>
   <p>Not registered yet? <router-link to="/register">Register</router-link> </p>
@@ -26,9 +52,12 @@
 </template>
 
 <script>
+import { required, email, minLength } from "vuelidate/lib/validators";
+import InputField from "../Forms/Input/InputText.vue";
 
 export default {
  name:'LoginPage',
+ components:{InputField},
  data(){
   return {
     user:{
@@ -37,6 +66,30 @@ export default {
     }
   }
  },
+ validations: {
+    user: {
+      email: {
+        required,
+        email,
+      },
+      password: {
+        required,
+        minLength: minLength(8),
+        containsUppercase: function (value) {
+          return /[A-Z]/.test(value);
+        },
+        containsLowercase: function (value) {
+          return /[a-z]/.test(value);
+        },
+        containsNumber: function (value) {
+          return /[0-9]/.test(value);
+        },
+        containsSpecial: function (value) {
+          return /[#?!@$%^&*-]/.test(value);
+        },
+      },
+    },
+  },
  methods:{
   async onSubmit(e)
   {
@@ -67,6 +120,14 @@ export default {
 
     background-color: white;
     border-radius:10px;
+
+    
+
+     /* display: flex;
+    flex-direction: column;
+    
+    row-gap: 12px;
+    justify-content: center; */
 }
 
 #loginform input{

@@ -5,10 +5,11 @@
     <b-form-input
           :value="value"
           @input="updateCode($event)"
+          @blur="onBlur($event)"
           :placeholder="placeholder"
       
           :id="id"
-          type="text"></b-form-input>
+          :type="type"></b-form-input>
     
   </template>
   
@@ -19,13 +20,19 @@
   
   export default {
       name:'InputField',
-      props:['value','placeholder','id','description'],
+      props:['value','placeholder','id','description','type'],
       methods:
       {
          updateCode(val)
           {
             
               this.$emit('input',val)
+          },
+
+          onBlur(val)
+          {
+            this.$emit('blur',val)
+
           }
   
       }
