@@ -17,9 +17,11 @@
 import {successHandler,errorHandler} from './helper'
 import axios from 'axios';
 
+// const base_url='http://localhost:3000'
+
 export const login = ( credentials ) => {
     return axios.post(
-                'http://localhost:3000/user/login',
+                `/user/login`,
                 credentials,
                 {
                     headers: {

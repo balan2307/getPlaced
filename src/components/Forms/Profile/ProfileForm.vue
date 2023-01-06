@@ -170,6 +170,9 @@ export default {
   },
   async created() {
 
+
+    console.log("ENV",process.env.VUE_APP_BASE_URL)
+
     eventBus.$on("removeProfileImage", () => {
       // console.log("Profile removal req",this.$refs.file)
       this.$refs.file.reset();

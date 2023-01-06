@@ -7,6 +7,8 @@ import router from './router';
 Vue.config.productionTip = false
 export const eventBus=new Vue();
 Vue.use(Vuelidate)
+import axios from 'axios'
+axios.defaults.baseURL=process.env.VUE_APP_BASE_URL
 Vue.prototype.$publicpath = './../../public'
 
 
