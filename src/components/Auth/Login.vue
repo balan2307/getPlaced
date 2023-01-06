@@ -3,6 +3,7 @@
   
   <b-form id="loginform" @submit="onSubmit">
     
+    <!-- {{$v.user.email }} -->
     <b-input-group id="field1" class="mb-2">
         <InputField
           v-model="user.email"
@@ -11,7 +12,8 @@
           type="email"
           placeholder="Email"
         ></InputField>
-        <p class="feedback" v-if="$v.user.email.$error ">Please provide a valid email address</p>
+        <p class="feedback" v-if="!$v.user.email.email">Please provide a valid email address</p>
+        <p class="feedback" v-if="!$v.user.email.required && $v.user.email.$anyError">Email cannot be empty</p>
       </b-input-group>
 
      
@@ -19,6 +21,7 @@
       v-model="user.password" placeholder="Password"
       :class="{ invalid: $v.user.password.$error }"
       @blur="$v.user.password.$touch()"
+      @visited="setVisited"
       ></InputField>
 
 
@@ -55,6 +58,7 @@
 import { required, email, minLength } from "vuelidate/lib/validators";
 import InputField from "../Forms/Input/InputText.vue";
 
+
 export default {
  name:'LoginPage',
  components:{InputField},
@@ -63,14 +67,16 @@ export default {
     user:{
       email:'',
       password:''
-    }
+    },
+    touched:false
   }
  },
  validations: {
     user: {
       email: {
         required,
-        email,
+        email
+  
       },
       password: {
         required,
@@ -99,7 +105,7 @@ export default {
       
       const uid=await this.$store.dispatch('login',userCred);
       console.log("UID ",uid)
-      this.$router.push({name:'HomeMain'})
+      this.$router.push({path:'/oncampus'})
     }
     catch(err){
       console.log("error caught",err)
@@ -107,6 +113,12 @@ export default {
     }
 
 
+  },
+
+
+  setVisited()
+  {
+    this.touched=true;
   }
  }
 

@@ -10,8 +10,10 @@
           type="email"
           placeholder="Email"
         ></InputField>
-        <p class="feedback" v-if="$v.user.email.$error">Please provide a valid email address</p>
+        <p class="feedback" v-if="!$v.user.email.email">Please provide a valid email address</p>
+        <p class="feedback" v-if="!$v.user.email.required && $v.user.email.$anyError">Email cannot be empty</p>
       </b-input-group>
+      <!-- <p>{{ $v.user.email }}</p> -->
 
 
 
@@ -26,11 +28,9 @@
         <p class="feedback" v-if="$v.user.username.$error">
           Username should be atleast
           {{ $v.user.username.$params.minLength.min }} characters
-        </p>
-      
-        
-    
+        </p>     
       </b-input-group>
+      <!-- <p>{{ $v.user.username }}</p> -->
 
 
       <InputField type="password" 
@@ -74,6 +74,7 @@
 import { registerUser } from "@/services/user";
 import { required, email, minLength } from "vuelidate/lib/validators";
 import InputField from "../Forms/Input/InputText.vue";
+// import axios from "axios";
 
 export default {
   name: "RegisterPage",
@@ -95,10 +96,22 @@ export default {
       email: {
         required,
         email,
+        // unique: async(val)=>{
+        //   if(val=='') return true;
+        //   const response=await axios.get(`http://localhost:3000/user/validate?email=${val}`);
+        //   console.log("check unique",response)
+
+        // }
       },
       username: {
         required,
         minLength: minLength(4),
+        // unique: async(val)=>{
+        //   if(val=='') return true;
+        //   const response=await axios.get(`http://localhost:3000/user/validate?username=${val}`);
+        //   console.log("check unique",response)
+
+        // }
       },
       password: {
         required,
@@ -141,7 +154,7 @@ export default {
 <style>
 .invalid {
   border: 1px solid red !important;
-  background-color: rgb(207, 164, 172) !important;
+  /* background-color: rgb(207, 164, 172) !important; */
 }
 
 #loginform {

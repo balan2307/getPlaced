@@ -32,6 +32,9 @@
           onBlur(val)
           {
             this.$emit('blur',val)
+            this.$emit('visited',val)
+           
+
 
           }
   

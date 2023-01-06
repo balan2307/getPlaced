@@ -10,7 +10,11 @@
             v-model="form.title"
             id="input-1"
             placeholder="Title"
+            :class="{ invalid: $v.form.title.$error }"
           ></InputField>
+          <p class="feedback" v-if="!$v.form.title.required && touched">Title cannot be empty</p>
+
+
   
           <div id="image-placeholder" v-if="showbtn" class="mb-2">
             <box-icon
@@ -33,13 +37,21 @@
             v-model="form.content"
             row="3"
             placeholder="Describe your interview Expereince"
+            :class="{ invalid: $v.form.content.$error }"
           ></TextArea>
+          <p class="feedback" v-if="!$v.form.content.required && touched">Content cannot be empty</p>
+
+
+
   
           <InputField
             v-model="form.company"
             id="input-2"
             placeholder="Company for which you attended the interview"
           ></InputField>
+          <p class="feedback" v-if="!$v.form.company.required && (touched)">
+              Please mention the company name
+          </p>
   
           <div id="selectoption" class="mb-3">
             <div id="modeselect">
@@ -48,8 +60,13 @@
                 @modeOncampus="modeselected"
                 v-model="form.mode"
                 :choice="form.mode"
+                @focus="setmodeTouched"
+              @blur="$v.form.mode.$touch()"
                 name="campusmode"
               ></FormSelect>
+              <p class="feedback" v-if="!$v.form.mode.required && (modetouched || touched)">
+              Please select an option
+            </p> 
             </div>
   
             <div id="modedifficulty">
@@ -59,7 +76,12 @@
                 @change="modeselected"
                 :choice="form.difficulty"
                 name="difficultymode"
+                @focus="setTouched"
+                @blur="$v.form.difficulty.$touch()"
               ></FormSelect>
+              <p class="feedback" v-if="!$v.form.difficulty.required && (difftouched || touched)">
+              Please select an option
+            </p>  
             </div>
           </div>
   
@@ -70,7 +92,12 @@
             v-model="form.college"
             id="input-3"
             placeholder="College Name"
+            @blur="$v.form.college.$touch()"
           ></InputField>
+          <p class="feedback" v-if="!$v.form.college.required && (touched)">
+              Please mention your College name
+          </p> 
+
   
           <InputField
             class="mb-1"
@@ -114,6 +141,7 @@
   import { eventBus } from "@/main";
   import {editPost,getPost} from '@/services/post'
   import LoadingIcon from '@/components/Utils/Loading.vue'
+  import { required ,requiredIf } from "vuelidate/lib/validators";
   
   export default {
     name: "PostEditForm",
@@ -141,6 +169,9 @@
         createPost:false,
         difficulty_mode:'',
         loading:false,
+        difftouched:false,
+      modetouched:false,
+      touched:false,
   
         mode: [
           { value: null, text: "Select a mode" },
@@ -155,9 +186,59 @@
         ],
       };
     },
+    validations: {
+    form: {
+      title: {
+        required,
+      },
+      content: {
+        required
+      },
+      company: {
+        required
+      },
+      difficulty:{
+        required
+      },
+      mode:{
+        required
+      },
+      college:{
+        required:requiredIf(inp=>{
+          // console.log("INp ",inp.mode)
+          return inp.mode=="onCampus"
+        })
+      }
+
+
+      
+    },
+  },
     methods: {
+      setTouched()
+    {
+
+      console.log("difftouched")
+      this.difftouched=true;
+     
+    },
+    setmodeTouched()
+    {
+      this.modetouched=true;
+
+    },
        async onSubmit(event) {
         event.preventDefault();
+
+        if(this.$v.form.$invalid)
+      {
+      this.$v.$touch()
+      this.touched=true;
+      console.log("validate")
+      }
+      else{
+
+        console.log("no validation ,all go")
         const postImage=this.$refs.file.files[0];
         console.log("post sumbit ", this.form,postImage );
         const data = JSON.parse(JSON.stringify(this.form));
@@ -209,10 +290,10 @@
         //  axios.post(`http://localhost:3000/user/post/${this.$route.params.id}`,fd)
 
          const response=await editPost(this.$route.params.id,fd);
-         console.log("Response ",response)
+        //  console.log("Response ",response)
 
 
-         if(response.status==200) this.$router.push({ name:'PostDetail' ,params: { id: this.$route.params.id }})
+         if(response.status==200) this.$router.go(-1)
       //  this.$router.push({ path:'/'})
 
         
@@ -225,6 +306,7 @@
           this.loading=false
 
         }
+      }
           
        
       },
@@ -326,6 +408,13 @@
   </script>
   
   <style>
+  .feedback
+{
+  font-size: 0.8em;
+  color: red;
+  margin: 0;
+  
+}
   #postform {
     margin-top: 20px;
     padding-bottom: 10px;

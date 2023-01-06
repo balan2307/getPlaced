@@ -23,7 +23,13 @@
         <FormSelect v-model="form.bio" placeholder="Bio" row="3"></FormSelect>
         <!-- <InputField v-model="form.collegename" placeholder="College name" id="input-3"></InputField> -->
         <InputField v-model="form.university" placeholder="University" id="input-4"></InputField>
-        <InputField v-model="form.yearofgraduation" placeholder="Year of Graduation" id="input-5"></InputField>
+        <InputField v-model="form.yearofgraduation" placeholder="Year of Graduation" id="input-5"
+        @blur="$v.form.yearofgraduation.$touch()"
+        ></InputField>
+        <p class="feedback" v-if="!$v.form.yearofgraduation.numeric">
+              Please enter a valid year
+            </p>  
+        <!-- <p>{{ $v.$invalid }}</p> -->
         <!-- <FormSelect :options="options" v-model="check"></FormSelect> -->
 
         <b-form-file
@@ -41,7 +47,7 @@
           Selected file: {{ form.profileimage ? form.profileimage.name : "" }}
         </div>
 
-        <b-button variant="primary" type="submit">Update</b-button>
+        <b-button variant="primary" type="submit" :disabled="$v.$invalid">Update</b-button>
       </b-form>
     </div>
   </div>
@@ -54,6 +60,7 @@ import LoadingIcon from '../../Utils/Loading.vue'
 import InputField from '../Input/InputText.vue' 
 import FormSelect from  '../Input/TextArea.vue'
 import {getUserProfile,EditProfile} from '@/services/user'
+import { numeric } from "vuelidate/lib/validators";
 // import FormSelect from '../Input/SelectText.vue'
 
 export default {
@@ -85,6 +92,15 @@ export default {
       check:"",
 
     };
+  },
+  validations:{
+    form:{
+      yearofgraduation:{
+        numeric
+      }
+    }
+
+
   },
   methods: {
     async onSubmit(event) {
@@ -186,6 +202,14 @@ export default {
 </script>
 
 <style>
+  .feedback
+{
+  font-size: 0.8em;
+  color: red;
+  margin: 0;
+  
+}
+
 #postform {
   margin-top: 20px;
 }

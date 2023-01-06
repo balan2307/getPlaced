@@ -1,5 +1,5 @@
 <template>
-    <b-form-select  v-model="selected" :choice="choice" :name="name" :options="options" @change="optionSelected"></b-form-select>
+    <b-form-select  v-model="selected" :choice="choice"  :name="name" :options="options" @change="optionSelected"></b-form-select>
 </template>
 
 <script>
@@ -16,11 +16,17 @@ export default {
 
         optionSelected()
         {
-            console.log("Selcted",this.selected)
+            // console.log("Selcted",this.selected)
             this.$emit('input', this.selected)
+            this.$emit('focus',this.selected)
             this.$emit('modeOncampus')
             
-        }
+        },
+        // setFocus(val)
+        // {
+        //     console.log("emit focues")
+            
+        // }
     },
     props:{
         options:{
