@@ -50,17 +50,29 @@ export default {
         console.log("OnCampus",this.page)
         let postlimit=2;
         // let currPage=this.$route.query.page
+        let post='';
        
 
 
-        const post=await getPostsPages('oncampus',this.page,postlimit)
-
-        console.log("front end post",post.data)
-        // console.log("No of pages",pages)
-
+        try
+        {
+        post=await getPostsPages('oncampus',this.page,postlimit)
         this.pages=post.data.pages;
         this.posts=post.data.posts;
         this.loading=false;
+
+        }
+        catch(err)
+
+        {
+            console.log("Error oncampus",err)
+            this.$router.push({path:'/login'})
+
+        }
+
+        // console.log("front end post",post.data)
+        // console.log("No of pages",pages)
+
 
     }
 

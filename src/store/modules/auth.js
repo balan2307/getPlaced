@@ -15,7 +15,7 @@ const auth={
         
         isAuthenticated(state){
             // console.log("token ",state.token)
-            return state.token!=''
+            return (state.token!='')
         },
         getUserName(state)
         {

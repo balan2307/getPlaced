@@ -21,7 +21,7 @@ import axios from 'axios';
 
 export const login = ( credentials ) => {
     return axios.post(
-                `/user/login`,
+                `/user/auth/login`,
                 credentials,
                 {
                     headers: {

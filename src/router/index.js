@@ -15,6 +15,7 @@ import RegisterPage from '../components/Auth/Register'
 import PostEditForm from '../components/Forms/Posts/EditPost'
 import onCampus from '@/components/HomePage/PostSection/onCampus'
 import offCampus from '@/components/HomePage/PostSection/offCampus'
+import store from '@/store';
 
 const router=new Router({
     mode:'history',
@@ -122,6 +123,36 @@ const router=new Router({
 
      
     ]
+})
+
+
+router.beforeEach((to, from, next) => {
+
+
+      // this route requires auth, check if logged in
+      // if not, redirect to login page.
+      console.log("TOo ",to.name)
+
+      if(to.name!='LoginPage' && to.name!='RegisterPage') {
+
+        if( !store.getters.isAuthenticated)
+        {
+            return next({
+                name: 'LoginPage'
+            });
+
+        }
+        else {
+          
+                return next();
+            
+        }
+    
+    } 
+    next();
+
+
+
 })
 
 export default router;

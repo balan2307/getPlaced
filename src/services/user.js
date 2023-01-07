@@ -29,7 +29,7 @@ export const getUserId=function (token)
 
 export const registerUser=async(userCred,router)=>{
 
-  await axios.post(`/user/register`,userCred).then(() => {
+  await axios.post(`/user/auth/register`,userCred).then(() => {
         // this.error = '';
        router.push('/login');
       }, err => {
