@@ -6,7 +6,7 @@
   
     <UserPost :post="post"></UserPost>
     <!-- {{ post[0].title }} -->
-
+<!-- 
     <div class="comment-section">
      
         <p>Comment as <span v-if="post.user" class="current-user">{{ post.user.username }}</span></p>
@@ -25,7 +25,7 @@
 
 
     </div>
-    </div>
+    </div> -->
     </div>
    
   

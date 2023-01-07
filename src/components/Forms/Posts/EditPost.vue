@@ -1,6 +1,9 @@
 
 <template>
     <div id="postform">
+      <errorMessage :error="error" :errormessage="errormessage"></errorMessage>
+      <AlertMessage :variant="variant" :message="alertmessage" ref="alertcomp" @alertclose="alertclose"></AlertMessage>
+
       <p id="form-header">Edit post</p>
       <hr />
       <LoadingIcon :loading="loading"></LoadingIcon>
@@ -142,10 +145,11 @@
   import {editPost,getPost} from '@/services/post'
   import LoadingIcon from '@/components/Utils/Loading.vue'
   import { required ,requiredIf } from "vuelidate/lib/validators";
+  import AlertMessage from '@/components/Utils/AlertMessage.vue'
   
   export default {
     name: "PostEditForm",
-    components: { InputField, FormSelect, TextArea ,LoadingIcon},
+    components: { InputField, FormSelect, TextArea ,LoadingIcon,AlertMessage},
     computed:{
   
       ...mapGetters(['getUid']),
@@ -172,6 +176,10 @@
         difftouched:false,
       modetouched:false,
       touched:false,
+      error:false,
+      errormessage:'',
+      alertmessage:'',
+      variant:'success',
   
         mode: [
           { value: null, text: "Select a mode" },
@@ -215,6 +223,16 @@
     },
   },
     methods: {
+      showToast()
+      {
+        this.alertmessage="Post updated successfully!"
+        this.$refs.alertcomp.showAlert();
+      },
+
+      alertclose()
+      {
+        console.log("move on")
+      },
       setTouched()
     {
 
@@ -293,14 +311,20 @@
         //  console.log("Response ",response)
 
 
-         if(response.status==200) this.$router.go(-1)
+         if(response.status==200) {
+          this.showToast();
+         
+          // this.$router.go(-1)
+
+         
+         }
       //  this.$router.push({ path:'/'})
 
         
         }
         catch(err)
         {
-          console.llog("err",err)
+          console.llog("error in editing",err)
         }
         finally{
           this.loading=false
@@ -310,6 +334,7 @@
           
        
       },
+      
   
       modeselected() {
         console.log("Mode selected");
@@ -320,12 +345,15 @@
         } else this.campusmode = false;
       },
 
+
       previewImage() {
         console.log("Image");
         this.showbtn = true;
         this.placeholderimage = URL.createObjectURL(this.$refs.file.files[0]);
         const placeholder = document.getElementById("image-placeholder");
         console.log("checkkk ", placeholder);
+        
+        console.log("check")
       },
       removeselectedImage() {
         this.$refs.file.value = null;
@@ -333,6 +361,8 @@
       },
     },
     async created() {
+      
+     
 
       if (this.mode == "onCampus") console.log("Created");
       const router=this.$router.currentRoute.matched[0].path;

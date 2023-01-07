@@ -1,5 +1,7 @@
 <template>
   <div id="postform">
+    <errorMessage :error="error" :errormessage="errormessage"></errorMessage>
+
     <p id="form-header">Update your Profile</p>
     <hr />
     <LoadingIcon :loading="loading" />
@@ -89,6 +91,7 @@ export default {
       image: "",
       loading:false,
       error:false,
+      errormessage:'',
       check:"",
 
     };
@@ -105,7 +108,7 @@ export default {
   methods: {
     async onSubmit(event) {
       event.preventDefault();
-      console.log("Check ",this.check )
+      // console.log("Check ",this.check )
  
       const userDetails = JSON.parse(JSON.stringify(this.form));
       if(this.$refs.file.files[0])
@@ -138,7 +141,7 @@ export default {
         yearofgraduation: this.form.yearofgraduation,
         bio:this.form.bio
       };
-      console.log("Post data",data,typeof(data))
+      // console.log("Post data",data,typeof(data))
 
       Object.keys(data).forEach((key) =>{
 
@@ -162,7 +165,16 @@ export default {
       //     }
       //   );
 
+        try{
         await EditProfile(this.$route.params.id,fd)
+        }
+        catch(err)
+        {
+          console.log("error in editing",err)
+          const {message}=err.response.data;
+          this.errormessage=message;
+          this.error=true;
+        }
 
       console.log("Profile form");
     },
@@ -171,14 +183,14 @@ export default {
   async created() {
 
 
-    console.log("ENV",process.env.VUE_APP_BASE_URL)
+  
 
     eventBus.$on("removeProfileImage", () => {
       // console.log("Profile removal req",this.$refs.file)
       this.$refs.file.reset();
 
     })
-    console.log("check form",this.check)
+    // console.log("check form",this.check)
 
     this.loading=true;
 
@@ -186,7 +198,7 @@ export default {
     const res= await getUserProfile(this.$route.params.id)
           
           const { name, username, yearofgrad, university, college ,bio} =res.data.profile;
-            console.log("Profile check",res.data.profile)
+            // console.log("Profile check",res.data.profile)
             Object.assign(this.form, {
             name,
             username,

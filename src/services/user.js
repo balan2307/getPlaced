@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Buffer } from 'buffer';
 // const base_url='http://localhost:3000'
+// import { successHandler,errorHandler } from './helper';
 
 export const getUserName=async(uid)=>{
 
@@ -13,6 +14,7 @@ export const getUserName=async(uid)=>{
     catch(err)
     {
         console.log("error in getting username",err)
+       
 
     }
 
@@ -27,21 +29,23 @@ export const getUserId=function (token)
 }
 
 
-export const registerUser=async(userCred,router)=>{
+export const registerUser=(userCred,router)=>{
 
-  await axios.post(`/user/auth/register`,userCred).then(() => {
-        // this.error = '';
+ return axios.post(`/user/auth/register`,userCred)
+     .then(() => {
+  
        router.push('/login');
-      }, err => {
-        console.log("error",err.response)
-        // this.error = err.response.data.error
+      })
+      .catch(err=>{
+        console.log("services errror",err)
+        throw err;
       })
 }
 
 export const deleteUserProfileImage=async(id)=> {
 
   try {
-    await axios.post(`/user/deleteImage/${id}`);
+    await axios.delete(`/user/deleteImage/${id}`);
     // this.error = "";
   } catch (err) {
     console.log("error", err.response);
@@ -55,7 +59,7 @@ export const getUserProfile=async(id)=>{
 
   try {
     const res=await axios.get(`/user/profile/${id}`);
-    console.log("Res",res)
+    // console.log("Res",res)
     if(res) return res;
     // this.error = "";
   } catch (err) {
@@ -70,10 +74,13 @@ export const getUserProfile=async(id)=>{
 export const EditProfile=async(id,fd)=>{
 
   try {
-    await axios.post(`/user/profile/${id}`, fd);
+    await axios.patch(`/user/profile/${id}`, fd);
     // this.error = "";
   } catch (err) {
-    console.log("error", err.response);
+    
+    console.log("error edit profile", err.response);
+    throw err;
+
     // this.error = err.response.data.error;
   }
 }

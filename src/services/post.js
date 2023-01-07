@@ -2,29 +2,37 @@
 import axios from 'axios';
 
 // const base_url='http://localhost:3000'
+import { successHandler,errorHandler } from './helper';
+
 export const createPost=async(fd)=>{
 
-    const response=await  axios.post(`/user/post`,fd)
-    return response;
+    return axios.post(`/user/post`,fd)
+    .then(successHandler)
+    .catch(errorHandler)
 
 }
 
 export const getPost=async(id)=>
 {
 
-    const response=await axios.get(`/user/post/${id}`)
-    return response;
+    return axios.get(`/user/post/${id}`)
+    .then(successHandler)
+    .catch(errorHandler)
+
 
 }
 
 export const getAllPosts=async()=>{
-    const response=await axios.get(`/user/posts`);
-    return response;
+    return axios.get(`/user/posts`)
+    .then(successHandler)
+    .catch(errorHandler)
 }
 
 export const getTaggedPosts=async(tag)=>{
-    const response=await axios.get(`/posts/${tag}`);
-    return response;
+     return axios.get(`/posts/${tag}`)
+     .then(successHandler)
+     .catch(errorHandler)
+ 
 }
 
 
@@ -36,15 +44,18 @@ export const getTaggedPosts=async(tag)=>{
 export const editPost=async(id,fd)=>
 {
 
-    const response=await axios.post(`/user/post/${id}`,fd)
-    return response;
+     return axios.patch(`/user/post/${id}`,fd)
+     .then(successHandler)
+     .catch(errorHandler)
 
 }
 
 export const deletePost=async(id)=>
 {
-    const response=await axios.delete(`/user/post/${id}`);
-    return response;
+    return await axios.delete(`/user/post/${id}`)
+    .then(successHandler)
+    .catch(errorHandler)
+   
 
     
 }
@@ -53,7 +64,9 @@ export const upvotePost=async(postid,userid)=>
 {
 
     console.log("Upvote ",userid,postid)
-    await axios.patch(`/user/${userid}/post/${postid}/upvote`);
+    return axios.patch(`/user/${userid}/post/${postid}/upvote`)
+    .then(successHandler)
+    .catch(errorHandler)
     // console.log("Response ",response)
     // return response;
 }
@@ -63,23 +76,29 @@ export const downvotePost=async(postid,userid)=>
 {
 
     console.log("Downvote ",userid,postid)
-     await axios.patch(`/user/${userid}/post/${postid}/downvote`);
+    return axios.patch(`/user/${userid}/post/${postid}/downvote`)
+    .then(successHandler)
+    .catch(errorHandler)
     // console.log("Response ",response)
     // return response;
 }
 
 export const getPostsPages=async(tag,currpage,perpage)=>{
 
-    console.log("services getpostpages")
-    const response=await axios.get(`/posts/pages/${tag}` ,{
+    console.log("gettPospages")
+   
+     return axios.get(`/posts/pages/${tag}` ,{
         params:{
             page:currpage,
             limit:perpage
         }
 
     })
+    .then(successHandler)
+    .catch(errorHandler)
+    
 
-    return response
+    // return response
 
 
 }

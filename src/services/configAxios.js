@@ -5,12 +5,16 @@ import store from '@/store';
 axios.interceptors.request.use(
     // this function is called automatically whenever any request goes out
     request => {
-        if( !request.url.includes( 'login' ) || request.url.includes( 'register' )  ) {
+        if( !request.url.includes( 'login' ) || !request.url.includes( 'register' )  ) {
+            // console.log("checking token",request.url)
             request.headers['Authorization'] = `Bearer ${store.state.auth.token}`;
         }
 
-        console.log("Request ",request)
+        // console.log("Request ",request)
         return request;
     },
-    error => Promise.reject( error )
+    error =>{
+        console.log("reject error")
+     Promise.reject( error )
+    }
 );

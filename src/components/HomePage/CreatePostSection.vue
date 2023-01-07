@@ -6,8 +6,8 @@
 
         </div>
         <div id="info">
-            <h4>Home</h4>
-            <p>Your personal frontpage. Come here to check in with your favorite communities</p>
+            <h5 class="mb-3">Welcome {{ getUserName }}!!</h5>
+            <p>Want to share your interview experince and help the community?</p>
 
         </div>
         <hr id="divider">
@@ -22,12 +22,13 @@
 </template>
 
 <script>
+
 import {mapGetters} from 'vuex'
 
 export default {
     name:'CreatePostCard',
     computed:
-    {  ...mapGetters(['getUid'])
+    {  ...mapGetters(['getUid','getUserName'])
         
     }
 

@@ -9,9 +9,10 @@ export const eventBus=new Vue();
 Vue.use(Vuelidate)
 import axios from 'axios'
 axios.defaults.baseURL=process.env.VUE_APP_BASE_URL
-Vue.prototype.$publicpath = './../../public'
+// Vue.prototype.$publicpath = './../../public'
 
-
+import errorMessage from '@/components/Utils/ErrorMessage'
+Vue.component('errorMessage', errorMessage)
 
 
 

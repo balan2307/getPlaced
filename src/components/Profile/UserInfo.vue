@@ -112,7 +112,7 @@ export default {
       this.show = false;
       this.profileImage = this.default_image;
 
-      console.log("Remove profs");
+      // console.log("Remove profs");
 
       await deleteUserProfileImage(this.$route.params.id);
     },
@@ -150,13 +150,13 @@ export default {
 
       sameUser()
       {
-        console.log("check user")
+        // console.log("check user")
         return this.getUid==this.uid
       }
     },
   async created() {
   
-    console.log("User Info created", this.showupdatebtn);
+    // console.log("User Info created", this.showupdatebtn);
     this.loading = true;
 
  
@@ -164,12 +164,12 @@ export default {
     if (this.$route.matched[0].path == "/post/:id") {
       eventBus.$on("getProfileid", async (id) => {
         //to show the profile info in the details page of the post
-        console.log("If Profile")
+        // console.log("If Profile")
         this.getProfile(id);
       });
     } else {
       //to show the profile info in the profile page of the user
-      console.log("Else Profile")
+      // console.log("Else Profile")
       this.getProfile(this.$route.params.id);
     }
 

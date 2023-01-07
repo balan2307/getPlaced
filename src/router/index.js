@@ -131,18 +131,21 @@ router.beforeEach((to, from, next) => {
 
       // this route requires auth, check if logged in
       // if not, redirect to login page.
-      console.log("TOo ",to.name)
+    //   console.log("TOo ",to.name)
 
       if(to.name!='LoginPage' && to.name!='RegisterPage') {
+        // console.log("in check")
 
         if( !store.getters.isAuthenticated)
         {
+            console.log("Not auth")
             return next({
                 name: 'LoginPage'
             });
 
         }
         else {
+            console.log("auth else")
           
                 return next();
             

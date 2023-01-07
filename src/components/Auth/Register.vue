@@ -1,7 +1,9 @@
 <template>
    <div>
+    <errorMessage :error="error" :errormessage="errormessage"></errorMessage>
+
   <div id="formbody">
-    <b-form id="loginform" @submit="onSubmit" novalidate>
+    <b-form  id="loginform" @submit="onSubmit" novalidate>
       <b-input-group id="field1" class="mb-2">
         <InputField
           v-model="user.email"
@@ -64,7 +66,7 @@
       </div>
     </b-form>
 
-    <p>{{ error }}</p>
+    <!-- <p>{{ error }}</p> -->
   </div>
   <p>Already registered? <router-link to="/login">Login</router-link></p>
   </div>
@@ -89,6 +91,7 @@ export default {
         password: "",
       },
       error: "",
+      errormessage:""
     };
   },
   validations: {
@@ -132,10 +135,23 @@ export default {
     },
   },
   methods: {
-    onSubmit(e) {
+    async onSubmit(e) {
       e.preventDefault();
       const userCred = JSON.parse(JSON.stringify(this.user));
-      registerUser(userCred, this.$router);
+      try
+      {
+        await registerUser(userCred, this.$router);
+      }
+      catch(err)
+      {
+       
+        const {error}=err.response.data;
+        console.log("register err",error)
+        this.errormessage=error;
+        this.error=true;
+
+      }
+     
 
       // axios.post('http://localhost:3000/user/register',userCred).then(() => {
       //     this.error = '';

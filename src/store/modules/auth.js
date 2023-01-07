@@ -1,5 +1,6 @@
 const KEY_TOKEN='token';
 const KEY_UID='uid';
+const KEY_NAME='uname'
 // import { getUserName } from '@/Server/Controllers/userController';
 import { login } from '@/services/auth';
 import { getUserId } from '@/services/user';
@@ -7,8 +8,8 @@ import { getUserId } from '@/services/user';
 const auth={
     state:{
         token:localStorage.getItem(KEY_TOKEN) || '',
-        uid:  getUserId(localStorage.getItem(KEY_TOKEN)) ||'',
-        username:""
+        uid: getUserId(localStorage.getItem(KEY_TOKEN)) || '',
+        username:localStorage.getItem(KEY_NAME) || ''
         
     },
     getters:{
@@ -45,6 +46,7 @@ const auth={
         {
             state.username=name
         }
+    
     },
 
     actions:{
@@ -53,19 +55,24 @@ const auth={
             try{
                 const data=await login(credentials);
                 console.log("Response",data)
-                const {token,uid}=data;
+                const {token,uid,username}=data.data;
+              
                 localStorage.setItem(KEY_TOKEN,token);
                 localStorage.setItem(KEY_UID,uid);
+                localStorage.setItem(KEY_NAME,username);
+
+                console.log("token,uid",token,uid,data)
 
                 commit('setToken',token)
                 commit('setUid',uid)
+                commit('setUserName',username)
                 return uid;
 
              
             }
             catch(err){
                 console.log("Error ",err);
-                throw err.message;
+                throw err;
             }
 
         },
@@ -73,10 +80,12 @@ const auth={
         logout( { commit } ) {
             localStorage.removeItem( KEY_TOKEN );
             localStorage.removeItem( KEY_UID );
+            localStorage.removeItem( KEY_NAME );
    
         
             commit( 'setToken', '' );
             commit( 'setUid', '' );
+            commit( 'setUserName', '' );
     
             return Promise.resolve();
         }

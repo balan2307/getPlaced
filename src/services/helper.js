@@ -1,6 +1,6 @@
-export const successHandler = response => response.data;
+export const successHandler = response => response;
 
 export const errorHandler = error => {
-    console.log( "Error handler",error.message ,error);
+    console.log( "Error handler",error);
     throw error;
 }

@@ -19,7 +19,7 @@
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
             <template #button-content>
-              <em >{{ getUid }} </em>
+              <em >{{ getUserName }} </em>
             </template>
             <b-dropdown-item > <router-link :to="`/user/profile/${getUid}`">Profile</router-link></b-dropdown-item>
             <b-dropdown-item href="#" @click="logout">Sign Out</b-dropdown-item>
@@ -54,7 +54,7 @@ export default {
 
   },
   computed:{
-    ...mapGetters(['isAuthenticated','getUid']),
+    ...mapGetters(['isAuthenticated','getUid', 'getUserName']),
     getuser()
     {
       // console.log("Store ",this.$store.state.uid)

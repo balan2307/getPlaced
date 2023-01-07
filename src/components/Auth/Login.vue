@@ -1,7 +1,12 @@
 <template>
   <div>
+
+    <!-- <div class="errorDisplay" v-if="error">
+      <p id="err-message">{{ errormessage }}</p>
+    </div> -->
+    <errorMessage :error="error" :errormessage="errormessage"></errorMessage>
   
-  <b-form id="loginform" @submit="onSubmit">
+  <b-form id="loginform" @submit="onSubmit" ref="form">
     
     <!-- {{$v.user.email }} -->
     <b-input-group id="field1" class="mb-2">
@@ -68,7 +73,9 @@ export default {
       email:'',
       password:''
     },
-    touched:false
+    touched:false,
+    error:false,
+    errormessage:''
   }
  },
  validations: {
@@ -104,11 +111,28 @@ export default {
     try{
       
       const uid=await this.$store.dispatch('login',userCred);
+
       console.log("UID ",uid)
-      this.$router.push({path:'/oncampus'})
+      if(uid) this.$router.push({path:'/oncampus'})
     }
     catch(err){
-      console.log("error caught",err)
+      console.log("Login error",err.response.data.error)
+      const {status }=err.response;
+      this.$refs.form.reset()
+     
+      if(status==401)
+      {
+        this.errormessage="Email or Password entered is incorrect"
+        console.log("error",this.errormessage)
+      }
+      else if(status==500)
+      {
+        this.errormessage="Server issue ,Try again"
+
+      }
+      this.error=true;
+     
+     
       //redirect to login
     }
 
