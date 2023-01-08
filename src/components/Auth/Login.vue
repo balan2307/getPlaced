@@ -5,6 +5,7 @@
       <p id="err-message">{{ errormessage }}</p>
     </div> -->
     <errorMessage :error="error" :errormessage="errormessage"></errorMessage>
+    <LoadingIcon :loading="loading"></LoadingIcon>
   
   <b-form id="loginform" @submit="onSubmit" ref="form">
     
@@ -75,7 +76,8 @@ export default {
     },
     touched:false,
     error:false,
-    errormessage:''
+    errormessage:'',
+    loading:false
   }
  },
  validations: {
@@ -106,10 +108,12 @@ export default {
  methods:{
   async onSubmit(e)
   {
+    
     const userCred=JSON.parse(JSON.stringify(this.user));
     e.preventDefault();
     try{
       
+      this.loading=true;
       const uid=await this.$store.dispatch('login',userCred);
 
       console.log("UID ",uid)
@@ -134,6 +138,11 @@ export default {
      
      
       //redirect to login
+    }
+    finally
+    {
+      this.loading=false;
+
     }
 
 

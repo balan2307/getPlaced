@@ -143,13 +143,12 @@
   import { mapGetters } from 'vuex';
   import { eventBus } from "@/main";
   import {editPost,getPost} from '@/services/post'
-  import LoadingIcon from '@/components/Utils/Loading.vue'
   import { required ,requiredIf } from "vuelidate/lib/validators";
   import AlertMessage from '@/components/Utils/AlertMessage.vue'
   
   export default {
     name: "PostEditForm",
-    components: { InputField, FormSelect, TextArea ,LoadingIcon,AlertMessage},
+    components: { InputField, FormSelect, TextArea ,AlertMessage},
     computed:{
   
       ...mapGetters(['getUid']),

@@ -38,11 +38,11 @@ import UserPost from "../HomePage/Posts.vue"
 
 import {getPost} from '@/services/post'
 import { eventBus } from "@/main";
-import LoadingIcon from '../Utils/Loading.vue'
+
 
 export default {
   name: "PostDetails",
-  components:{UserPost,LoadingIcon},
+  components:{UserPost},
   // props:['username'],
   data(){
 

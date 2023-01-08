@@ -23,14 +23,13 @@
   
   <script>
   import UserPost from "./Posts.vue"
-  import LoadingIcon from '../Utils/Loading.vue'
   import {getPostsPages} from '@/services/post'
   import PaginationComponent from '@/components/Utils/Pagination.vue'
 
 
   export default {
       name:'TaggedPosts',
-      components:{UserPost,LoadingIcon,PaginationComponent},
+      components:{UserPost,PaginationComponent},
       data()
       {
         return{

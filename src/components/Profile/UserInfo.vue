@@ -78,7 +78,6 @@
 
 <script>
 import { eventBus } from "@/main";
-import LoadingIcon from "../Utils/Loading.vue";
 import { deleteUserProfileImage, getUserProfile } from "@/services/user";
 import {mapGetters} from 'vuex'
 
@@ -86,7 +85,6 @@ import {mapGetters} from 'vuex'
 // import axios from "axios";
 export default {
   name: "UserProfileCard",
-  components: { LoadingIcon },
   data() {
     return {
       fullname: "",

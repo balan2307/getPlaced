@@ -12,7 +12,11 @@ axios.defaults.baseURL=process.env.VUE_APP_BASE_URL
 // Vue.prototype.$publicpath = './../../public'
 
 import errorMessage from '@/components/Utils/ErrorMessage'
+import LoadingIcon from '@/components/Utils/Loading.vue'
+
 Vue.component('errorMessage', errorMessage)
+Vue.component('LoadingIcon', LoadingIcon)
+
 
 
 

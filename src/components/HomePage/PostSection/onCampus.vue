@@ -21,11 +21,11 @@
 import UserPost from "@/components/HomePage/Posts.vue"
 import {getPostsPages} from '@/services/post'
 import PaginationComponent from '@/components/Utils/Pagination.vue'
-import LoadingIcon from '@/components/Utils/Loading.vue'
+
 
 export default {
     name:'onCampus',
-    components:{UserPost,PaginationComponent,LoadingIcon},
+    components:{UserPost,PaginationComponent},
     data()
     {
         return{

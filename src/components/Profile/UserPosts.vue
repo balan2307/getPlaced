@@ -20,7 +20,6 @@
 <script>
 import UserPost from '@/components/HomePage/Posts.vue'
 import {getUserPosts} from '../../services/post'
-import LoadingIcon from '../Utils/Loading.vue'
 import PaginationComponent from '@/components/Utils/Pagination.vue'
 
 export default {
@@ -41,7 +40,7 @@ page()
 return this.$route.query.page || 1
 }
 },
-components:{UserPost,LoadingIcon,PaginationComponent},
+components:{UserPost,PaginationComponent},
 async created()
 {
   this.loading=true;

@@ -38,11 +38,9 @@
 
 <script>
 // import UserPost from "./Posts.vue"
-import LoadingIcon from '../Utils/Loading.vue'
 // import {getAllPosts} from '@/services/post'
 export default {
     name:'AllPosts',
-    components:{LoadingIcon},
     data()
     {
       return{
