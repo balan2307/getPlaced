@@ -4,8 +4,9 @@
     <!-- <div class="errorDisplay" v-if="error">
       <p id="err-message">{{ errormessage }}</p>
     </div> -->
-    <errorMessage :error="error" :errormessage="errormessage"></errorMessage>
+    <!-- <errorMessage :error="error" :errormessage="errormessage"></errorMessage> -->
     <LoadingIcon :loading="loading"></LoadingIcon>
+    <AlertMessage ref="alertcomp" variant="warning" :message="errormessage"></AlertMessage>
   
   <b-form id="loginform" @submit="onSubmit" ref="form">
     
@@ -63,11 +64,12 @@
 <script>
 import { required, email, minLength } from "vuelidate/lib/validators";
 import InputField from "../Forms/Input/InputText.vue";
+import AlertMessage from '../Utils/AlertMessage.vue';
 
 
 export default {
  name:'LoginPage',
- components:{InputField},
+ components:{InputField, AlertMessage},
  data(){
   return {
     user:{
@@ -106,6 +108,12 @@ export default {
     },
   },
  methods:{
+  showToast()
+      {
+  
+        this.errormessage="Email or password entered is incorrect"
+        this.$refs.alertcomp.showAlert();
+      },
   async onSubmit(e)
   {
     
@@ -134,7 +142,8 @@ export default {
         this.errormessage="Server issue ,Try again"
 
       }
-      this.error=true;
+      this.showToast();
+      // this.error=true;
      
      
       //redirect to login

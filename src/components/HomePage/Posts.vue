@@ -128,8 +128,8 @@ export default {
 
     showPostDetails()
     {
-      console.log("show psot")
-      this.$router.push({ name:'PostDetail' ,params: { id: this.post._id }})
+      //to avoid redundant navigation
+      if(this.$route.name!="PostDetail") this.$router.push({ name:'PostDetail' ,params: { id: this.post._id }})
     },
     visitProfile(event)
     {
@@ -145,7 +145,7 @@ export default {
       const response =await deletePost(this.$route.params.id)
       if(response) {
         this.loading=false
-       this.$router.push({ path:'/'})
+       this.$router.push({ path:'/oncampus'})
       }
     }
   },

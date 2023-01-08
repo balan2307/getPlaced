@@ -5,6 +5,8 @@
  
   <div id="displayallposts" >
     <LoadingIcon :loading="loading"></LoadingIcon>
+    <ShowBtn btntext="Create Post" name="PostForm"></ShowBtn>
+
 
 
 
@@ -39,8 +41,11 @@
 <script>
 // import UserPost from "./Posts.vue"
 // import {getAllPosts} from '@/services/post'
+// import CreatePostSectionVue from './CreatePostSection.vue'
+import ShowBtn from '../Utils/ShowBtn.vue'
 export default {
     name:'AllPosts',
+    components :{ShowBtn},
     data()
     {
       return{
@@ -160,6 +165,8 @@ export default {
   font-weight: 500;
   font-size: 1.2em;
 }
+
+
 
 
 </style>

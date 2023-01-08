@@ -2,7 +2,9 @@
   <div id="app">
     <NavHeader :user="getName"></NavHeader>
 
+
     <div id="content">
+      
   
       <div v-if="!isOnAuthPage()" id="postsection">
         <div id="allposts">
@@ -236,6 +238,13 @@ html,
 {
     display: none;
 }
+
+/* #content {
+flex-direction: column;
+ 
+
+} */
+
  }
 
 </style>

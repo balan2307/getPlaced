@@ -1,6 +1,7 @@
 <template>
    <div>
-    <errorMessage :error="error" :errormessage="errormessage"></errorMessage>
+    <!-- <errorMessage :error="error" :errormessage="errormessage"></errorMessage> -->
+    <AlertMessage ref="alertcomp" variant="warning" :message="errormessage"></AlertMessage>
 
   <div id="formbody">
     <b-form  id="loginform" @submit="onSubmit" novalidate>
@@ -135,6 +136,11 @@ export default {
     },
   },
   methods: {
+    showToast()
+      {
+  
+        this.$refs.alertcomp.showAlert();
+      },
     async onSubmit(e) {
       e.preventDefault();
       const userCred = JSON.parse(JSON.stringify(this.user));
@@ -148,7 +154,9 @@ export default {
         const {error}=err.response.data;
         console.log("register err",error)
         this.errormessage=error;
-        this.error=true;
+        // this.error=true;
+        this.showToast()
+
 
       }
      

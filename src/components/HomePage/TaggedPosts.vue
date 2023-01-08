@@ -5,6 +5,7 @@
  
     <div id="displayallposts" >
       <LoadingIcon :loading="loading"></LoadingIcon>
+      <ShowBtn btntext="Create Post" name="PostForm"></ShowBtn>
       <div  v-if="!loading">
       <div  id="tagposts">
         #{{ $route.params.tag }}
@@ -24,12 +25,13 @@
   <script>
   import UserPost from "./Posts.vue"
   import {getPostsPages} from '@/services/post'
+  import ShowBtn from '../Utils/ShowBtn.vue'
   import PaginationComponent from '@/components/Utils/Pagination.vue'
 
 
   export default {
       name:'TaggedPosts',
-      components:{UserPost,PaginationComponent},
+      components:{UserPost,PaginationComponent,ShowBtn},
       data()
       {
         return{

@@ -7,7 +7,7 @@
         </div>
         <div id="info">
             <h5 class="mb-3">Welcome {{ getUserName }}!!</h5>
-            <p>Want to share your interview experince and help the community?</p>
+            <p>Want to share your interview experience and help the community?</p>
 
         </div>
         <hr id="divider">

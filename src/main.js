@@ -13,9 +13,11 @@ axios.defaults.baseURL=process.env.VUE_APP_BASE_URL
 
 import errorMessage from '@/components/Utils/ErrorMessage'
 import LoadingIcon from '@/components/Utils/Loading.vue'
+import AlertMessage from '@/components/Utils/AlertMessage.vue'
 
 Vue.component('errorMessage', errorMessage)
 Vue.component('LoadingIcon', LoadingIcon)
+Vue.component('AlertMessage', AlertMessage)
 
 
 
