@@ -34,7 +34,7 @@
 
         <TextArea
           id="post-content"
-          class="mb-3"
+          class="mb-2"
           v-model="form.content"
           row="3"
           placeholder="Describe your interview Expereince"
@@ -45,13 +45,13 @@
         <InputField
           v-model="form.company"
           id="input-2"
-          placeholder="Company for which you attended the interview"
+          placeholder="Company name"
         ></InputField>
         <p class="feedback" v-if="!$v.form.company.required && (touched)">
               Please mention the company name
           </p> 
 
-        <div id="selectoption" class="mb-3">
+        <div id="selectoption" class="mb-2">
           <div id="modeselect">
             <FormSelect
               :options="mode"
@@ -102,8 +102,9 @@
           class="mb-1"
           id="post-tags"
           v-model="form.tags"
-          placeholder="Mention any post related tags separated by space"
+          placeholder="Tags for greater reach"
         ></InputField>
+         <p class="instruction">Mention tags separated by space</p>
 
         <input
           ref="file"
@@ -406,6 +407,12 @@ form input {
   margin: 0;
   
 }
+.instruction
+{
+  font-size: 0.8em!important;
+}
+
+
 
 @media only screen and (max-width: 1070px) {
   #createpost {
@@ -420,5 +427,21 @@ form input {
   #postBtn .btn {
     width: 60%;
   }
+}
+
+@media only screen and (max-width:540px)
+{
+  #selectoption {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  
+}
+#selectoption div{
+  width: 100%;
+}
+/* #input-2::placeholder{
+  font-size:0.8em
+} */
 }
 </style>
