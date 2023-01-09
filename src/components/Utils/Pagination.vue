@@ -26,10 +26,6 @@ export default {
         }
 
     },
-    created()
-    {
-        console.log("currpage",this.$route.path)
-    },
     methods:{
         pageLink(index) {
       return `${this.$route.path}?page=${index + 1}`;

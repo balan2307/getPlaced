@@ -49,16 +49,13 @@
       {
 
          this.loading=true;
-          console.log("OnCampus",this.page)
+          
           let postlimit=2;
-          // let currPage=this.$route.query.page
-         
-  
+       
   
           const post=await getPostsPages('offcampus',this.page,postlimit)
-  
-          console.log("front end post",post.data)
-          // console.log("No of pages",pages)
+
+         
   
           this.pages=post.data.pages;
           this.posts=post.data.posts;

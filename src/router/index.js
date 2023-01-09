@@ -70,7 +70,8 @@ const router=new Router({
             path:'/user/profile/:id',
             components:{
                 'main':UserPosts,
-                'side':UserProfileCard
+                'side':UserProfileCard,
+                'top':UserProfileCard
             }
           
         },

@@ -124,18 +124,18 @@ export default {
       this.loading=true;
       const uid=await this.$store.dispatch('login',userCred);
 
-      console.log("UID ",uid)
+      // console.log("UID ",uid)
       if(uid) this.$router.push({path:'/oncampus'})
     }
     catch(err){
-      console.log("Login error",err.response.data.error)
+      // console.log("Login error",err.response.data.error)
       const {status }=err.response;
       this.$refs.form.reset()
      
       if(status==401)
       {
         this.errormessage="Email or Password entered is incorrect"
-        console.log("error",this.errormessage)
+        // console.log("error",this.errormessage)
       }
       else if(status==500)
       {

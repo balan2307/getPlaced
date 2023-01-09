@@ -8,7 +8,7 @@ export const getUserName=async(uid)=>{
     try{
 
     const response=await axios.get(`/username/${uid}`);
-    console.log("Username",response.data.username)
+    // console.log("Username",response.data.username)
     return response.data.username;
     }
     catch(err)
@@ -58,13 +58,21 @@ export const deleteUserProfileImage=async(id)=> {
 export const getUserProfile=async(id)=>{
 
   try {
+    console.log("Request profile from services")
     const res=await axios.get(`/user/profile/${id}`);
     // console.log("Res",res)
-    if(res) return res;
+    if(res) {
+      console.log("backend res",res)
+      return res;
+     
+    }
     // this.error = "";
   } catch (err) {
     console.log("error", err);
     // this.error = err.response.data.error;
+  }
+  finally{
+    console.log("services finally")
   }
 
 

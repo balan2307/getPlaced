@@ -216,7 +216,7 @@ export default {
     setTouched()
     {
 
-      console.log("difftouched")
+      // console.log("difftouched")
       this.difftouched=true;
      
     },
@@ -250,17 +250,17 @@ export default {
       const fd = new FormData();
       Object.keys(data).forEach((key) => {
         if (data[key] != null && data[key] != undefined) {
-          console.log("loop",key,data[key])
+          // console.log("loop",key,data[key])
           fd.append(key, data[key]);
         }
       });
       fd.append("id",this.getUid)
 
-      console.log("FD ",fd)
+      // console.log("FD ",fd)
 
       if(this.$refs.file.files.length!=0){
       
-        console.log("Image uploaded",this.$refs.file.files[0],this.$refs.file.files[0].name)
+        // console.log("Image uploaded",this.$refs.file.files[0],this.$refs.file.files[0].name)
       fd.append("image", this.$refs.file.files[0], this.$refs.file.files[0].name);
       }
     
@@ -270,11 +270,11 @@ export default {
         // axios.post("http://localhost:3000/user/post",fd
       
       const response=await createPost(fd);
-      console.log("respsonse what",response)
+      // console.log("respsonse what",response)
       if(response.status==200)
       {
         // this.$router.push('/')
-        console.log("Response frontend",response)
+        // console.log("Response frontend",response)
         this.$router.push({ path:'/oncampus'})
       }
        
@@ -289,19 +289,19 @@ export default {
     },
 
     modeselected() {
-      console.log("Mode selected");
+      // console.log("Mode selected");
       if (this.form.mode == "onCampus") {
-        console.log("Oncampus");
+        // console.log("Oncampus");
         this.campusmode = true;
-        console.log("mode ", this.campusmode);
+        // console.log("mode ", this.campusmode);
       } else this.campusmode = false;
     },
     previewImage() {
-      console.log("Image");
+      // console.log("Image");
       this.showbtn = true;
       this.placeholderimage = URL.createObjectURL(this.$refs.file.files[0]);
-      const placeholder = document.getElementById("image-placeholder");
-      console.log("checkkk ", placeholder);
+      // const placeholder = document.getElementById("image-placeholder");
+      // console.log("checkkk ", placeholder);
     },
     removeselectedImage() {
       this.$refs.file.value = null;
@@ -309,7 +309,7 @@ export default {
     },
   },
    created() {
-    console.log("prev path")
+    // console.log("prev path")
    
   },
 };

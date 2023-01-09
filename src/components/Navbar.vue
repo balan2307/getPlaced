@@ -62,16 +62,6 @@ export default {
     }
    
 
-  },
-   created()
-  {
-   
-    console.log("Created nav",`${this.$publicpath}/stylesheets/navbar.css`)
-    // const uid=this.$store.getters.getUid;
-    // console.log("Uid ",uid)
-    // const res=await getUserName(uid);
-    // console.log("Username is ",res)
-    // this.username=res;
   }
   ,
   mounted()

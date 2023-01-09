@@ -47,12 +47,12 @@ export default {
     {
         this.loading=true;
     
-        console.log("OnCampus",this.page)
+        // console.log("OnCampus",this.page)
         let postlimit=2;
   
         getPostsPages('oncampus',this.page,postlimit)
         .then(post=>{
-        console.log("data received")
+        // console.log("data received")
         this.pages=post.data.pages;
         this.posts=post.data.posts;
         this.loading=false;
@@ -65,7 +65,7 @@ export default {
         })
 
 
-        console.log("front end post",this.posts)
+        // console.log("front end post",this.posts)
 
 
    

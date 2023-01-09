@@ -1,10 +1,11 @@
 <template>
   <div id="postform">
-    <errorMessage :error="error" :errormessage="errormessage"></errorMessage>
+   
 
     <p id="form-header">Update your Profile</p>
     <hr />
     <LoadingIcon :loading="loading" />
+    <AlertMessage ref="alertcomp" variant="warning" :message="errormessage"></AlertMessage>
     <div id="formbody" v-if="!loading">
 
       <b-form
@@ -106,9 +107,16 @@ export default {
 
   },
   methods: {
+    showToast()
+      {
+  
+        this.errormessage="Username already in use"
+        this.$refs.alertcomp.showAlert();
+      },
     async onSubmit(event) {
       event.preventDefault();
       // console.log("Check ",this.check )
+      
  
       const userDetails = JSON.parse(JSON.stringify(this.form));
       if(this.$refs.file.files[0])
@@ -153,20 +161,11 @@ export default {
 
       if(this.form.profileimage) fd.append("image", this.$refs.file.files[0], this.form.profileimage.name);
 
-      // axios
-      //   .post(`http://localhost:3000/user/profile/`, fd)
-      //   .then(
-      //     () => {
-      //       this.error = "";
-      //     },
-      //     (err) => {
-      //       console.log("error", err.response);
-      //       this.error = err.response.data.error;
-      //     }
-      //   );
 
         try{
-        await EditProfile(this.$route.params.id,fd)
+          console.log("inside try block of edit ")
+        const res=await EditProfile(this.$route.params.id,fd);
+        console.log("response after editing",res)
         }
         catch(err)
         {
@@ -174,6 +173,13 @@ export default {
           const {message}=err.response.data;
           this.errormessage=message;
           this.error=true;
+
+          this.showToast();
+        }
+        finally{
+        
+          console.log("finally")
+          
         }
 
       console.log("Profile form");

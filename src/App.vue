@@ -4,6 +4,11 @@
 
 
     <div id="content">
+         
+      <!-- <div v-if="!isOnAuthPage()" id="rightsection">
+     
+        <router-view name="side" :key="$route.fullPath"></router-view>
+      </div> -->
       
   
       <div v-if="!isOnAuthPage()" id="postsection">

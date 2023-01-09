@@ -43,6 +43,7 @@
 // import {getAllPosts} from '@/services/post'
 // import CreatePostSectionVue from './CreatePostSection.vue'
 import ShowBtn from '../Utils/ShowBtn.vue'
+// import {getUserProfile} from '@/services/user'
 export default {
     name:'AllPosts',
     components :{ShowBtn},
@@ -61,15 +62,14 @@ export default {
       makeactive()
       {
 
-        console.log("make active")
+        // console.log("make active")
       }
     },
 
-    created()
+   async created()
     {
      
-  
-      console.log("Route check",this.$route)
+
 
       if (this.$route.path == "/oncampus")
       {
@@ -89,6 +89,9 @@ export default {
         this.link1active=''
 
       }
+
+      // const res= await getUserProfile('63b7f9be557991d6e4d9e512')
+      // console.log("Response check for profile",res)
     
 
     }

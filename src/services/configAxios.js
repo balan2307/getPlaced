@@ -10,7 +10,7 @@ axios.interceptors.request.use(
             request.headers['Authorization'] = `Bearer ${store.state.auth.token}`;
         }
 
-        // console.log("Request ",request)
+        console.log("Request ",request)
         return request;
     },
     error =>{

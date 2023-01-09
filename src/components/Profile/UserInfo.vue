@@ -61,7 +61,7 @@
 
     <div id="postBtn">
       
-      <b-button v-if="!sameUser" variant="outline-success" size="md">Follow</b-button>
+      <!-- <b-button v-if="!sameUser" variant="outline-success" size="md">Follow</b-button> -->
       <b-button
         
         variant="outline-secondary"
@@ -116,7 +116,9 @@ export default {
     },
  
     async getProfile(id) {
+      this.loading = true;
   const res = await getUserProfile(id);
+  console.log("response from backend",res)
   const {
     name,
     username,
@@ -127,6 +129,9 @@ export default {
     joined,
     bio
   } = res.data.profile;
+  console.log("DATA profile",res.data.profile)
+
+ 
   Object.assign(this, {
     fullname: name,
     username,
@@ -138,6 +143,7 @@ export default {
     profileImage: profileImage ? profileImage.url : this.default_image
   });
   this.loading = false;
+  //to show remove profile pic icon
   if (profileImage && profileImage.url) this.show = true;
 }
 
@@ -155,7 +161,7 @@ export default {
   async created() {
   
     // console.log("User Info created", this.showupdatebtn);
-    this.loading = true;
+    
 
  
 
@@ -163,11 +169,13 @@ export default {
       eventBus.$on("getProfileid", async (id) => {
         //to show the profile info in the details page of the post
         // console.log("If Profile")
+        console.log("show details")
         this.getProfile(id);
       });
     } else {
       //to show the profile info in the profile page of the user
       // console.log("Else Profile")
+      console.log("show profile")
       this.getProfile(this.$route.params.id);
     }
 

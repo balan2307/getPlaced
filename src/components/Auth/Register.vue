@@ -152,7 +152,7 @@ export default {
       {
        
         const {error}=err.response.data;
-        console.log("register err",error)
+        // console.log("register err",error)
         this.errormessage=error;
         // this.error=true;
         this.showToast()
@@ -169,7 +169,7 @@ export default {
       //     this.error = err.response.data.error
       //   })
 
-      console.log("Register", userCred);
+      // console.log("Register", userCred);
     },
   },
 };
