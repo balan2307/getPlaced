@@ -1,7 +1,7 @@
 <template>
   <div>
     <LoadingIcon :loading="loading"></LoadingIcon>
-    <!-- <UserInfoTab ></UserInfoTab> -->
+    <UserInfoTab ></UserInfoTab>
 
 
     <div id="userposts" v-if="!loading">
@@ -27,7 +27,7 @@
 import UserPost from "@/components/HomePage/Posts.vue";
 import { getUserPosts } from "../../services/post";
 import PaginationComponent from "@/components/Utils/Pagination.vue";
-// import UserInfoTab from "@/components/Profile/UserInfoTab.vue"
+import UserInfoTab from "@/components/Profile/UserInfoTab.vue"
 
 export default {
   name: "UserPosts",
@@ -43,7 +43,7 @@ export default {
       return this.$route.query.page || 1;
     },
   },
-  components: { UserPost, PaginationComponent },
+  components: { UserPost, PaginationComponent,UserInfoTab },
   async created() {
     this.loading = true;
     // console.log("Params", this.$route.params.id);

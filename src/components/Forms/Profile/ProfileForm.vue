@@ -67,7 +67,7 @@ import { numeric } from "vuelidate/lib/validators";
 // import FormSelect from '../Input/SelectText.vue'
 
 export default {
-  name: "PostForm",
+  name: "ProfileForm",
   components:{
     LoadingIcon,
     InputField,
@@ -193,7 +193,7 @@ export default {
 
     eventBus.$on("removeProfileImage", () => {
       // console.log("Profile removal req",this.$refs.file)
-      this.$refs.file.reset();
+     if(this.$refs.file!=undefined) this.$refs.file.reset();
 
     })
     // console.log("check form",this.check)
@@ -203,6 +203,8 @@ export default {
 
     const res= await getUserProfile(this.$route.params.id)
           
+
+          console.log("response getuserprofile ",res)
           const { name, username, yearofgrad, university, college ,bio} =res.data.profile;
             // console.log("Profile check",res.data.profile)
             Object.assign(this.form, {

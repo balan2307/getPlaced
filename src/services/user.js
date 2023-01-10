@@ -48,7 +48,7 @@ export const deleteUserProfileImage=async(id)=> {
     await axios.delete(`/user/deleteImage/${id}`);
     // this.error = "";
   } catch (err) {
-    console.log("error", err.response);
+    console.log("error", err);
     // this.error = err.response.data.error;
   }
 }

@@ -12,7 +12,7 @@
         alt="Profile Image"
       ></b-img>
       <box-icon
-        v-if="show"
+        v-if="show && sameUser"
         @click="removeProf"
         id="removeprofile"
         type="solid"
@@ -68,9 +68,10 @@
         id="follow-btn"
         style="color: black"
         size="md"
-        v-if="sameUser"
+        v-if="sameUser && this.$route.name!='UserProfileEdit'"
+
       >
-        <router-link :to="`/user/profile/${uid}/edit`">Update</router-link>
+        <router-link  :to="`/user/profile/${uid}/edit`">Update</router-link>
       </b-button>
     </div>
   </div>
@@ -144,7 +145,7 @@ export default {
   });
   this.loading = false;
   //to show remove profile pic icon
-  if (profileImage && profileImage.url) this.show = true;
+  if (profileImage && profileImage.url && this.$route.name=='UserProfileEdit') this.show = true;
 }
 
 
@@ -162,6 +163,7 @@ export default {
   
     // console.log("User Info created", this.showupdatebtn);
     
+    console.log("route check",this.$route)
 
  
 

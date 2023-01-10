@@ -3,7 +3,7 @@
       <div class="profile-image-mob">
         <b-img
           class="profile-image"
-          src="https://placekitten.com/300/300"
+          :src="profimage"
           fluid
           alt="Profile Image"
         ></b-img>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-// import {getUserProfile } from "@/services/user";
+import {getUserProfile } from "@/services/user";
 export default {
     name:"UserInfoTab",
     data()
@@ -29,19 +29,23 @@ export default {
         return{
             username:'',
             name:'',
-            bio:''
+            bio:'',
+            profimage:'',
+            default_image:"https://res.cloudinary.com/esakki/image/upload/v1672415855/getPlaced/no-image_cwaz3f.jpg"
 
         }
     },
     async created()
   {
-    // const id=this.$route.params.id;
-    // const res = await getUserProfile(id);
-    // const {profile}=res.data;
-    // this.username=profile.username;
-    // this.name=profile.name;
-    // this.bio=profile.bio;
-    // console.log("PRofile",profile)
+    const id=this.$route.params.id;
+    const res = await getUserProfile(id);
+    const {profile}=res.data;
+    this.username=profile.username;
+    this.name=profile.name;
+    this.bio=profile.bio;
+   if(profile.profileImage) this.profimage=profile.profileImage.url
+   else this.profimage=this.default_image
+    console.log("PRofile",profile)
   }
 
 }
@@ -73,7 +77,10 @@ export default {
 
 .profile-image-mob {
   padding: 10px;
-  width: 20%;
+  width: 15%;
+  display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #bio{
