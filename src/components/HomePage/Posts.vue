@@ -97,6 +97,7 @@ export default {
 
   },
   methods:{
+    
 
     upvote(data)
     {
@@ -144,8 +145,10 @@ export default {
       event.stopPropagation()
       const response =await deletePost(this.$route.params.id)
       if(response) {
-        this.loading=false
-       this.$router.push({ path:'/oncampus'})
+        this.loading=false;
+
+       this.$emit("deletePost")
+      //  this.$router.push({ path:'/oncampus'})
       }
     }
   },

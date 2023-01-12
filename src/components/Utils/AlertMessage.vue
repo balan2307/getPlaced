@@ -7,7 +7,7 @@
   
       <b-alert
         :show="dismissCountDown"
-        dismissible
+   
         :variant="variant"
         @dismissed="dismissCountDown=0"
         @dismiss-count-down="countDownChanged"
@@ -42,10 +42,11 @@
       methods: {
         countDownChanged(dismissCountDown) {
           this.dismissCountDown = dismissCountDown
-          this.$emit("alertclose")
+          this.$emit("alertclose",this.dismissCountDown)
         },
         showAlert() {
           this.dismissCountDown = this.dismissSecs
+          console.log("check countdown",this.dismissCountDown,this.dismissSecs)
         }
       }
     }

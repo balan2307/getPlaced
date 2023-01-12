@@ -54,6 +54,9 @@ export default {
     },
   },
   async created() {
+
+
+
     console.log("Route check",this.$route)
     const id = this.$route.params.id;
     this.paramsid=id;
@@ -99,8 +102,18 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.update-btn a{
-  text-decoration: none !important;;
+
+#update-btn a{
+  text-decoration: none ;
+  color: black;
+}
+
+#update-btn{
+  border-radius: 1rem;
+}
+
+#update-btn :hover{
+  color: rgb(247, 247, 247) !important;
 }
 
 .profile-image-mob {

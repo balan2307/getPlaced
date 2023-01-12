@@ -58,11 +58,11 @@ export const deleteUserProfileImage=async(id)=> {
 export const getUserProfile=async(id)=>{
 
   try {
-    console.log("Request profile from services")
+
     const res=await axios.get(`/user/profile/${id}`);
     // console.log("Res",res)
     if(res) {
-      console.log("backend res",res)
+   
       return res;
      
     }
@@ -70,9 +70,6 @@ export const getUserProfile=async(id)=>{
   } catch (err) {
     console.log("error", err);
     // this.error = err.response.data.error;
-  }
-  finally{
-    console.log("services finally")
   }
 
 

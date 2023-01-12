@@ -1,10 +1,11 @@
 <template>
   <div id="showdetails">
 
+    <AlertMessage variant="success" :message="alertmessage" ref="alertcomp" @alertclose="alertclose"></AlertMessage>
     <LoadingIcon :loading="loading"></LoadingIcon>
     <div v-if="!loading">
   
-    <UserPost :post="post"></UserPost>
+    <UserPost :post="post" @deletePost="deletePost"></UserPost>
     <!-- {{ post[0].title }} -->
 <!-- 
     <div class="comment-section">
@@ -48,7 +49,8 @@ export default {
 
     return{
       post:[],
-      loading:false
+      loading:false,
+      alertmessage:'',
     }
   },
   async created()
@@ -64,6 +66,25 @@ export default {
     // console.log("Userr details",this.post,typeof(this.post))
     this.loading=false;
     }
+
+  },
+  methods:
+  {
+    deletePost()
+    {
+      console.log("post delte request")
+      this.showToast("Post is getting deleted")
+    },
+    alertclose(data)
+      {
+       if(data==0)  this.$router.push('/oncampus');
+      },
+      showToast(msg)
+      {
+        this.alertmessage=msg
+        this.$refs.alertcomp.showAlert();
+      },
+
 
   }
 

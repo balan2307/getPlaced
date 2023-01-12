@@ -5,7 +5,7 @@
     <p id="form-header">Update your Profile</p>
     <hr />
     <LoadingIcon :loading="loading" />
-    <AlertMessage ref="alertcomp" variant="warning" :message="errormessage"></AlertMessage>
+    <AlertMessage ref="alertcomp" variant="warning" :message="errormessage" @alertclose="alertclose"></AlertMessage>
     <div id="formbody" v-if="!loading">
 
       <b-form
@@ -107,12 +107,17 @@ export default {
 
   },
   methods: {
-    showToast()
+    showToast(msg)
       {
   
-        this.errormessage="Username already in use"
-        this.$refs.alertcomp.showAlert();
+        this.errormessage=msg
+        this.$refs.alertcomp.showAlert(msg);
       },
+      alertclose(data)
+      {
+       if(data==0 && !this.error) this.$router.go(-1);
+      },
+
     async onSubmit(event) {
       event.preventDefault();
       // console.log("Check ",this.check )
@@ -163,9 +168,12 @@ export default {
 
 
         try{
-          console.log("inside try block of edit ")
+ 
         const res=await EditProfile(this.$route.params.id,fd);
-        console.log("response after editing",res)
+    
+        if(res) {
+          this.error=false
+          this.showToast("Profile updated successfully")}
         }
         catch(err)
         {
@@ -174,7 +182,7 @@ export default {
           this.errormessage=message;
           this.error=true;
 
-          this.showToast();
+          this.showToast("Username already in use");
         }
         finally{
         
@@ -182,7 +190,7 @@ export default {
           
         }
 
-      console.log("Profile form");
+     
     },
 
   },
@@ -192,11 +200,11 @@ export default {
   
 
     eventBus.$on("removeProfileImage", () => {
-      // console.log("Profile removal req",this.$refs.file)
+    
      if(this.$refs.file!=undefined) this.$refs.file.reset();
 
     })
-    // console.log("check form",this.check)
+    
 
     this.loading=true;
 
@@ -204,7 +212,7 @@ export default {
     const res= await getUserProfile(this.$route.params.id)
           
 
-          console.log("response getuserprofile ",res)
+        
           const { name, username, yearofgrad, university, college ,bio} =res.data.profile;
             // console.log("Profile check",res.data.profile)
             Object.assign(this.form, {

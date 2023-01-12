@@ -212,7 +212,7 @@
       },
       college:{
         required:requiredIf(inp=>{
-          // console.log("INp ",inp.mode)
+
           return inp.mode=="onCampus"
         })
       }
@@ -222,20 +222,20 @@
     },
   },
     methods: {
-      showToast()
+      alertclose(data)
       {
-        this.alertmessage="Post updated successfully!"
+       if(data==0)  this.$router.go(-1);
+      },
+      showToast(msg)
+      {
+        this.alertmessage=msg
         this.$refs.alertcomp.showAlert();
       },
 
-      alertclose()
-      {
-        // console.log("move on")
-      },
       setTouched()
     {
 
-      // console.log("difftouched")
+  
       this.difftouched=true;
      
     },
@@ -251,36 +251,36 @@
       {
       this.$v.$touch()
       this.touched=true;
-      // console.log("validate")
+   
       }
       else{
 
-        // console.log("no validation ,all go")
+    
         const postImage=this.$refs.file.files[0];
-        // console.log("post sumbit ", this.form,postImage );
+     
         const data = JSON.parse(JSON.stringify(this.form));
   
         for (let key in data) {
           if (data[key] == "") delete data[key];
         }
   
-        // console.log("Data ",data,typeof(data))
+
   
         const fd = new FormData();
         Object.keys(data).forEach((key) => {
           if (data[key] != null && data[key] != undefined) {
-            // console.log("loop",key,data[key])
+
             fd.append(key, data[key]);
           }
         });
       
   
-        // console.log("FD ",fd)
+ 
         let imagedeletion=false;
   
         if(this.$refs.file.files.length!=0){
         
-          // console.log("Image uploaded",this.$refs.file.files[0],this.$refs.file.files[0].name)
+
         fd.append("image", this.$refs.file.files[0], this.$refs.file.files[0].name);
 
         data.image=URL.createObjectURL(this.$refs.file.files[0]);
@@ -301,23 +301,20 @@
         try{
           this.loading=true;
    
-        //  console.log("Before emit")
+
          data.id=this.$route.params.id ;
          eventBus.$emit("postUpdated",data);
-        //  axios.post(`http://localhost:3000/user/post/${this.$route.params.id}`,fd)
-
+      
          const response=await editPost(this.$route.params.id,fd);
-        //  console.log("Response ",response)
-
+     
 
          if(response.status==200) {
-          this.showToast();
-         
-          // this.$router.go(-1)
+          this.showToast("Post updated successfully!");
+
 
          
          }
-      //  this.$router.push({ path:'/'})
+
 
         
         }
@@ -336,23 +333,20 @@
       
   
       modeselected() {
-        // console.log("Mode selected");
+
         if (this.form.mode == "onCampus") {
           // console.log("Oncampus");
           this.campusmode = true;
-          // console.log("mode ", this.campusmode);
+    
         } else this.campusmode = false;
       },
 
 
       previewImage() {
-        // console.log("Image");
+      
         this.showbtn = true;
         this.placeholderimage = URL.createObjectURL(this.$refs.file.files[0]);
-        // const placeholder = document.getElementById("image-placeholder");
-        // console.log("checkkk ", placeholder);
-        
-        // console.log("check")
+    
       },
       removeselectedImage() {
         this.$refs.file.value = null;
@@ -368,29 +362,28 @@
       if(router.includes('add'))
       {
         this.createPost=true;
-        // console.log("Post router");
+
   
       }
       else
       {
-        // console.log("Update router");
+
        try{
         
       
   
-        // console.log("Entered")
+ 
         this.loading=true;
-        // axios
-        // .get(`http://localhost:3000/user/post/${this.$route.params.id}`)
+
          const res=await getPost(this.$route.params.id)
 
             
   
             const {college,company,difficulty,title,content,mode,tags,image} =res.data.post[0];
                if(mode=='onCampus') this.campusmode=true;
-              //  console.log("Mode ",mode,difficulty)
+        
                this.form.mode=mode
-              //  console.log("Form mode ",image)
+  
                if(image)
                {
                 this.showbtn=true;
@@ -413,15 +406,7 @@
             }
             eventBus.$emit("modeUpdated",data);
             this.loading=false;
-            
-   
-          
-  
-         
-          
-       
-         
-          // this.form.mode='onCampus'
+
   
   
        }

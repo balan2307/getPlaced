@@ -65,7 +65,7 @@
       <b-button
         
         variant="outline-secondary"
-        id="follow-btn"
+        id="update-btn"
         style="color: black"
         size="md"
         v-if="sameUser && this.$route.name!='UserProfileEdit'"
@@ -111,7 +111,6 @@ export default {
       this.show = false;
       this.profileImage = this.default_image;
 
-      // console.log("Remove profs");
 
       await deleteUserProfileImage(this.$route.params.id);
     },
@@ -119,7 +118,7 @@ export default {
     async getProfile(id) {
       this.loading = true;
   const res = await getUserProfile(id);
-  console.log("response from backend",res)
+  // console.log("response from backend",res)
   const {
     name,
     username,
@@ -130,7 +129,7 @@ export default {
     joined,
     bio
   } = res.data.profile;
-  console.log("DATA profile",res.data.profile)
+  // console.log("DATA profile",res.data.profile)
 
  
   Object.assign(this, {
@@ -163,7 +162,7 @@ export default {
   
     // console.log("User Info created", this.showupdatebtn);
     
-    console.log("route check",this.$route)
+   
 
  
 
@@ -171,13 +170,13 @@ export default {
       eventBus.$on("getProfileid", async (id) => {
         //to show the profile info in the details page of the post
         // console.log("If Profile")
-        console.log("show details")
+    
         this.getProfile(id);
       });
     } else {
       //to show the profile info in the profile page of the user
       // console.log("Else Profile")
-      console.log("show profile")
+
       this.getProfile(this.$route.params.id);
     }
 
@@ -331,12 +330,17 @@ export default {
   font-size: 1em;
 }
 
-#follow-btn a {
+#update-btn a {
   color: black !important;
 }
 
-#follow-btn a:hover {
+#update-btn a:hover {
   color: rgb(247, 247, 247) !important;
+}
+
+#update-btn:hover{
+  background-color: #838383;
+
 }
 
 .profile-image {
