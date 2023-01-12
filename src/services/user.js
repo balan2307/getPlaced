@@ -82,7 +82,8 @@ export const getUserProfile=async(id)=>{
 export const EditProfile=async(id,fd)=>{
 
   try {
-    await axios.patch(`/user/profile/${id}`, fd);
+    const res=await axios.patch(`/user/profile/${id}`, fd);
+    return res;
     // this.error = "";
   } catch (err) {
     
