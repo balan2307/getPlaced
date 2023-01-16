@@ -69,7 +69,7 @@ export default {
   },
   watch: {
     "$route.path": function (path) {
-      if (path == "/login") {
+      if (path == "/login" || path=="/register") {
         this.showNav = false;
       } else {
         this.showNav = true;
