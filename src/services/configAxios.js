@@ -3,14 +3,16 @@ import store from '@/store';
 
 // @todo Logic can be bettered to prevent hard-coding authenticated requests
 axios.interceptors.request.use(
-    // this function is called automatically whenever any request goes out
+
     request => {
+        request.headers['Content-Type'] = 'application/json';
+        request.headers['Access-Control-Allow-Origin'] = '*';
         if( !request.url.includes( 'login' ) || !request.url.includes( 'register' )  ) {
-            // console.log("checking token",request.url)
+   
             request.headers['Authorization'] = `Bearer ${store.state.auth.token}`;
         }
 
-        // console.log("Request ",request)
+
         return request;
     },
     error =>{

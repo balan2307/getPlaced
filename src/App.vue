@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <NavHeader :user="getName"></NavHeader>
+    <NavHeader :user="getName" ></NavHeader>
 
 
     <div id="content">
@@ -13,7 +13,7 @@
   
       <div v-if="!isOnAuthPage()" id="postsection">
         <div id="allposts">
-          <router-view name="main" :key="$route.fullPath"></router-view>
+          <router-view name="main" :searchTerm="searchTerm" :key="$route.fullPath"></router-view>
         </div>
       </div>
 
@@ -48,7 +48,8 @@ export default {
   },
   data(){
     return{
-      uname:""
+      uname:"",
+      searchTerm:"test"
     }
 
   },
@@ -59,7 +60,8 @@ export default {
     {
       return (this.$route.path == '/login' ||  this.$route.path =='/register')
 
-    }
+    },
+ 
   },
   computed:{
     ...mapGetters(['isAuthenticated','getToken']),
@@ -69,45 +71,16 @@ export default {
     }
 
   },
-  // async created(){
-  //   const uname=await getUserName(localStorage.getItem('uid'));
-   
-  //   this.uname=uname;
-  //   console.log("Uname ",uname,this.uname)
 
-  //   if(!this.isAuthenticated)
-  //   {
-  //     console.log("GO back and login");
-  //     this.$router.push('/login')
-  //   }
-
-  // },
   created()
   {
 
-    // console.log("Created")
+    console.log("Created home")
     if(!this.isAuthenticated && this.$router.currentRoute.path!="/login")
    {
      console.log("GO back and login");
      this.$router.push('/login')
    }
-
-
-  },
-  async mounted()
-  {
-    // console.log("Mounted")
-    // const t=getUserId(localStorage.getItem('token'))
-    // console.log("Decoded",t)
-
-  //   const uname=await getUserName(localStorage.getItem('uid'));
-   
-  //  this.uname=uname;
-
-
-  //  console.log("Uname ",uname,this.uname)
-
-  
 
 
   }
@@ -212,15 +185,17 @@ html,
   /* border: 1px solid black; */
   overflow: scroll;
   overflow-x: hidden;
+  /* border: 1px solid red; */
 }
+
 #postsection::-webkit-scrollbar {
   display: none!important;
 }
 
 
 #postsection {
-  -ms-overflow-style: none!important;  /* IE and Edge */
-  scrollbar-width: none!important;  /* Firefox */
+  -ms-overflow-style: none!important; 
+  scrollbar-width: none!important;
   padding-top: 25px
 }
 

@@ -219,12 +219,18 @@ export default {
   /* width: 50%; */
   /* height: 85vh; */
 
-  width: 70%;
+  /* width: 70%; */
   display: flex;
   flex-direction: column;
   margin-top: 10px;
   background-color: white;
   border-radius: 5px;
+
+  position: fixed;
+  width: 20%;
+  top: 1;
+  height: inherit;
+  /* height: 70%; */
 }
 
 .info-label span {
@@ -360,7 +366,7 @@ export default {
 @media screen and (max-width: 1200px) {
   #userprofile {
     /* border: 1px solid red; */
-    height: 85vh;
+    /* height: 85vh; */
   }
   #user-info-header {
     left: 0px;

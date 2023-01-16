@@ -24,7 +24,9 @@
 
 
 
+
     <router-view :key="$route.fullPath"></router-view>
+
   </div>
  
 
@@ -44,6 +46,7 @@
 // import CreatePostSectionVue from './CreatePostSection.vue'
 import ShowBtn from '../Utils/ShowBtn.vue'
 // import {getUserProfile} from '@/services/user'
+
 export default {
     name:'AllPosts',
     components :{ShowBtn},
@@ -71,8 +74,11 @@ export default {
      
 
 
+     
+
       if (this.$route.path == "/oncampus")
       {
+        console.log("ONcampuis")
         this.tab1active='active';
         this.tab2active=''
         this.link1active='a-active'
@@ -83,12 +89,14 @@ export default {
       }
       else
       {
+        console.log("Offcampuis")
         this.tab2active='active';
         this.tab1active=''
         this.link2active='a-active'
         this.link1active=''
 
       }
+   
 
       // const res= await getUserProfile('63b7f9be557991d6e4d9e512')
       // console.log("Response check for profile",res)
@@ -159,6 +167,10 @@ export default {
   background-color: #848f8b!important;
 }
 
+/* .test
+{
+  border: 1px solid rgb(28, 216, 207);
+} */
 
 
 

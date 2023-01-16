@@ -128,7 +128,7 @@ export default {
       if(uid) this.$router.push({path:'/oncampus'})
     }
     catch(err){
-      // console.log("Login error",err.response.data.error)
+      console.log("Login error",err)
       const {status }=err.response;
       this.$refs.form.reset()
      

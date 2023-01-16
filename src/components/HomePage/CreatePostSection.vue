@@ -42,12 +42,17 @@ export default {
   /* border:1px solid #41ca25; */
   /* width: 50%; */
   height: 50%;
-  width: 70%;
+  /* width: 70%; */
   display: flex;
   flex-direction: column;
   margin-top: 10px;
   background-color:white;
   border-radius: 5px;
+
+  position: fixed;
+  width: 20%;
+
+  
 }
 
 #postBtn

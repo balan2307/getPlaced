@@ -1,4 +1,10 @@
-.navbar{ background-color:'white' }
+.navbar
+{
+   /* background-color:'white' */
+
+   background-color: white;
+   position: sticky;
+}
 
 nav a{
   color: black;

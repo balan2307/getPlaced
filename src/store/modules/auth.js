@@ -9,13 +9,17 @@ const auth={
     state:{
         token:localStorage.getItem(KEY_TOKEN) || '',
         uid: getUserId(localStorage.getItem(KEY_TOKEN)) || '',
-        username:localStorage.getItem(KEY_NAME) || ''
+        username:localStorage.getItem(KEY_NAME) || '',
+        tokenstatus:true,
+        shownav:true
         
     },
     getters:{
         
+         
         isAuthenticated(state){
             // console.log("token ",state.token)
+            
             return (state.token!='')
         },
         getUserName(state)
@@ -32,7 +36,15 @@ const auth={
         getToken(state)
         {
             return state.token;
-        }
+        },
+        getTokenstatus(state)
+        {
+            return state.tokenstatus;
+        },
+        // getNavstatus(state)
+        // {
+        //     return state.shownav;
+        // }
  
     },
     mutations:{
@@ -45,6 +57,14 @@ const auth={
         setUserName(state,name)
         {
             state.username=name
+        },
+        setTokenStatus(state,status)
+        {
+            state.tokenstatus=status
+        },
+        setNavStatus(state)
+        {
+            state.shownav=this.getTokenstatus && this.isAuthenticated
         }
     
     },
@@ -90,16 +110,6 @@ const auth={
             return Promise.resolve();
         }
 
-        // getUserName({state})
-        // {
-
-        //     if(state.uid)
-
-        //     {
-        //         await getUsername(uid);
-        //     }
-
-        // }
     }
 }
 

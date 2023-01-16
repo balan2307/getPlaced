@@ -52,14 +52,14 @@ export default {
   
         getPostsPages('oncampus',this.page,postlimit)
         .then(post=>{
-        // console.log("data received")
+        console.log("data received oncampus check")
         this.pages=post.data.pages;
         this.posts=post.data.posts;
         this.loading=false;
 
         })
         .catch((err)=>{
-            console.log("Error oncampus",err)
+            console.log("Error oncampuss",err)
             this.$router.push({path:'/login'})
 
         })

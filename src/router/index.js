@@ -15,8 +15,9 @@ import RegisterPage from '../components/Auth/Register'
 import PostEditForm from '../components/Forms/Posts/EditPost'
 import onCampus from '@/components/HomePage/PostSection/onCampus'
 import offCampus from '@/components/HomePage/PostSection/offCampus'
+import SearchedResult from '@/components/HomePage/SearchedResult'
 import store from '@/store';
-
+import {authUser} from '@/services/auth.js'
 const router=new Router({
     mode:'history',
     routes:[
@@ -104,6 +105,22 @@ const router=new Router({
 
         },
         {
+            name:'searchedPosts',
+            path:'/posts',
+            components:{
+                'main':SearchedResult,
+                'side':CreatePostCard
+            },
+            // props: {
+            //     'main': {
+            //         searchTerm:'search',
+                 
+            //     }
+            // }
+
+
+        },
+        {
             name:'LoginPage',
             path:'/login',
             components:{
@@ -127,26 +144,49 @@ const router=new Router({
 })
 
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
 
 
       // this route requires auth, check if logged in
       // if not, redirect to login page.
-    //   console.log("TOo ",to.name)
 
+  
       if(to.name!='LoginPage' && to.name!='RegisterPage') {
-        // console.log("in check")
-
-        if( !store.getters.isAuthenticated)
+    
+    
+      let tokenAuth=false;
+  
+      if(store.getters.isAuthenticated){
+        console.log("inside auth",store.getters.isAuthenticated)
+        try
         {
-            console.log("Not auth")
+        
+       await authUser(localStorage.getItem('token'));
+    
+       tokenAuth=true;
+        }
+        catch(err)
+        {
+            console.log("error auth",err)
+            // this.$store.commit('setTokenStatus',false)
+            tokenAuth=false;
+
+        }
+    }
+
+ 
+ 
+        if( !store.getters.isAuthenticated || !tokenAuth)
+        {
+           
+            store.dispatch( 'logout' )
             return next({
                 name: 'LoginPage'
             });
 
         }
         else {
-            console.log("auth else")
+           
           
                 return next();
             

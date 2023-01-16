@@ -116,3 +116,20 @@ export const getUserPosts=async(id,currpage,perpage)=>
 
 
 }
+
+
+export const searchPost=async(search,currpage,perpage)=>{
+
+    console.log("inside services searchPost",search)
+    return axios.get("/posts/search",{
+        params:{
+
+            search:search,
+            page:currpage,
+            limit:perpage
+        }
+    }).then(successHandler)
+    .catch(errorHandler)
+
+   
+}

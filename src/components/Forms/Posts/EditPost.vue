@@ -516,7 +516,7 @@
   @media only screen and (max-width: 1070px) {
     #createpost {
       height: 60%;
-      width: 80%;
+      /* width: 80%; */
     }
   
     #postBtn {

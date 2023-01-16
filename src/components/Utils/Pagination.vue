@@ -22,13 +22,16 @@ export default {
     data()
     {
         return{
-            currentpage: this.$route.query.page || 1
+            currentpage: this.$route.query.page || 1,
+            searchedfor:this.$route.query.search
         }
 
     },
     methods:{
         pageLink(index) {
-      return `${this.$route.path}?page=${index + 1}`;
+           
+            if(this.$route.path=="/posts")  return {path: '/posts', query: { search:`${this.searchedfor}`,page:`${index + 1}` }};
+            return `${this.$route.path}?page=${index + 1}`;
     }
     }
   
