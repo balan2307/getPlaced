@@ -91,7 +91,7 @@ const auth={
              
             }
             catch(err){
-                console.log("Error ",err);
+                console.log("store Error ",err);
                 throw err;
             }
 

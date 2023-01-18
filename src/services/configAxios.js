@@ -5,8 +5,8 @@ import store from '@/store';
 axios.interceptors.request.use(
 
     request => {
-        request.headers['Content-Type'] = 'application/json';
-        request.headers['Access-Control-Allow-Origin'] = '*';
+        // request.headers['Content-Type'] = 'application/json';
+        // request.headers['Access-Control-Allow-Origin'] = '*';
         if( !request.url.includes( 'login' ) || !request.url.includes( 'register' )  ) {
    
             request.headers['Authorization'] = `Bearer ${store.state.auth.token}`;
