@@ -1,16 +1,13 @@
 <template>
   <div>
 
-    <!-- <div class="errorDisplay" v-if="error">
-      <p id="err-message">{{ errormessage }}</p>
-    </div> -->
-    <!-- <errorMessage :error="error" :errormessage="errormessage"></errorMessage> -->
+
     <LoadingIcon :loading="loading"></LoadingIcon>
     <AlertMessage ref="alertcomp" variant="warning" :message="errormessage"></AlertMessage>
   
   <b-form id="loginform" @submit="onSubmit" ref="form">
     
-    <!-- {{$v.user.email }} -->
+ 
     <b-input-group id="field1" class="mb-2">
         <InputField
           v-model="user.email"
@@ -31,25 +28,6 @@
       @visited="setVisited"
       ></InputField>
 
-
-      <p class="feedback" v-if="!$v.user.password.minLength && $v.user.password.$error"> 
-           Password should be atleast
-          {{ $v.user.password.$params.minLength.min }} characters
-        </p>
-        <p class="feedback" v-if="!$v.user.password.containsUppercase && $v.user.password.$error"> 
-          Password should contain atleast 1 Uppercase character
-        </p>
-        <p class="feedback" v-if="!$v.user.password.containsLowercase && $v.user.password.$error"> 
-          Password should contain atleast 1 Lowercase character
-        </p>
-        <p class="feedback" v-if="!$v.user.password.containsNumber && $v.user.password.$error"> 
-          Password should contain atleast 1 digit
-        </p>
-        <p class="feedback" v-if="!$v.user.password.containsSpecial && $v.user.password.$error"> 
-          Password should contain atleast 1 special character
-        </p>
-     
-
    
 
      <div id="loginbtn">
@@ -62,7 +40,7 @@
 </template>
 
 <script>
-import { required, email, minLength } from "vuelidate/lib/validators";
+import { required, email} from "vuelidate/lib/validators";
 import InputField from "../Forms/Input/InputText.vue";
 import AlertMessage from '../Utils/AlertMessage.vue';
 
@@ -90,20 +68,20 @@ export default {
   
       },
       password: {
-        required,
-        minLength: minLength(8),
-        containsUppercase: function (value) {
-          return /[A-Z]/.test(value);
-        },
-        containsLowercase: function (value) {
-          return /[a-z]/.test(value);
-        },
-        containsNumber: function (value) {
-          return /[0-9]/.test(value);
-        },
-        containsSpecial: function (value) {
-          return /[#?!@$%^&*-]/.test(value);
-        },
+        required
+        // minLength: minLength(8),
+        // containsUppercase: function (value) {
+        //   return /[A-Z]/.test(value);
+        // },
+        // containsLowercase: function (value) {
+        //   return /[a-z]/.test(value);
+        // },
+        // containsNumber: function (value) {
+        //   return /[0-9]/.test(value);
+        // },
+        // containsSpecial: function (value) {
+        //   return /[#?!@$%^&*-]/.test(value);
+        // },
       },
     },
   },
@@ -135,7 +113,7 @@ export default {
       if(status==401)
       {
         this.errormessage="Email or Password entered is incorrect"
-        // console.log("error",this.errormessage)
+      
       }
       else if(status==500)
       {
@@ -143,10 +121,7 @@ export default {
 
       }
       this.showToast();
-      // this.error=true;
-     
-     
-      //redirect to login
+
     }
     finally
     {
@@ -175,13 +150,6 @@ export default {
     background-color: white;
     border-radius:10px;
 
-    
-
-     /* display: flex;
-    flex-direction: column;
-    
-    row-gap: 12px;
-    justify-content: center; */
 }
 
 #loginform input{

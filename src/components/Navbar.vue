@@ -1,15 +1,16 @@
 <template>
   <b-navbar toggleable="lg" type="light" class="wrapper" sticky>
     <div class="display">
-    <b-navbar-brand href="#">
-      <router-link to="/oncampus">getPlaced </router-link></b-navbar-brand>
+      <b-navbar-brand href="#">
+        <router-link to="/oncampus">getPlaced </router-link></b-navbar-brand
+      >
       <!-- <b-navbar-nav id="home-nav-mob">
         <b-nav-item href="#"
           ><router-link to="/oncampus">Home</router-link></b-nav-item
         >
       </b-navbar-nav> -->
 
-    <b-nav-form
+      <b-nav-form
         v-if="showNav"
         @submit.prevent
         @submit="userSearch"
@@ -19,22 +20,19 @@
         <b-form-input
           size="sm"
           class="mr-sm-2"
-          placeholder="Search"
+          placeholder="Search by Company"
           v-model="search"
           id="searchtab"
         ></b-form-input>
         <b-button size="sm" id="search-btn" class="my-2 my-sm-0" type="submit"
-          ><box-icon name='search-alt-2'></box-icon></b-button
-        >
+          ><box-icon name="search-alt-2"></box-icon
+        ></b-button>
       </b-nav-form>
     </div>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
-
- 
-
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto" v-if="showNav">
         <b-nav-item-dropdown right>
@@ -71,7 +69,7 @@ export default {
   },
   watch: {
     "$route.path": function (path) {
-      if (path == "/login" || path=="/register") {
+      if (path == "/login" || path == "/register") {
         this.showNav = false;
       } else {
         this.showNav = true;
@@ -131,39 +129,34 @@ li.form-inline {
   position: relative;
 
   border: none;
-    background-color: white;
-    padding: 0;
+  background-color: white;
+  padding: 0;
 }
 
-
-
-
-li{
+li {
   list-style: none;
 }
 
-.display
-{
+.display {
   display: flex;
-  
-    justify-content: space-between;
-    width: 80%;
- 
+
+  justify-content: space-between;
+  width: 80%;
 }
-
-
 
 @media only screen and (max-width: 580px) {
-  #searchtab{
-  width: 70%;
+  #searchtab {
+    width: 70%;
+  }
+
+  #searchposts {
+    width: 100%;
+  }
 }
 
-#searchposts{
-  width: 100%;
-}
-
-
-
-
+@media only screen and (max-width: 280px) {
+  .display {
+    width: 100%;
+  }
 }
 </style>

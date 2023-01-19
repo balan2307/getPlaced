@@ -63,7 +63,7 @@
 
 
       <div id="loginbtn">
-        <b-button type="submit" variant="primary" :disabled="$v.$invalid">Register</b-button>
+        <b-button type="submit" variant="primary" >Register</b-button>
       </div>
     </b-form>
 
@@ -143,10 +143,25 @@ export default {
       },
     async onSubmit(e) {
       e.preventDefault();
+
+      if(this.$v.user.$invalid)
+      {
+      this.$v.$touch()
+      this.touched=true;
+   
+      }
+      else
+      {
+
+    
+
       const userCred = JSON.parse(JSON.stringify(this.user));
+
       try
       {
+          console.log("inside try")
         await registerUser(userCred, this.$router);
+      
       }
       catch(err)
       {
@@ -159,17 +174,10 @@ export default {
 
 
       }
+    }
      
 
-      // axios.post('http://localhost:3000/user/register',userCred).then(() => {
-      //     this.error = '';
-      //     this.$router.push('/login');
-      //   }, err => {
-      //     console.log("error",err.response)
-      //     this.error = err.response.data.error
-      //   })
 
-      // console.log("Register", userCred);
     },
   },
 };
