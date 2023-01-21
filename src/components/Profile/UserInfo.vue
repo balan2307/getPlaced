@@ -7,7 +7,7 @@
     <div id="info">
       <b-img
         class="profile-image"
-        :src="profileImage"
+        :src="showProfileImage"
         fluid
         alt="Profile Image"
       ></b-img>
@@ -26,13 +26,7 @@
           <p id="user-bio">
             {{ bio }}
           </p>
-          <!-- <hr /> -->
-          <!-- <p class="info-label"  v-if="fullname"><span>Name: </span>{{ fullname }}</p>
-          <p class="info-label" v-if="collegename"><span>College: </span>{{ collegename }}</p>
-          <p class="info-label" v-if="university"><span>University: </span>{{ university }}</p>
-          <p class="info-label" v-if="yearofgraduation">
-            <span>Year of Graduation: </span>{{ yearofgraduation }}
-          </p> -->
+
           <p id="joined-info">
             <span class="mr-1"
               ><box-icon
@@ -79,7 +73,8 @@
 
 <script>
 import { eventBus } from "@/main";
-import { deleteUserProfileImage, getUserProfile } from "@/services/user";
+// deleteUserProfileImage
+import { getUserProfile } from "@/services/user";
 import {mapGetters} from 'vuex'
 
 
@@ -100,19 +95,41 @@ export default {
       loading: false,
       show: false,
       showupdatebtn: this.$router.currentRoute,
+      imageSelected:null,
       default_image:
         "https://res.cloudinary.com/esakki/image/upload/v1672415855/getPlaced/no-image_cwaz3f.jpg",
     };
   },
   methods: {
-    async removeProf() {
+     removeProf() {
       eventBus.$emit("removeProfileImage");
 
-      this.show = false;
-      this.profileImage = this.default_image;
+   
+      // this.profileImage = this.default_image;
+      if(this.imageSelected) {
+        this.imageSelected='';
+        console.log("remove image selected")
+        eventBus.$emit("removeImageSelected1")
+        // if(this.profileImage==null) thi 
+    
+      }
+      else if(this.profileImage) {
+        this.profileImage=''
+        console.log("profile image removed")
+        eventBus.$emit("removeProfileImage1")
+      }
+
+      if(!this.profileImage && !this.imageSelected) {
+       
+        console.log("all false")
+       this.show = false;
+       eventBus.$emit("deleteProfileImage")
+     }
+     console.log("check image",this.profileImage,"check",this.imageSelected)
 
 
-      await deleteUserProfileImage(this.$route.params.id);
+
+      // await deleteUserProfileImage(this.$route.params.id);
     },
  
     async getProfile(id) {
@@ -140,7 +157,7 @@ export default {
     yearofgraduation: yearofgrad,
     joined,
     bio,
-    profileImage: profileImage ? profileImage.url : this.default_image
+    profileImage: profileImage ? profileImage.url : null
   });
   this.loading = false;
   //to show remove profile pic icon
@@ -152,9 +169,18 @@ export default {
   computed:{
       ...mapGetters(['getUid']),
 
+      showProfileImage()
+    {
+      
+      if(this.imageSelected) return this.imageSelected;
+      else if(this.profileImage) return this.profileImage;
+      else return this.default_image;
+
+    },
+
       sameUser()
       {
-        // console.log("check user")
+   
         return this.getUid==this.uid
       }
     },
@@ -180,6 +206,28 @@ export default {
       this.getProfile(this.$route.params.id);
     }
 
+    eventBus.$on("imagepreview", (data) => {
+      // console.log("image bus",data)
+      this.imageSelected=data;
+      this.show=true;
+
+
+    })
+
+    eventBus.$on('removeImageSelected2',()=>{
+      this.imageSelected=null;
+      if(this.profileImage!=null){
+        // console.log("check image",this.profileImage)
+       this.show=true;
+      }
+      else this.show=false;
+    })
+
+    eventBus.$on('removeProfileImage2',()=>{
+      this.profileImage=null;
+      this.show=false;
+    })
+
 
 
     eventBus.$on("profileUpdated", (data) => {
@@ -203,9 +251,7 @@ export default {
         bio,
         profileImage: profileImage
           ? profileImage
-          : !this.profileImage
-          ? this.default_image
-          : this.profileImage,
+          : (!this.profileImage ? null : this.profileImage )
       });
       if (profileImage) this.show = true;
     });
@@ -398,6 +444,13 @@ export default {
   }
 }
 
+#removeprofile {
+    /* bottom: 90px; */
+    left: -15px;
+
+  }
+
+
 @media only screen and (max-width: 1070px) {
   #postBtn {
     position: relative;
@@ -420,7 +473,6 @@ export default {
 
   #rightsection {
     height: 90vh;
-    border: 1px solid red;
   }
 
   #postBtn .btn {
@@ -428,10 +480,6 @@ export default {
     width: 40%;
   }
 
-  #removeprofile {
-    /* bottom: 90px; */
-    left: -15px;
-  }
 
   #divider {
     position: relative;

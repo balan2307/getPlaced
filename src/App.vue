@@ -10,6 +10,10 @@
         <router-view name="side" :key="$route.fullPath"></router-view>
       </div> -->
       
+      <div id="tabformob">
+        <router-view name="top" :key="$route.fullPath"></router-view>
+
+      </div>
   
       <div v-if="!isOnAuthPage()" id="postsection">
         <div id="allposts">
@@ -219,11 +223,14 @@ html,
     display: none;
 }
 
-/* #content {
-flex-direction: column;
- 
+#content{
+  flex-direction: column;
+}
 
-} */
+#tabformob{
+  margin-top: 15px;
+}
+
 
  }
 

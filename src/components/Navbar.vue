@@ -2,6 +2,7 @@
   <b-navbar toggleable="lg" type="light" class="wrapper" sticky>
     <div class="display">
       <b-navbar-brand href="#">
+        <!-- <img id="logo" src="https://res.cloudinary.com/esakki/image/upload/v1674130811/getPlaced/logo_uksup1.png" /> -->
         <router-link to="/oncampus">getPlaced </router-link></b-navbar-brand
       >
       <!-- <b-navbar-nav id="home-nav-mob">
@@ -142,6 +143,10 @@ li {
 
   justify-content: space-between;
   width: 80%;
+}
+#logo{
+  width: 50px;
+  height: 50px;
 }
 
 @media only screen and (max-width: 580px) {

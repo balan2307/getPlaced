@@ -315,7 +315,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #postform {
   margin-top: 20px;
   padding-bottom: 10px;

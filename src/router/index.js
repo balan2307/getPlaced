@@ -16,6 +16,7 @@ import PostEditForm from '../components/Forms/Posts/EditPost'
 import onCampus from '@/components/HomePage/PostSection/onCampus'
 import offCampus from '@/components/HomePage/PostSection/offCampus'
 import SearchedResult from '@/components/HomePage/SearchedResult'
+import UserInfoTab from "@/components/Profile/UserInfoTab.vue"
 import store from '@/store';
 import {authUser} from '@/services/auth.js'
 const router=new Router({
@@ -72,7 +73,7 @@ const router=new Router({
             components:{
                 'main':UserPosts,
                 'side':UserProfileCard,
-                'top':UserProfileCard
+               
             }
           
         },
@@ -81,8 +82,15 @@ const router=new Router({
             path:'/user/profile/:id/edit',
             components:{
                 'main':ProfileForm,
-                'side':UserProfileCard
+                'side':UserProfileCard,
+                 'top':UserInfoTab
+            },
+            props: {
+            
+                    title: 'Title'
+                
             }
+          
         }
         ,
         {

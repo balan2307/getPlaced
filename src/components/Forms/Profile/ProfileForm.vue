@@ -24,6 +24,9 @@
         <InputField v-model="form.name" placeholder="Name" id="input-1"></InputField>
         <InputField v-model="form.username" placeholder="Username" id="input-2"></InputField>
         <FormSelect v-model="form.bio" placeholder="Bio" row="3"></FormSelect>
+
+
+
         <!-- <InputField v-model="form.collegename" placeholder="College name" id="input-3"></InputField> -->
         <InputField v-model="form.university" placeholder="University" id="input-4"></InputField>
         <InputField v-model="form.yearofgraduation" placeholder="Year of Graduation" id="input-5"
@@ -34,13 +37,14 @@
             </p>  
         <!-- <p>{{ $v.$invalid }}</p> -->
         <!-- <FormSelect :options="options" v-model="check"></FormSelect> -->
-
+         {{ title }}
         <b-form-file
           v-model="form.profileimage"
           ref="file"
           type="file"
           placeholder="Profile picture"
           drop-placeholder="Drop file here..."
+          @input="imageSelected"
         ></b-form-file>
 
         <!-- <input type="file" ref="file" style="display:none" />  -->
@@ -64,6 +68,7 @@ import InputField from '../Input/InputText.vue'
 import FormSelect from  '../Input/TextArea.vue'
 import {getUserProfile,EditProfile} from '@/services/user'
 import { numeric } from "vuelidate/lib/validators";
+
 // import FormSelect from '../Input/SelectText.vue'
 
 export default {
@@ -94,6 +99,7 @@ export default {
       error:false,
       errormessage:'',
       check:"",
+      imagedeletion:false
 
     };
   },
@@ -106,16 +112,28 @@ export default {
 
 
   },
+  props:['title'],
   methods: {
+    imageSelected()
+    {
+      const image=this.$refs.file.files[0];
+      let imageUrl=""
+      if(image) imageUrl= URL.createObjectURL(image);
+      console.log("image selected", imageUrl);
+      if(image) eventBus.$emit("imagepreview",imageUrl)
+
+
+
+    },
     showToast(msg)
       {
   
         this.errormessage=msg
         this.$refs.alertcomp.showAlert(msg);
       },
-      alertclose(data)
+      alertclose()
       {
-       if(data==0 && !this.error) this.$router.go(-1);
+      //  if(data==0 && !this.error) this.$router.go(-1);
       },
 
     async onSubmit(event) {
@@ -133,16 +151,7 @@ export default {
       
       eventBus.$emit("profileUpdated", userDetails);
     
-
-      // console.log("form det",this.image);
-
       const fd = new FormData();
-
-      // fd.append('name',this.form['name'])
-      // fd.append('username',this.form['username'])
-      // fd.append('college',this.form['college'])
-      // fd.append('university',this.form['university'])
-      // fd.append('yearofgraduation',this.form['yearofgraduation'])
 
       //understand it
 
@@ -165,6 +174,7 @@ export default {
 
 
       if(this.form.profileimage) fd.append("image", this.$refs.file.files[0], this.form.profileimage.name);
+       fd.append("imagedeletion",this.imagedeletion)
 
 
         try{
@@ -196,6 +206,15 @@ export default {
   },
   async created() {
 
+    console.log("check props",this.title)
+
+
+    eventBus.$on("deleteProfileImage", () => {
+    
+    this.imagedeletion=true;
+
+   })
+   
 
   
 

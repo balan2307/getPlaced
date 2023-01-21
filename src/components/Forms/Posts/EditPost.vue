@@ -344,6 +344,7 @@
 
       previewImage() {
       
+        console.log("inside preview")
         this.showbtn = true;
         this.placeholderimage = URL.createObjectURL(this.$refs.file.files[0]);
     
@@ -421,7 +422,7 @@
   };
   </script>
   
-  <style>
+  <style scoped>
   .feedback
 {
   font-size: 0.8em;
