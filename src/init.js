@@ -9,18 +9,21 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import { BootstrapVue ,IconsPlugin} from 'bootstrap-vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faThumbsUp as faThumbsUpSolid,faThumbsDown as faThumbsDownSolid  } from '@fortawesome/free-solid-svg-icons'
-import { faThumbsUp,faThumbsDown } from '@fortawesome/free-regular-svg-icons'
-// import Router from 'vue-router';
+import { faMagnifyingGlass,faThumbsUp as faThumbsUpSolid,faThumbsDown as faThumbsDownSolid ,faHatWizard
+,faCalendarDays, 
+faGraduationCap} from '@fortawesome/free-solid-svg-icons'
+
+// import { faUp } from '@fortawesome/free-light-svg-icons'
 
 
-library.add(faThumbsUp,faThumbsDown)
+library.add(faHatWizard,faCalendarDays,faGraduationCap,faMagnifyingGlass,)
 library.add(faThumbsUpSolid,faThumbsDownSolid)
 
 
 // Vue.use(Vuex)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+
 // Vue.use(Router)
 
 import '@/services/configAxios'

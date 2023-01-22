@@ -4,6 +4,9 @@ import Vuelidate from 'vuelidate'
 import store from '@/store'
 import App from './App.vue'
 import router from './router';
+
+
+
 Vue.config.productionTip = false
 export const eventBus=new Vue();
 Vue.use(Vuelidate)
@@ -15,9 +18,16 @@ import errorMessage from '@/components/Utils/ErrorMessage'
 import LoadingIcon from '@/components/Utils/Loading.vue'
 import AlertMessage from '@/components/Utils/AlertMessage.vue'
 
+
+
+
 Vue.component('errorMessage', errorMessage)
 Vue.component('LoadingIcon', LoadingIcon)
 Vue.component('AlertMessage', AlertMessage)
+
+
+// Vue.component('boxIcon',BoxIcons)
+
 
 
 

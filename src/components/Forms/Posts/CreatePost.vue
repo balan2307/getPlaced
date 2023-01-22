@@ -13,17 +13,15 @@
          
         ></InputField>
         <p class="feedback" v-if="!$v.form.title.required && touched">Title cannot be empty</p>
-        <!-- <p>{{ $v.form.title }}</p> -->
-        <!-- <p>{{ $v.form.$invalid  }}</p>
-        <p>{{ $v.form.$error }}</p> -->
+ 
 
         <div id="image-placeholder" v-if="showbtn" class="mb-2">
-          <box-icon
-            id="removeprofile"
-            type="solid"
-            name="message-alt-x"
-            @click="removeselectedImage"
-          ></box-icon>
+
+
+          <img src="@/assets/cancel.svg" alt="Icon"   id="removeprofile"
+            @click="removeselectedImage"/> 
+
+
           <b-img
             :src="placeholderimage"
             id="imagepreview"
@@ -116,11 +114,11 @@
 
         <div id="image-upload" class="mb-3">
           Upload image
-          <box-icon
-            id="post-image"
-            name="image-alt"
-            @click="$refs.file.click()"
-          ></box-icon>
+   
+
+          <img src="@/assets/image.svg" alt="Icon"   id="post-image"
+              name="image-alt"
+              @click="$refs.file.click()" /> 
         </div>
 
         <b-button variant="info" type="submit">Submit</b-button>
@@ -342,7 +340,8 @@ form input {
 
 #post-image {
   position: relative;
-  top: 5px;
+  height: 20px;
+
 }
 
 #image-placeholder {
@@ -393,6 +392,7 @@ form input {
 #removeprofile {
   position: relative;
   left: 280px;
+  height: 20px;
 }
 
 #imagepreview {

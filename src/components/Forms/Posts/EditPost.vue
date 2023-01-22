@@ -20,12 +20,11 @@
 
   
           <div id="image-placeholder" v-if="showbtn" class="mb-2">
-            <box-icon
-              id="removeprofile"
-              type="solid"
-              name="message-alt-x"
-              @click="removeselectedImage"
-            ></box-icon>
+    
+
+            <img src="@/assets/cancel.svg" alt="Icon"  id="removepic"  @click="removeselectedImage" /> 
+
+            
             <b-img
               :src="placeholderimage"
               id="imagepreview"
@@ -119,11 +118,14 @@
   
           <div id="image-upload" class="mb-3">
             Upload image
-            <box-icon
-              id="post-image"
+    
+
+            <img src="@/assets/image.svg" alt="Icon"   id="post-image"
               name="image-alt"
-              @click="$refs.file.click()"
-            ></box-icon>
+              @click="$refs.file.click()" /> 
+  
+
+
           </div>
   
           <b-button variant="info" type="submit">Submit</b-button>
@@ -456,7 +458,7 @@
   
   #post-image {
     position: relative;
-    top: 5px;
+    height: 20px;
   }
   
   #image-placeholder {
@@ -504,9 +506,10 @@
     /* border:1px solid red */
   }
   
-  #removeprofile {
+  #removepic {
     position: relative;
     left: 280px;
+    height: 20px;
   }
   
   #imagepreview {

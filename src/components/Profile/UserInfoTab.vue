@@ -10,13 +10,13 @@
         ></b-img>
       </div>
 
-      <box-icon
-        v-if="show && sameUser"
+
+
+      <img src="@/assets/cancel.svg" alt="Icon"  v-if="show && sameUser"
         @click="removeProf"
-        id="removeprofile"
-        type="solid"
-        name="message-alt-x"
-      ></box-icon>
+        id="removeprofile" /> 
+
+
     </div>
     <div class="user-info-mob">
       <h5 id="fullname" v-if="name != undefined">{{ name }}</h5>
@@ -193,6 +193,7 @@ export default {
 #removeprofile {
   bottom: 35px;
   position: relative;
+  height: 20px;
 }
 
 .btn-section {

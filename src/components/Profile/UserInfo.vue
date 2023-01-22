@@ -11,16 +11,18 @@
         fluid
         alt="Profile Image"
       ></b-img>
-      <box-icon
-        v-if="show && sameUser"
+
+ 
+
+      <img src="@/assets/cancel.svg" alt="Icon"  v-if="show && sameUser"
         @click="removeProf"
-        id="removeprofile"
-        type="solid"
-        name="message-alt-x"
-      ></box-icon>
+        id="removeprofile"/> 
+  
 
       <div v-if="!loading" id="user-info-header">
         <div id="user-info">
+  
+        
           <h4 id="fullname">{{ fullname }}</h4>
           <h5 id="username">@{{ username }}</h5>
           <p id="user-bio">
@@ -29,22 +31,21 @@
 
           <p id="joined-info">
             <span class="mr-1"
-              ><box-icon
-                id="calendar-icon"
-                type="solid"
-                name="calendar"
-              ></box-icon> </span
+              >
+         
+              <font-awesome-icon :icon="['fas','calendar-days']"   id="calendar-icon" />
+
+              
+               </span
             >Joined {{ joined }}
           </p>
           
           <p id="grad-info" v-if="university || yearofgraduation">
-            <span class="mr-1"
-             
-              ><box-icon
-                id="graduate-icon"
-                type="solid"
-                name="graduation"
-              ></box-icon>
+            <!-- <bxBell size={20} color="#ff0000" /> -->
+            <!-- <bxsGraduation /> -->
+            <span class="mr-1">
+              <font-awesome-icon :icon="['fas','graduation-cap']"   id="graduation-cap" />
+         
             </span>
             <span>{{ university ,}}</span> {{ yearofgraduation }}
           </p>
@@ -76,6 +77,7 @@ import { eventBus } from "@/main";
 // deleteUserProfileImage
 import { getUserProfile } from "@/services/user";
 import {mapGetters} from 'vuex'
+
 
 
 // import axios from "axios";
@@ -319,11 +321,17 @@ export default {
   color: white;
 }
 
-#calendar-icon,
-#graduate-icon {
-  position: relative;
-  top: 5px;
+
+#graduation-cap ,#calendar-icon{
+  color: black;
+  padding-right: 5px;
+
 }
+
+
+
+
+
 
 #info {
   height: 60%;
@@ -447,6 +455,7 @@ export default {
 #removeprofile {
     /* bottom: 90px; */
     left: -15px;
+    height: 20px;
 
   }
 

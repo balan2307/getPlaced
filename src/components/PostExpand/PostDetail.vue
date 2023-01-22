@@ -41,6 +41,7 @@ import {getPost} from '@/services/post'
 import { eventBus } from "@/main";
 
 
+
 export default {
   name: "PostDetails",
   components:{UserPost},

@@ -1,14 +1,21 @@
 <template>
       <div class="post-rating">
       <div class="rate-components">
-        <!-- <p>{{ ups }}</p>
-        <p>{{ downs }}</p> -->
-      
-      <box-icon v-show="!ups" style="margin-bottom: 5px;" @click="upvoted" name='upvote'></box-icon>
-      <box-icon v-show="ups" style="margin-bottom: 5px;"  @click="upvoted" type="solid" name='upvote'></box-icon>
+
+        <img src="@/assets/upvote.svg" alt="Icon" v-show="!ups" style="margin-bottom: 5px;" @click="upvoted"/> 
+        <img src="@/assets/upvote-solid.svg" alt="Icon" v-show="ups" style="margin-bottom: 5px;" @click="upvoted"/> 
+
+
+
       <span class="post-vote">{{ vote}}</span>
-      <box-icon  v-show="downs" style=" margin-top:9px;" @click="downvoted"  type="solid" name='downvote'></box-icon>
-      <box-icon  v-show="!downs"   style=" margin-top:9px;"  @click="downvoted"  name='downvote'></box-icon>
+    
+
+      <img src="@/assets/downvote-solid.svg" alt="Icon" v-show="downs" style=" margin-top:9px;" @click="downvoted" /> 
+      <img src="@/assets/downvote.svg" alt="Icon" v-show="!downs" style=" margin-top:9px;" @click="downvoted" /> 
+
+
+
+
       </div>
 
     </div>
@@ -16,6 +23,10 @@
 
 <script>
 import { boolean } from 'webidl-conversions';
+
+// const icons={
+//   'home':bxChild
+// }
 
 export default {
     name:'VotingWidget',
@@ -27,7 +38,9 @@ export default {
             upvotetype:'',
             downvotetype:'',
             ups:this.userupvoted,
-            downs:this.userdownvoted
+            downs:this.userdownvoted,
+        
+ 
         }
     },
     props:{
@@ -46,7 +59,7 @@ export default {
 
     },
     computed:{
-       
+
     },
     methods:{
         upvoted()

@@ -26,8 +26,10 @@
           id="searchtab"
         ></b-form-input>
         <b-button size="sm" id="search-btn" class="my-2 my-sm-0" type="submit"
-          ><box-icon name="search-alt-2"></box-icon
-        ></b-button>
+          >
+          <font-awesome-icon :icon="['fas','magnifying-glass']" size="1x"  />
+          
+        </b-button>
       </b-nav-form>
     </div>
 
@@ -131,7 +133,9 @@ li.form-inline {
 
   border: none;
   background-color: white;
+  color: black;
   padding: 0;
+  bottom: 6px;
 }
 
 li {
