@@ -47,7 +47,7 @@ const router=new Router({
             {
                 path: '/oncampus',
                 component: onCampus,
-                props: (route) => ({ page: route.query.page }),
+                // props: (route) => ({ page: route.query.page }),
               }
         
         ,
@@ -84,12 +84,8 @@ const router=new Router({
                 'main':ProfileForm,
                 'side':UserProfileCard,
                  'top':UserInfoTab
-            },
-            props: {
-            
-                    title: 'Title'
-                
             }
+            
           
         }
         ,
@@ -165,7 +161,7 @@ router.beforeEach(async(to, from, next) => {
       let tokenAuth=false;
   
       if(store.getters.isAuthenticated){
-        console.log("inside auth",store.getters.isAuthenticated)
+   
         try
         {
         
@@ -175,8 +171,8 @@ router.beforeEach(async(to, from, next) => {
         }
         catch(err)
         {
-            console.log("error auth",err)
-            // this.$store.commit('setTokenStatus',false)
+           
+           
             tokenAuth=false;
 
         }

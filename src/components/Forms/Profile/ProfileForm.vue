@@ -4,6 +4,13 @@
 
     <p id="form-header">Update your Profile</p>
     <hr />
+    <!-- <div style="border:1px solid red">
+      {{ title }}
+
+    </div> -->
+
+
+
     <LoadingIcon :loading="loading" />
     <AlertMessage ref="alertcomp" variant="warning" :message="errormessage" @alertclose="alertclose"></AlertMessage>
     <div id="formbody" v-if="!loading">
@@ -119,7 +126,6 @@ export default {
       const image=this.$refs.file.files[0];
       let imageUrl=""
       if(image) imageUrl= URL.createObjectURL(image);
-      console.log("image selected", imageUrl);
       if(image) eventBus.$emit("imagepreview",imageUrl)
 
 
@@ -131,14 +137,14 @@ export default {
         this.errormessage=msg
         this.$refs.alertcomp.showAlert(msg);
       },
-      alertclose()
+      alertclose(data)
       {
-      //  if(data==0 && !this.error) this.$router.go(-1);
+       if(data==0 && !this.error) this.$router.go(-1);
       },
 
     async onSubmit(event) {
       event.preventDefault();
-      // console.log("Check ",this.check )
+  
       
  
       const userDetails = JSON.parse(JSON.stringify(this.form));
@@ -149,7 +155,7 @@ export default {
       }
 
       
-      eventBus.$emit("profileUpdated", userDetails);
+     
     
       const fd = new FormData();
 
@@ -163,11 +169,11 @@ export default {
         yearofgraduation: this.form.yearofgraduation,
         bio:this.form.bio
       };
-      // console.log("Post data",data,typeof(data))
+   
 
       Object.keys(data).forEach((key) =>{
 
-      //  console.log("loop check",data[key])
+   
        if(data[key]!=null && data[key]!=undefined) fd.append(key, data[key])
       }
       );
@@ -183,22 +189,21 @@ export default {
     
         if(res) {
           this.error=false
-          this.showToast("Profile updated successfully")}
+          this.showToast("Profile updated successfully")
+          eventBus.$emit("profileUpdated", userDetails);
         }
+        }
+        
         catch(err)
         {
-          console.log("error in editing",err)
+      
           const {message}=err.response.data;
           this.errormessage=message;
           this.error=true;
 
           this.showToast("Username already in use");
         }
-        finally{
-        
-          console.log("finally")
-          
-        }
+    
 
      
     },
@@ -206,7 +211,6 @@ export default {
   },
   async created() {
 
-    console.log("check props",this.title)
 
 
     eventBus.$on("deleteProfileImage", () => {
@@ -229,11 +233,12 @@ export default {
 
 
     const res= await getUserProfile(this.$route.params.id)
+    if(res)  eventBus.$emit("profileInfo",res)
+    
           
 
         
           const { name, username, yearofgrad, university, college ,bio} =res.data.profile;
-            // console.log("Profile check",res.data.profile)
             Object.assign(this.form, {
             name,
             username,

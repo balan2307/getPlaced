@@ -64,23 +64,18 @@ export default {
     methods:{
         upvoted()
         {
-            // this.upvote+=1;
-            // this.ups=!this.ups;
-            // this.downs=false;
-
+         
             if(this.ups==true)
             {
-              // console.log("upvote if")
-              // this.upvote-=1;
+      
               this.ups=false;
               this.$emit('upvote',{up:-1,dw:0});
             }
             else
             {
-              // console.log("upvote else")
-              // this.upvote+=1;
+    
               if(this.downs) {
-                // this.downvote-=1;
+          
                 this.$emit('upvote',{up:1,dw:-1});
 
               }
@@ -96,24 +91,20 @@ export default {
         },
         downvoted()
         {
-            // this.downvote+=1;
-            // this.downs=!this.downs;
-            //  this.ups=false;
+           
 
              if(this.downs==true)
             {
-              // console.log("upvote if")
-              // this.downvote-=1;
+       
               this.downs=false;
               this.$emit('downvote',{up:0,dw:-1});
             }
             else
             {
-              // console.log("upvote else")
-              // this.downvote+=1;
+    
               if(this.ups){
 
-              //  this.upvote-=1;
+        
                this.$emit('downvote',{up:-1,dw:1});
 
               }

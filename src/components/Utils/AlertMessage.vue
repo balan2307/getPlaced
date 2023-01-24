@@ -46,7 +46,7 @@
         },
         showAlert() {
           this.dismissCountDown = this.dismissSecs
-          console.log("check countdown",this.dismissCountDown,this.dismissSecs)
+     
         }
       }
     }

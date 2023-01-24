@@ -80,8 +80,7 @@ export default {
     },
   },
   methods: {
-    checkTokenStatus(status) {
-      console.log("watch stat", status);
+    checkTokenStatus() {
       this.showNav = true;
     },
 
@@ -94,7 +93,6 @@ export default {
 
     userSearch() {
       if (this.$route.fullPath != `/posts?search=${this.search}`) {
-        console.log("chj");
         this.$router.push({ path: "/posts", query: { search: this.search } });
       }
     },
@@ -134,8 +132,8 @@ li.form-inline {
   border: none;
   background-color: white;
   color: black;
-  padding: 0;
   bottom: 6px;
+  padding-left: 5px;
 }
 
 li {
@@ -153,6 +151,8 @@ li {
   height: 50px;
 }
 
+
+
 @media only screen and (max-width: 580px) {
   #searchtab {
     width: 70%;
@@ -161,6 +161,20 @@ li {
   #searchposts {
     width: 100%;
   }
+}
+
+@media only screen and (max-width: 450px) {
+  #searchtab::placeholder {
+    font-size: 13px;
+  }
+
+}
+
+@media only screen and (max-width: 375px) {
+  #searchtab::placeholder {
+    font-size:10px;
+  }
+
 }
 
 @media only screen and (max-width: 280px) {

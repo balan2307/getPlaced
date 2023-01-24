@@ -79,10 +79,10 @@ export default {
   created()
   {
 
-    console.log("Created home")
+
     if(!this.isAuthenticated && this.$router.currentRoute.path!="/login")
    {
-     console.log("GO back and login");
+
      this.$router.push('/login')
    }
 

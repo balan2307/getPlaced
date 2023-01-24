@@ -63,29 +63,27 @@ export const deletePost=async(id)=>
 export const upvotePost=async(postid,userid)=>
 {
 
-    console.log("Upvote ",userid,postid)
+   
     return axios.patch(`/user/${userid}/post/${postid}/upvote`)
     .then(successHandler)
     .catch(errorHandler)
-    // console.log("Response ",response)
-    // return response;
+   
 }
 
 
 export const downvotePost=async(postid,userid)=>
 {
 
-    console.log("Downvote ",userid,postid)
+  
     return axios.patch(`/user/${userid}/post/${postid}/downvote`)
     .then(successHandler)
     .catch(errorHandler)
-    // console.log("Response ",response)
-    // return response;
+
 }
 
 export const getPostsPages=async(tag,currpage,perpage)=>{
 
-    console.log("gettPospages")
+   
    
      return axios.get(`/posts/pages/${tag}` ,{
         params:{
@@ -105,7 +103,7 @@ export const getPostsPages=async(tag,currpage,perpage)=>{
 
 export const getUserPosts=async(id,currpage,perpage)=>
 {
-    console.log("User posts",id)
+  
     const posts=await axios.get(`/user/posts/${id}`,{
         params:{
             page:currpage,
@@ -120,7 +118,7 @@ export const getUserPosts=async(id,currpage,perpage)=>
 
 export const searchPost=async(search,currpage,perpage)=>{
 
-    console.log("inside services searchPost",search)
+  
     return axios.get("/posts/search",{
         params:{
 

@@ -37,7 +37,7 @@ export const registerUser=(userCred,router)=>{
        router.push('/login');
       })
       .catch(err=>{
-        console.log("services errror",err)
+  
         throw err;
       })
 }
@@ -60,7 +60,7 @@ export const getUserProfile=async(id)=>{
   try {
 
     const res=await axios.get(`/user/profile/${id}`);
-    // console.log("Res",res)
+
     if(res) {
    
       return res;

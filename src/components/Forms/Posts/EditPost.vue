@@ -322,7 +322,7 @@
         }
         catch(err)
         {
-          console.llog("error in editing",err)
+          console.log("error in editing",err)
         }
         finally{
           this.loading=false
@@ -337,7 +337,7 @@
       modeselected() {
 
         if (this.form.mode == "onCampus") {
-          // console.log("Oncampus");
+
           this.campusmode = true;
     
         } else this.campusmode = false;
@@ -346,7 +346,7 @@
 
       previewImage() {
       
-        console.log("inside preview")
+
         this.showbtn = true;
         this.placeholderimage = URL.createObjectURL(this.$refs.file.files[0]);
     
@@ -360,7 +360,7 @@
       
      
 
-      if (this.mode == "onCampus") console.log("Created");
+
       const router=this.$router.currentRoute.matched[0].path;
       if(router.includes('add'))
       {

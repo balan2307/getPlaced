@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { getUserProfile } from "@/services/user";
+// import { getUserProfile } from "@/services/user";
 import { mapGetters } from "vuex";
 import { eventBus } from "@/main";
 export default {
@@ -102,17 +102,24 @@ export default {
     
   },
   async created() {
-    console.log("Route check", this.$route);
+    // console.log("Route check", this.$route);
     const id = this.$route.params.id;
     this.paramsid = id;
-    const res = await getUserProfile(id);
-    const { profile } = res.data;
-    this.username = profile.username;
-    this.name = profile.name;
+    let res =''
+
+    eventBus.$on("profileInfo",(data)=>{
+
+      res=data;
+      const { profile } = res.data;
+     this.username = profile.username;
+     this.name = profile.name;
     this.bio = profile.bio;
     if (profile.profileImage) this.profileImage = profile.profileImage.url;
     else this.profileImage = null;
     if (this.profileImage && this.$route.name == "UserProfileEdit") this.show = true;
+
+    })
+   
 
 
 

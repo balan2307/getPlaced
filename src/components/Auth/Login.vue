@@ -102,13 +102,11 @@ export default {
       this.loading=true;
       const uid=await this.$store.dispatch('login',userCred);
 
-      // console.log("UID ",uid)
       if(uid) this.$router.push({path:'/oncampus'})
     }
     catch(err){
-      console.log("Login error",err)
       const {status }=err.response;
-      this.$refs.form.reset()
+     if(this.$refs.form) this.$refs.form.reset()
      
       if(status==401)
       {

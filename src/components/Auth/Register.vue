@@ -100,22 +100,11 @@ export default {
       email: {
         required,
         email,
-        // unique: async(val)=>{
-        //   if(val=='') return true;
-        //   const response=await axios.get(`http://localhost:3000/user/validate?email=${val}`);
-        //   console.log("check unique",response)
 
-        // }
       },
       username: {
         required,
         minLength: minLength(4),
-        // unique: async(val)=>{
-        //   if(val=='') return true;
-        //   const response=await axios.get(`http://localhost:3000/user/validate?username=${val}`);
-        //   console.log("check unique",response)
-
-        // }
       },
       password: {
         required,
@@ -159,7 +148,7 @@ export default {
 
       try
       {
-          console.log("inside try")
+
         await registerUser(userCred, this.$router);
       
       }
@@ -167,9 +156,9 @@ export default {
       {
        
         const {error}=err.response.data;
-        // console.log("register err",error)
+
         this.errormessage=error;
-        // this.error=true;
+
         this.showToast()
 
 

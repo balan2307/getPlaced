@@ -131,13 +131,14 @@ export default {
 
 
 
-      // await deleteUserProfileImage(this.$route.params.id);
     },
+
  
     async getProfile(id) {
       this.loading = true;
   const res = await getUserProfile(id);
-  // console.log("response from backend",res)
+  if(res) eventBus.$emit("profileInfo",res)
+
   const {
     name,
     username,
@@ -148,7 +149,7 @@ export default {
     joined,
     bio
   } = res.data.profile;
-  // console.log("DATA profile",res.data.profile)
+
 
  
   Object.assign(this, {
@@ -161,9 +162,47 @@ export default {
     bio,
     profileImage: profileImage ? profileImage.url : null
   });
+
+
   this.loading = false;
   //to show remove profile pic icon
   if (profileImage && profileImage.url && this.$route.name=='UserProfileEdit') this.show = true;
+},
+
+async updateProfile(res)
+{
+
+
+  const {
+    name,
+    username,
+    yearofgrad,
+    university,
+    college,
+    profileImage,
+    joined,
+    bio
+  } = res.data.profile;
+
+
+ 
+  Object.assign(this, {
+    fullname: name,
+    username,
+    collegename: college,
+    university,
+    yearofgraduation: yearofgrad,
+    joined,
+    bio,
+    profileImage: profileImage ? profileImage.url : null
+  });
+
+
+  this.loading = false;
+  //to show remove profile pic icon
+  if (profileImage && profileImage.url && this.$route.name=='UserProfileEdit') this.show = true;
+
+
 }
 
 
@@ -205,14 +244,18 @@ export default {
       //to show the profile info in the profile page of the user
       // console.log("Else Profile")
 
-      this.getProfile(this.$route.params.id);
+      //if it is a profile page then only fetch the profile otherwise u will get from the bus
+     if(this.$route.matched[0].path=="/user/profile/:id") this.getProfile(this.$route.params.id);
     }
 
     eventBus.$on("imagepreview", (data) => {
       // console.log("image bus",data)
       this.imageSelected=data;
       this.show=true;
+    })
 
+    eventBus.$on("profileInfo",(data)=>{
+      this.updateProfile(data)
 
     })
 
@@ -463,7 +506,7 @@ export default {
 @media only screen and (max-width: 1070px) {
   #postBtn {
     position: relative;
-    top: 20px;
+    /* top: 20px; */
   }
 
   /* #user-info p {
