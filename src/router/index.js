@@ -18,7 +18,10 @@ import offCampus from '@/components/HomePage/PostSection/offCampus'
 import SearchedResult from '@/components/HomePage/SearchedResult'
 import UserInfoTab from "@/components/Profile/UserInfoTab.vue"
 import store from '@/store';
+import NotFound from '@/components/Utils/NotFound'
 import {authUser} from '@/services/auth.js'
+// import { eventBus } from "@/main";
+
 const router=new Router({
     mode:'history',
     routes:[
@@ -141,7 +144,10 @@ const router=new Router({
                 
             }
 
-        }
+        },
+        { path: '*', components: {
+           'main': NotFound
+         } }
 
      
     ]
@@ -154,6 +160,30 @@ router.beforeEach(async(to, from, next) => {
       // this route requires auth, check if logged in
       // if not, redirect to login page.
 
+      try{
+      if(to.name=='PostForm'  || to.name=='UserProfileEdit' )
+      {
+        
+        console.log("inside check")
+        const reqId=to.params.id;
+        const userID=store.getters.getUid;
+        if(reqId!=userID)
+        {
+            console.log("Unauthrouzzed")
+            // eventBus.$emit("UnAuth")
+            store.commit('setAuthorized', false)
+            throw new Error("UnAuthorized access")
+        }
+      }
+    }
+    catch(err)
+    {
+        console.log("error inside router",err)
+    
+        next({ path:'/oncampus'});
+
+       
+    }
   
       if(to.name!='LoginPage' && to.name!='RegisterPage') {
     
@@ -202,5 +232,7 @@ router.beforeEach(async(to, from, next) => {
 
 
 })
+
+
 
 export default router;

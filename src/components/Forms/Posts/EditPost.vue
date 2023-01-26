@@ -1,13 +1,17 @@
 
 <template>
     <div id="postform">
+
       <errorMessage :error="error" :errormessage="errormessage"></errorMessage>
+      <NotFound v-if="empty"></NotFound>
+
       <AlertMessage :variant="variant" :message="alertmessage" ref="alertcomp" @alertclose="alertclose"></AlertMessage>
 
+      <div v-if="!empty">
       <p id="form-header">Edit post</p>
       <hr />
       <LoadingIcon :loading="loading"></LoadingIcon>
-      <div id="formbody" v-if="!loading">
+      <div id="formbody" v-if="!loading"  >
         <b-form @submit="onSubmit" enctype="multipart/form-data">
           <InputField
             v-model="form.title"
@@ -133,6 +137,7 @@
           <b-button variant="info" type="submit">Submit</b-button> -->
         </b-form>
       </div>
+      </div>
     </div>
   </template>
   
@@ -142,18 +147,20 @@
   import InputField from "../Input/InputText.vue";
   import FormSelect from "../Input/SelectText.vue";
   import TextArea from "../Input/TextArea.vue";
-  import { mapGetters } from 'vuex';
   import { eventBus } from "@/main";
   import {editPost,getPost} from '@/services/post'
   import { required ,requiredIf } from "vuelidate/lib/validators";
   import AlertMessage from '@/components/Utils/AlertMessage.vue'
+  import {mapGetters} from 'vuex'
+  import store from '@/store';
   
   export default {
     name: "PostEditForm",
     components: { InputField, FormSelect, TextArea ,AlertMessage},
     computed:{
   
-      ...mapGetters(['getUid']),
+      ...mapGetters(['getUid','isAuthorized']),
+
       
     },
     data() {
@@ -181,6 +188,7 @@
       errormessage:'',
       alertmessage:'',
       variant:'success',
+      empty:false,
   
         mode: [
           { value: null, text: "Select a mode" },
@@ -357,6 +365,8 @@
       },
     },
     async created() {
+
+
       
      
 
@@ -383,6 +393,15 @@
             
   
             const {college,company,difficulty,title,content,mode,tags,image} =res.data.post[0];
+            const postUser=res.data.post[0].user._id;
+            if(postUser!=this.getUid)
+            {
+              store.commit('setAuthorized', false);
+              this.$router.push({path:'/oncampus'})
+ 
+            }
+            
+            console.log("post data",res.data.post[0])
                if(mode=='onCampus') this.campusmode=true;
         
                this.form.mode=mode
@@ -415,6 +434,9 @@
        }
        catch(err)
        {
+        eventBus.$emit("notfound");
+        this.loading=false;
+        this.empty=true;
         console.log("Error ",err)
   
        }

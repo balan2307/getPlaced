@@ -1,6 +1,11 @@
 <template>
   <div>
     <h5 id="search-header">Search results for {{ searchedfor }}</h5>
+    <div v-if="empty">
+      <h4 style="color:grey">No posts found ,try searching something else</h4>
+
+    </div>
+    <div v-if="!empty">
     <LoadingIcon :loading="loading"></LoadingIcon>
     <div v-if="!loading">
 
@@ -10,6 +15,8 @@
       :post="post"
     ></UserPost>
     </div>
+    </div>
+
 
     <PaginationComponent
       :pages="pages"
@@ -31,7 +38,8 @@ export default {
     return {
       posts: [],
       searchedfor: this.$route.query.search,
-      pages:0
+      pages:0,
+      empty:false
     };
   },
   computed: {
@@ -44,12 +52,14 @@ export default {
   async created() {
     const postlimit=2;
     this.loading=true;
-    console.log("data to be searched", this.searchedfor, this.posts);
     if (this.searchedfor!= undefined) {
         try{
       const res = await searchPost(this.searchedfor,this.page,postlimit);
       this.posts = res.data.posts;
+      if(this.posts.length==0) this.empty=true;
+   
       this.pages=res.data.pages;
+      this.loading=false;
         }
         catch(err)
         {
@@ -57,7 +67,7 @@ export default {
 
         }
     }
-    this.loading=false;
+
   },
 };
 </script>

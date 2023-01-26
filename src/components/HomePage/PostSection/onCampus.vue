@@ -3,6 +3,7 @@
 
   <div id="displayallposts">
      <LoadingIcon :loading="loading"></LoadingIcon>
+     <AlertMessage ref="alertcomp" variant="danger" :message="errormessage"></AlertMessage>
      <div v-if="!loading">
     <UserPost v-for="(post,index) in posts" :key="index" :post="post"></UserPost>
     </div>
@@ -21,6 +22,10 @@
 import UserPost from "@/components/HomePage/Posts.vue"
 import {getPostsPages} from '@/services/post'
 import PaginationComponent from '@/components/Utils/Pagination.vue'
+import {mapGetters} from 'vuex'
+import store from '@/store';
+
+
 
 
 export default {
@@ -31,20 +36,37 @@ export default {
         return{
             posts:[],
             loading:false,
-            pages:0
+            pages:0,
+            errormessage:''
         }
 
 
     },
     computed:{
 
+        ...mapGetters(['isAuthorized']),
+
         page()
         {
         return this.$route.query.page || 1
         }
     },
+    methods:{
+        showToast()
+      {
+  
+        console.log("refs",this.$refs)
+
+        this.$refs.alertcomp.showAlert();
+      }
+
+    },
     async created()
     {
+
+     
+  
+        store.commit('setAuthorized', true)
         this.loading=true;
     
         // console.log("OnCampus",this.page)
@@ -70,6 +92,14 @@ export default {
 
    
 
+    },
+    mounted(){
+        if(!this.isAuthorized)
+        {
+            console.log("gel")
+            this.errormessage="Unauthorized Access"
+            this.showToast()
+        }
     }
 
 }

@@ -104,13 +104,23 @@ export const getPostsPages=async(tag,currpage,perpage)=>{
 export const getUserPosts=async(id,currpage,perpage)=>
 {
   
-    const posts=await axios.get(`/user/posts/${id}`,{
+    let posts=[]
+    try{
+    posts=await axios.get(`/user/posts/${id}`,{
         params:{
             page:currpage,
             limit:perpage
         }
     })
+    console.log("no err")
     return posts;
+   }
+   catch(err)
+   {
+    console.log("errorr cauu",err)
+    throw err;
+
+   }
 
 
 }

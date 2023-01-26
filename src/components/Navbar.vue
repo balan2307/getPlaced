@@ -92,7 +92,9 @@ export default {
     },
 
     userSearch() {
-      if (this.$route.fullPath != `/posts?search=${this.search}`) {
+       this.search=this.search.replace(/\s+/g, ' ').trim()
+      if (this.$route.fullPath != `/posts?search=${this.search}` && this.search) {
+
         this.$router.push({ path: "/posts", query: { search: this.search } });
       }
     },

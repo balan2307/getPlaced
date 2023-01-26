@@ -18,12 +18,13 @@ import errorMessage from '@/components/Utils/ErrorMessage'
 import LoadingIcon from '@/components/Utils/Loading.vue'
 import AlertMessage from '@/components/Utils/AlertMessage.vue'
 
-
+import NotFound from '@/components/Utils/NotFound'
 
 
 Vue.component('errorMessage', errorMessage)
 Vue.component('LoadingIcon', LoadingIcon)
 Vue.component('AlertMessage', AlertMessage)
+Vue.component('NotFound',NotFound)
 
 
 // Vue.component('boxIcon',BoxIcons)

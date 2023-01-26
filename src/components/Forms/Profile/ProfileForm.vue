@@ -1,5 +1,7 @@
 <template>
-  <div id="postform">
+  <div >
+    <NotFound v-if="empty"></NotFound>
+  <div v-if="!empty" id="postform">
    
 
     <p id="form-header">Update your Profile</p>
@@ -65,6 +67,7 @@
       </b-form>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
@@ -106,7 +109,8 @@ export default {
       error:false,
       errormessage:'',
       check:"",
-      imagedeletion:false
+      imagedeletion:false,
+      empty:false
 
     };
   },
@@ -232,7 +236,10 @@ export default {
     this.loading=true;
 
 
-    const res= await getUserProfile(this.$route.params.id)
+
+    let res= []
+    try{
+    res=await getUserProfile(this.$route.params.id)
     if(res)  eventBus.$emit("profileInfo",res)
     
           
@@ -249,6 +256,15 @@ export default {
           });
 
           this.loading=false;
+        }
+        catch(err)
+        {
+
+          eventBus.$emit("notfound")
+          this.empty=true;
+          this.loading=false
+          console.log("errro",err)
+        }
 
         
       

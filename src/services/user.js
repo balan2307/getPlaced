@@ -67,8 +67,9 @@ export const getUserProfile=async(id)=>{
      
     }
     // this.error = "";
-  } catch (err) {
-    console.log("error", err);
+  } catch (error) {
+    console.log("error serv", error);
+    throw error;
     // this.error = err.response.data.error;
   }
 

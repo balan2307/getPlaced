@@ -1,10 +1,10 @@
 <!-- Profile Card which will be displayed in the right side of the homepage ,it will show user info -->
 <template>
-  <div id="userprofile">
+  <div v-if="!empty" id="userprofile" >
     <div id="header">
       <LoadingIcon :loading="loading" />
     </div>
-    <div id="info">
+    <div id="info"  >
       <b-img
         class="profile-image"
         :src="showProfileImage"
@@ -98,6 +98,7 @@ export default {
       show: false,
       showupdatebtn: this.$router.currentRoute,
       imageSelected:null,
+      empty:false,
       default_image:
         "https://res.cloudinary.com/esakki/image/upload/v1672415855/getPlaced/no-image_cwaz3f.jpg",
     };
@@ -136,7 +137,9 @@ export default {
  
     async getProfile(id) {
       this.loading = true;
-  const res = await getUserProfile(id);
+  let res = {}
+  try{
+  res=await getUserProfile(id);
   if(res) eventBus.$emit("profileInfo",res)
 
   const {
@@ -167,6 +170,12 @@ export default {
   this.loading = false;
   //to show remove profile pic icon
   if (profileImage && profileImage.url && this.$route.name=='UserProfileEdit') this.show = true;
+}
+catch(err)
+{
+   this.empty=true;
+   this.loading=false
+}
 },
 
 async updateProfile(res)
@@ -247,6 +256,11 @@ async updateProfile(res)
       //if it is a profile page then only fetch the profile otherwise u will get from the bus
      if(this.$route.matched[0].path=="/user/profile/:id") this.getProfile(this.$route.params.id);
     }
+
+
+    eventBus.$on("notfound", () => {
+      this.empty=true;
+    })
 
     eventBus.$on("imagepreview", (data) => {
       // console.log("image bus",data)

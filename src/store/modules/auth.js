@@ -11,7 +11,8 @@ const auth={
         uid: getUserId(localStorage.getItem(KEY_TOKEN)) || '',
         username:localStorage.getItem(KEY_NAME) || '',
         tokenstatus:true,
-        shownav:true
+        shownav:true,
+        isAuthorized:true
         
     },
     getters:{
@@ -41,6 +42,10 @@ const auth={
         {
             return state.tokenstatus;
         },
+        isAuthorized(state)
+        {
+            return state.isAuthorized;
+        }
         // getNavstatus(state)
         // {
         //     return state.shownav;
@@ -65,6 +70,10 @@ const auth={
         setNavStatus(state)
         {
             state.shownav=this.getTokenstatus && this.isAuthenticated
+        },
+        setAuthorized(state,status)
+        {
+            state.isAuthorized=status;
         }
     
     },
