@@ -66,6 +66,7 @@ import InputField from '../Input/InputText.vue'
 import FormSelect from  '../Input/TextArea.vue'
 import {getUserProfile,EditProfile} from '@/services/user'
 import { numeric } from "vuelidate/lib/validators";
+import store from "@/store";
 
 
 
@@ -187,6 +188,7 @@ export default {
           this.error=false
           this.showToast("Profile updated successfully")
           eventBus.$emit("profileUpdated", userDetails);
+          store.commit("setUserName", data.username);
         }
         }
         
