@@ -12,16 +12,13 @@ export const eventBus=new Vue();
 Vue.use(Vuelidate)
 import axios from 'axios'
 axios.defaults.baseURL=process.env.VUE_APP_BASE_URL
-// Vue.prototype.$publicpath = './../../public'
 
-import errorMessage from '@/components/Utils/ErrorMessage'
 import LoadingIcon from '@/components/Utils/Loading.vue'
 import AlertMessage from '@/components/Utils/AlertMessage.vue'
 
 import NotFound from '@/components/Utils/NotFound'
 
 
-Vue.component('errorMessage', errorMessage)
 Vue.component('LoadingIcon', LoadingIcon)
 Vue.component('AlertMessage', AlertMessage)
 Vue.component('NotFound',NotFound)

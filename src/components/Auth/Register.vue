@@ -1,75 +1,92 @@
 <template>
-   <div>
-    <!-- <errorMessage :error="error" :errormessage="errormessage"></errorMessage> -->
-    <AlertMessage ref="alertcomp" variant="warning" :message="errormessage"></AlertMessage>
+  <div>
+    <AlertMessage
+      ref="alertcomp"
+      variant="warning"
+      :message="errormessage"
+    ></AlertMessage>
 
-  <div id="formbody">
-    <b-form  id="loginform" @submit="onSubmit" novalidate>
-      <b-input-group id="field1" class="mb-2">
+    <div id="formbody">
+      <b-form id="loginform" @submit="onSubmit" novalidate>
+        <b-input-group id="field1" class="mb-2">
+          <InputField
+            v-model="user.email"
+            :class="{ invalid: $v.user.email.$error }"
+            @blur="$v.user.email.$touch()"
+            type="email"
+            placeholder="Email"
+          ></InputField>
+          <p class="feedback" v-if="!$v.user.email.email">
+            Please provide a valid email address
+          </p>
+          <p
+            class="feedback"
+            v-if="!$v.user.email.required && $v.user.email.$anyError"
+          >
+            Email cannot be empty
+          </p>
+        </b-input-group>
+
+        <b-input-group id="field2" class="mb-2">
+          <InputField
+            :class="{ invalid: $v.user.username.$error }"
+            type="text"
+            @blur="$v.user.username.$touch()"
+            v-model="user.username"
+            placeholder="Username"
+          ></InputField>
+          <p class="feedback" v-if="$v.user.username.$error">
+            Username should be atleast
+            {{ $v.user.username.$params.minLength.min }} characters
+          </p>
+        </b-input-group>
+
         <InputField
-          v-model="user.email"
-          :class="{ invalid: $v.user.email.$error }"
-          @blur="$v.user.email.$touch()"
-          type="email"
-          placeholder="Email"
+          type="password"
+          v-model="user.password"
+          placeholder="Password"
+          :class="{ invalid: $v.user.password.$error }"
+          @blur="$v.user.password.$touch()"
         ></InputField>
-        <p class="feedback" v-if="!$v.user.email.email">Please provide a valid email address</p>
-        <p class="feedback" v-if="!$v.user.email.required && $v.user.email.$anyError">Email cannot be empty</p>
-      </b-input-group>
-      <!-- <p>{{ $v.user.email }}</p> -->
 
-
-
-      <b-input-group id="field2" class="mb-2">
-        <InputField
-          :class="{ invalid: $v.user.username.$error }"
-          type="text"
-          @blur="$v.user.username.$touch()"
-          v-model="user.username"
-          placeholder="Username"
-        ></InputField>
-        <p class="feedback" v-if="$v.user.username.$error">
-          Username should be atleast
-          {{ $v.user.username.$params.minLength.min }} characters
-        </p>     
-      </b-input-group>
-      <!-- <p>{{ $v.user.username }}</p> -->
-
-
-      <InputField type="password" 
-      v-model="user.password" placeholder="Password"
-      :class="{ invalid: $v.user.password.$error }"
-      @blur="$v.user.password.$touch()"
-      ></InputField>
-
-
-      <p class="feedback" v-if="!$v.user.password.minLength && $v.user.password.$error"> 
-           Password should be atleast
+        <p
+          class="feedback"
+          v-if="!$v.user.password.minLength && $v.user.password.$error"
+        >
+          Password should be atleast
           {{ $v.user.password.$params.minLength.min }} characters
         </p>
-        <p class="feedback" v-if="!$v.user.password.containsUppercase && $v.user.password.$error"> 
+        <p
+          class="feedback"
+          v-if="!$v.user.password.containsUppercase && $v.user.password.$error"
+        >
           Password should contain atleast 1 Uppercase character
         </p>
-        <p class="feedback" v-if="!$v.user.password.containsLowercase && $v.user.password.$error"> 
+        <p
+          class="feedback"
+          v-if="!$v.user.password.containsLowercase && $v.user.password.$error"
+        >
           Password should contain atleast 1 Lowercase character
         </p>
-        <p class="feedback" v-if="!$v.user.password.containsNumber && $v.user.password.$error"> 
+        <p
+          class="feedback"
+          v-if="!$v.user.password.containsNumber && $v.user.password.$error"
+        >
           Password should contain atleast 1 digit
         </p>
-        <p class="feedback" v-if="!$v.user.password.containsSpecial && $v.user.password.$error"> 
+        <p
+          class="feedback"
+          v-if="!$v.user.password.containsSpecial && $v.user.password.$error"
+        >
           Password should contain atleast 1 special character
         </p>
 
-
-
-      <div id="loginbtn">
-        <b-button type="submit" variant="primary" >Register</b-button>
-      </div>
-    </b-form>
-
-    <!-- <p>{{ error }}</p> -->
-  </div>
-  <p>Already registered? <router-link to="/login">Login</router-link></p>
+        <div id="loginbtn">
+          <b-button type="submit" variant="primary">Register</b-button>
+        </div>
+      </b-form>
+    </div>
+    <p>Already registered? <router-link to="/login">Login</router-link></p>
   </div>
 </template>
 
@@ -77,7 +94,6 @@
 import { registerUser } from "@/services/user";
 import { required, email, minLength } from "vuelidate/lib/validators";
 import InputField from "../Forms/Input/InputText.vue";
-// import axios from "axios";
 
 export default {
   name: "RegisterPage",
@@ -92,7 +108,7 @@ export default {
         password: "",
       },
       error: "",
-      errormessage:""
+      errormessage: "",
     };
   },
   validations: {
@@ -100,7 +116,6 @@ export default {
       email: {
         required,
         email,
-
       },
       username: {
         required,
@@ -125,48 +140,28 @@ export default {
     },
   },
   methods: {
-    showToast()
-      {
-  
-        this.$refs.alertcomp.showAlert();
-      },
+    showToast() {
+      this.$refs.alertcomp.showAlert();
+    },
     async onSubmit(e) {
       e.preventDefault();
 
-      if(this.$v.user.$invalid)
-      {
-      this.$v.$touch()
-      this.touched=true;
-   
+      if (this.$v.user.$invalid) {
+        this.$v.$touch();
+        this.touched = true;
+      } else {
+        const userCred = JSON.parse(JSON.stringify(this.user));
+
+        try {
+          await registerUser(userCred, this.$router);
+        } catch (err) {
+          const { error } = err.response.data;
+
+          this.errormessage = error;
+
+          this.showToast();
+        }
       }
-      else
-      {
-
-    
-
-      const userCred = JSON.parse(JSON.stringify(this.user));
-
-      try
-      {
-
-        await registerUser(userCred, this.$router);
-      
-      }
-      catch(err)
-      {
-       
-        const {error}=err.response.data;
-
-        this.errormessage=error;
-
-        this.showToast()
-
-
-      }
-    }
-     
-
-
     },
   },
 };
@@ -175,7 +170,6 @@ export default {
 <style>
 .invalid {
   border: 1px solid red !important;
-  /* background-color: rgb(207, 164, 172) !important; */
 }
 
 #loginform {
@@ -183,34 +177,19 @@ export default {
 
   background-color: white;
   border-radius: 10px;
-
 }
-.feedback
-{
+.feedback {
   font-size: 0.8em;
   color: red;
   margin: 0;
-  
 }
 
 #loginform input {
   width: 100%;
 }
 
-/* #field1{
-      margin-bottom: 20px;
-  } */
-
 #loginbtn {
   display: flex;
   justify-content: center;
 }
-
-#formbody
-{
-  
-  
-}
-
-
 </style>

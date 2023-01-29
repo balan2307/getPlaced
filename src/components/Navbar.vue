@@ -36,10 +36,10 @@
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
-      <!-- Right aligned nav items -->
+  
       <b-navbar-nav class="ml-auto" v-if="showNav">
         <b-nav-item-dropdown right>
-          <!-- Using 'button-content' slot -->
+         
           <template #button-content>
             <em>{{ getUserName }} </em>
           </template>
@@ -58,7 +58,7 @@
 <script>
 import { mapGetters } from "vuex";
 
-// import {getUserName} from '../services/user'
+
 
 export default {
   name: "NavHeader",
@@ -88,11 +88,11 @@ export default {
       this.$store
         .dispatch("logout")
         .then(() => this.$router.push({ name: "LoginPage" }));
-      // this.showNav=false
+
     },
 
     userSearch() {
-       this.search=this.search.replace(/\s+/g, ' ').trim()
+       if(this.search) this.search=this.search.replace(/\s+/g, ' ').trim()
       if (this.$route.fullPath != `/posts?search=${this.search}` && this.search) {
 
         this.$router.push({ path: "/posts", query: { search: this.search } });
@@ -116,72 +116,5 @@ export default {
 <style>
 @import url("./../../public/stylesheets/navbar.css");
 
-.wrapper {
-  position: sticky;
-  top: 0;
-}
 
-li.form-inline {
-  width: 100%;
-  display: flex;
-  justify-content: right;
-  margin-right: 10px;
-}
-
-#search-btn {
-  position: relative;
-
-  border: none;
-  background-color: white;
-  color: black;
-  bottom: 6px;
-  padding-left: 5px;
-}
-
-li {
-  list-style: none;
-}
-
-.display {
-  display: flex;
-
-  justify-content: space-between;
-  width: 80%;
-}
-#logo{
-  width: 50px;
-  height: 50px;
-}
-
-
-
-@media only screen and (max-width: 580px) {
-  #searchtab {
-    width: 70%;
-  }
-
-  #searchposts {
-    width: 100%;
-  }
-}
-
-@media only screen and (max-width: 450px) {
-  #searchtab::placeholder {
-    font-size: 13px;
-  }
-
-}
-
-@media only screen and (max-width: 375px) {
-  #searchtab::placeholder {
-    font-size:10px;
-  }
-
-}
-
-@media only screen and (max-width: 280px) {
-  .display {
-    width: 100%;
-  }
-}
 </style>

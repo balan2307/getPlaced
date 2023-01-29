@@ -40,7 +40,7 @@
 </template>
 
 <script>
-// import { getUserProfile } from "@/services/user";
+
 import { mapGetters } from "vuex";
 import { eventBus } from "@/main";
 export default {
@@ -62,12 +62,13 @@ export default {
     ...mapGetters(["getUid"]),
 
     sameUser() {
-      // console.log("check user")
+
       return this.getUid == this.paramsid;
     },
     showProfileImage()
     {
       
+      console.log("check prof tab",this.profileImage)
       if(this.imageSelected) return this.imageSelected;
       else if(this.profileImage) return this.profileImage;
       else return this.default_image;
@@ -102,13 +103,14 @@ export default {
     
   },
   async created() {
-    // console.log("Route check", this.$route);
+  
     const id = this.$route.params.id;
     this.paramsid = id;
     let res =''
 
     eventBus.$on("profileInfo",(data)=>{
 
+      console.log("profile info buss")
       res=data;
       const { profile } = res.data;
      this.username = profile.username;
@@ -137,8 +139,11 @@ export default {
         bio,
         profileImage: profileImage
           ? profileImage
-          : null
+          : !this.profileImage
+          ? null
+          : this.profileImage
       });
+      console.log("upd",profileImage,this.profileImage)
       if (profileImage) this.show = true;
     });
 
@@ -159,7 +164,6 @@ export default {
 
 
     eventBus.$on("imagepreview", (data) => {
-      // console.log("image bus",data)
       this.imageSelected=data;
       this.show=true;
 
@@ -173,89 +177,5 @@ export default {
 </script>
 
 <style scoped>
-.profile-image {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-}
-
-.prof-card-mob {
-  display: flex;
-  row-gap: 2px;
-  background-color: white;
-  margin-bottom: 5px;
-  border-radius: 5px;
-}
-
-.user-info-mob {
-  flex-grow: 0.7;
-  padding: 10px;
-
-  border-left: 1px solid #f7ebeb;
-}
-#username {
-  font-size: 0.9em;
-}
-
-#removeprofile {
-  bottom: 35px;
-  position: relative;
-  height: 20px;
-}
-
-.btn-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-}
-
-#update-btn a {
-  text-decoration: none;
-  color: black;
-}
-
-#update-btn {
-  border-radius: 1rem;
-}
-
-#update-btn :hover {
-  color: rgb(247, 247, 247) !important;
-}
-
-.profile-image-mob {
-  /* padding: 10px; */
-  width: 15%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-}
-
-#bio {
-  font-size: 0.9em;
-}
-#userinfotab {
-  display: none;
-}
-
-#username {
-  color: #b5bcc3;
-}
-
-#image-section{
-  padding-left: 5px;
-}
-
-@media only screen and (max-width: 900px) {
-  #userinfotab {
-    display: flex;
-  }
-}
-
-@media only screen and (max-width: 680px) {
-  .profile-image-mob {
-    width: 30%;
-  }
-}
+@import url("@/../public/stylesheets/userinfotab.css");
 </style>

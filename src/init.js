@@ -1,5 +1,3 @@
-
-// import Vuex from 'vuex'
 import '@/services/plugin.js'
 import Vue from 'vue'
 
@@ -13,18 +11,18 @@ import { faMagnifyingGlass,faThumbsUp as faThumbsUpSolid,faThumbsDown as faThumb
 ,faCalendarDays, 
 faGraduationCap} from '@fortawesome/free-solid-svg-icons'
 
-// import { faUp } from '@fortawesome/free-light-svg-icons'
+
 
 
 library.add(faHatWizard,faCalendarDays,faGraduationCap,faMagnifyingGlass,)
 library.add(faThumbsUpSolid,faThumbsDownSolid)
 
 
-// Vue.use(Vuex)
+
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
-// Vue.use(Router)
+
 
 import '@/services/configAxios'
 

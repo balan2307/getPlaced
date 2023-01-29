@@ -14,3 +14,72 @@ nav a:hover
 {
   color:black
 }
+
+.wrapper {
+  position: sticky;
+  top: 0;
+}
+
+li.form-inline {
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  margin-right: 10px;
+}
+
+#search-btn {
+  position: relative;
+
+  border: none;
+  background-color: white;
+  color: black;
+  bottom: 6px;
+  padding-left: 5px;
+}
+
+li {
+  list-style: none;
+}
+
+.display {
+  display: flex;
+
+  justify-content: space-between;
+  width: 80%;
+}
+#logo{
+  width: 50px;
+  height: 50px;
+}
+
+
+
+@media only screen and (max-width: 580px) {
+  #searchtab {
+    width: 70%;
+  }
+
+  #searchposts {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  #searchtab::placeholder {
+    font-size: 13px;
+  }
+
+}
+
+@media only screen and (max-width: 375px) {
+  #searchtab::placeholder {
+    font-size:10px;
+  }
+
+}
+
+@media only screen and (max-width: 280px) {
+  .display {
+    width: 100%;
+  }
+}

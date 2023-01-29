@@ -1,115 +1,88 @@
 <template>
-  
-
   <div id="displayallposts">
-     <LoadingIcon :loading="loading"></LoadingIcon>
-     <AlertMessage ref="alertcomp" variant="danger" :message="errormessage"></AlertMessage>
-     <div v-if="!loading">
-    <UserPost v-for="(post,index) in posts" :key="index" :post="post"></UserPost>
+    <LoadingIcon :loading="loading"></LoadingIcon>
+    <AlertMessage
+      ref="alertcomp"
+      variant="danger"
+      :message="errormessage"
+    ></AlertMessage>
+    <div v-if="!loading">
+      <UserPost
+        v-for="(post, index) in posts"
+        :key="index"
+        :post="post"
+      ></UserPost>
     </div>
 
-
-  <PaginationComponent :pages="pages" :currentpage="page"></PaginationComponent>
-
-
+    <PaginationComponent
+      :pages="pages"
+      :currentpage="page"
+    ></PaginationComponent>
   </div>
-
-
-
 </template>
 
 <script>
-import UserPost from "@/components/HomePage/Posts.vue"
-import {getPostsPages} from '@/services/post'
-import PaginationComponent from '@/components/Utils/Pagination.vue'
-import {mapGetters} from 'vuex'
-import store from '@/store';
-
-
-
+import UserPost from "@/components/HomePage/Posts.vue";
+import { getPostsPages } from "@/services/post";
+import PaginationComponent from "@/components/Utils/Pagination.vue";
+import { mapGetters } from "vuex";
+import store from "@/store";
 
 export default {
-    name:'onCampus',
-    components:{UserPost,PaginationComponent},
-    data()
-    {
-        return{
-            posts:[],
-            loading:false,
-            pages:0,
-            errormessage:''
-        }
+  name: "onCampus",
+  components: { UserPost, PaginationComponent },
+  data() {
+    return {
+      posts: [],
+      loading: false,
+      pages: 0,
+      errormessage: "",
+    };
+  },
+  computed: {
+    ...mapGetters(["isAuthorized"]),
 
-
+    page() {
+      return this.$route.query.page || 1;
     },
-    computed:{
+  },
+  methods: {
+    showToast() {
+      console.log("refs", this.$refs);
 
-        ...mapGetters(['isAuthorized']),
-
-        page()
-        {
-        return this.$route.query.page || 1
-        }
+      this.$refs.alertcomp.showAlert();
     },
-    methods:{
-        showToast()
-      {
+  },
+  async created() {
   
-        console.log("refs",this.$refs)
+    store.commit("setAuthorized", true);
+    this.loading = true;
 
-        this.$refs.alertcomp.showAlert();
-      }
+    let postlimit = 2;
 
-    },
-    async created()
-    {
-
-     
-  
-        store.commit('setAuthorized', true)
-        this.loading=true;
+    getPostsPages("oncampus", this.page, postlimit)
+      .then((post) => {
+        this.pages = post.data.pages;
+        this.posts = post.data.posts;
+        this.loading = false;
     
-        // console.log("OnCampus",this.page)
-        let postlimit=2;
-  
-        getPostsPages('oncampus',this.page,postlimit)
-        .then(post=>{
-        console.log("data received oncampus check")
-        this.pages=post.data.pages;
-        this.posts=post.data.posts;
-        this.loading=false;
-
-        })
-        .catch((err)=>{
-            console.log("Error oncampuss",err)
-            this.$router.push({path:'/login'})
-
-        })
-
-
-        // console.log("front end post",this.posts)
-
-
-   
-
-    },
-    mounted(){
-        if(!this.isAuthorized)
-        {
-            console.log("gel")
-            this.errormessage="Unauthorized Access"
-            this.showToast()
-        }
+      })
+      .catch((err) => {
+        console.log("Error oncampuss", err);
+        this.$router.push({ path: "/login" });
+      });
+  },
+  mounted() {
+    if (!this.isAuthorized) {
+      this.errormessage = "Unauthorized Access";
+      this.showToast();
     }
-
-}
+  },
+};
 </script>
 
 <style>
-#displayallposts{
-    margin-top: 10px;
+#displayallposts {
+  margin-top: 10px;
 }
-
-
-
 </style>

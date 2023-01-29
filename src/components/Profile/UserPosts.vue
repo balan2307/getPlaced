@@ -52,7 +52,7 @@ export default {
   components: { UserPost, PaginationComponent,UserInfoTab },
   async created() {
     this.loading = true;
-    // console.log("Params", this.$route.params.id);
+
     let postlimit = 3;
 
 

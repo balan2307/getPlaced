@@ -1,6 +1,5 @@
 <template>
   
-    <!-- <input type="text" :value="inputValue" @input="updateCode($event.target.value)"> -->
 
     <b-form-input
           :value="value"

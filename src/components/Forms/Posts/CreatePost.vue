@@ -2,7 +2,7 @@
   <div id="postform">
     <p id="form-header">Create a post</p>
     <hr />
-   
+
     <div id="formbody">
       <b-form @submit="onSubmit" enctype="multipart/form-data">
         <InputField
@@ -10,17 +10,18 @@
           id="input-1"
           placeholder="Title"
           :class="{ invalid: $v.form.title.$error }"
-         
         ></InputField>
-        <p class="feedback" v-if="!$v.form.title.required && touched">Title cannot be empty</p>
- 
+        <p class="feedback" v-if="!$v.form.title.required && touched">
+          Title cannot be empty
+        </p>
 
         <div id="image-placeholder" v-if="showbtn" class="mb-2">
-
-
-          <img src="@/assets/cancel.svg" alt="Icon"   id="removeprofile"
-            @click="removeselectedImage"/> 
-
+          <img
+            src="@/assets/cancel.svg"
+            alt="Icon"
+            id="removeprofile"
+            @click="removeselectedImage"
+          />
 
           <b-img
             :src="placeholderimage"
@@ -38,16 +39,18 @@
           placeholder="Describe your interview Expereince"
           :class="{ invalid: $v.form.content.$error }"
         ></TextArea>
-        <p class="feedback" v-if="!$v.form.content.required && touched">Content cannot be empty</p>
+        <p class="feedback" v-if="!$v.form.content.required && touched">
+          Content cannot be empty
+        </p>
 
         <InputField
           v-model="form.company"
           id="input-2"
           placeholder="Company name"
         ></InputField>
-        <p class="feedback" v-if="!$v.form.company.required && (touched)">
-              Please mention the company name
-          </p> 
+        <p class="feedback" v-if="!$v.form.company.required && touched">
+          Please mention the company name
+        </p>
 
         <div id="selectoption" class="mb-2">
           <div id="modeselect">
@@ -60,9 +63,12 @@
               @blur="$v.form.mode.$touch()"
               name="campusmode"
             ></FormSelect>
-            <p class="feedback" v-if="!$v.form.mode.required && (modetouched || touched)">
+            <p
+              class="feedback"
+              v-if="!$v.form.mode.required && (modetouched || touched)"
+            >
               Please select an option
-            </p> 
+            </p>
           </div>
 
           <div id="modedifficulty">
@@ -75,15 +81,14 @@
               name="difficultymode"
               @blur="$v.form.difficulty.$touch()"
             ></FormSelect>
-            <p class="feedback" v-if="!$v.form.difficulty.required && (difftouched || touched)">
+            <p
+              class="feedback"
+              v-if="!$v.form.difficulty.required && (difftouched || touched)"
+            >
               Please select an option
-            </p>  
-             <!-- <p>{{ $v.form.difficulty }}</p>
-             <p>{{ difftouched }}</p> -->
+            </p>
           </div>
         </div>
-
-        <!-- <TextArea id="post-tags" v-model="form.content" row="1" placeholder="Mention any post related tags"></TextArea> -->
 
         <InputField
           v-if="campusmode"
@@ -92,9 +97,9 @@
           @blur="$v.form.college.$touch()"
           placeholder="College Name"
         ></InputField>
-        <p class="feedback" v-if="!$v.form.college.required && (touched)">
-              Please mention your College name
-          </p>  
+        <p class="feedback" v-if="!$v.form.college.required && touched">
+          Please mention your College name
+        </p>
 
         <InputField
           class="mb-1"
@@ -102,7 +107,7 @@
           v-model="form.tags"
           placeholder="Tags for greater reach"
         ></InputField>
-         <p class="instruction">Mention tags separated by space</p>
+        <p class="instruction">Mention tags separated by space</p>
 
         <input
           ref="file"
@@ -114,38 +119,35 @@
 
         <div id="image-upload" class="mb-3">
           Upload image
-   
 
-          <img src="@/assets/image.svg" alt="Icon"   id="post-image"
-              name="image-alt"
-              @click="$refs.file.click()" /> 
+          <img
+            src="@/assets/image.svg"
+            alt="Icon"
+            id="post-image"
+            name="image-alt"
+            @click="$refs.file.click()"
+          />
         </div>
 
         <b-button variant="info" type="submit">Submit</b-button>
-<!-- 
-        <b-button variant="info" type="submit">Submit</b-button> -->
       </b-form>
     </div>
   </div>
 </template>
 
 <script>
-// import axios from 'axios';
 import InputField from "../Input/InputText.vue";
 import FormSelect from "../Input/SelectText.vue";
 import TextArea from "../Input/TextArea.vue";
-import { mapGetters } from 'vuex';
-import {createPost} from '@/services/post'
-import { required ,requiredIf } from "vuelidate/lib/validators";
-
+import { mapGetters } from "vuex";
+import { createPost } from "@/services/post";
+import { required, requiredIf } from "vuelidate/lib/validators";
 
 export default {
   name: "PostForm",
   components: { InputField, FormSelect, TextArea },
-  computed:{
-
-    ...mapGetters(['getUid']),
-    
+  computed: {
+    ...mapGetters(["getUid"]),
   },
   data() {
     return {
@@ -158,16 +160,15 @@ export default {
         tags: "",
         college: "",
       },
-      touched:false,
+      touched: false,
       placeholderimage: "",
       imageuploaded: "",
       showbtn: false,
       campusmode: false,
-      createPost:false,
-      difficulty_mode:'',
-      difftouched:false,
-      modetouched:false,
-
+      createPost: false,
+      difficulty_mode: "",
+      difftouched: false,
+      modetouched: false,
 
       mode: [
         { value: null, text: "Select a mode" },
@@ -188,253 +189,90 @@ export default {
         required,
       },
       content: {
-        required
+        required,
       },
       company: {
-        required
+        required,
       },
-      difficulty:{
-        required
+      difficulty: {
+        required,
       },
-      mode:{
-        required
+      mode: {
+        required,
       },
-      college:{
-        required:requiredIf(inp=>{
-
-          return inp.mode=="onCampus"
-        })
-      }
-
-
-      
+      college: {
+        required: requiredIf((inp) => {
+          return inp.mode == "onCampus";
+        }),
+      },
     },
   },
   methods: {
-    setTouched()
-    {
-
-
-      this.difftouched=true;
-     
+    setTouched() {
+      this.difftouched = true;
     },
-    setmodeTouched()
-    {
-      this.modetouched=true;
-
+    setmodeTouched() {
+      this.modetouched = true;
     },
-     async onSubmit(event) {
-
- 
+    async onSubmit(event) {
       event.preventDefault();
 
-      if(this.$v.form.$invalid)
-      {
-      this.$v.$touch()
-      this.touched=true;
-      }
-      else
-      {
-      
+      if (this.$v.form.$invalid) {
+        this.$v.$touch();
+        this.touched = true;
+      } else {
+        const data = JSON.parse(JSON.stringify(this.form));
 
-      const data = JSON.parse(JSON.stringify(this.form));
-
-      for (let key in data) {
-        if (data[key] == "") delete data[key];
-      }
-
-
-      const fd = new FormData();
-      Object.keys(data).forEach((key) => {
-        if (data[key] != null && data[key] != undefined) {
-
-          fd.append(key, data[key]);
+        for (let key in data) {
+          if (data[key] == "") delete data[key];
         }
-      });
-      fd.append("id",this.getUid)
 
+        const fd = new FormData();
+        Object.keys(data).forEach((key) => {
+          if (data[key] != null && data[key] != undefined) {
+            fd.append(key, data[key]);
+          }
+        });
+        fd.append("id", this.getUid);
 
+        if (this.$refs.file.files.length != 0) {
+          fd.append(
+            "image",
+            this.$refs.file.files[0],
+            this.$refs.file.files[0].name
+          );
+        }
 
-      if(this.$refs.file.files.length!=0){
-      
+        try {
+          const response = await createPost(fd);
 
-      fd.append("image", this.$refs.file.files[0], this.$refs.file.files[0].name);
+          if (response.status == 200) {
+            this.$router.push({ path: "/oncampus" });
+          }
+        } catch (err) {
+          console.log("err", err);
+        }
       }
-    
-
-     
-      try{
-
-      
-      const response=await createPost(fd);
-
-      if(response.status==200)
-      {
-
-        this.$router.push({ path:'/oncampus'})
-      }
-       
-      }
-      catch(err)
-      {
-        console.log("err",err)
-      }
-        
-    }
-     
     },
 
     modeselected() {
-
       if (this.form.mode == "onCampus") {
-
         this.campusmode = true;
-
       } else this.campusmode = false;
     },
     previewImage() {
-
       this.showbtn = true;
       this.placeholderimage = URL.createObjectURL(this.$refs.file.files[0]);
-
     },
     removeselectedImage() {
       this.$refs.file.value = null;
       this.showbtn = false;
     },
-  }
+  },
 };
 </script>
 
 <style scoped>
-#postform {
-  margin-top: 20px;
-  padding-bottom: 10px;
-}
-#form-header {
-  font-size: 1.2em;
-  font-weight: 600;
-}
-form input {
-  margin-bottom: 5px;
-}
+@import url("@/../public/stylesheets/createPost.css");
 
-#formbody {
-  background-color: white;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-#modeselect,
-#modedifficulty {
-  width: 48%;
-  display: inline-block;
-}
-
-#post-image {
-  position: relative;
-  height: 20px;
-
-}
-
-#image-placeholder {
-  border: 1px solid #ced4da;
-  border-radius: 3px;
-  padding: 5px;
-  width: 50%;
-}
-
-#image-upload {
-  color: #7d858c;
-}
-#post-content::-webkit-scrollbar,
-#post-tags::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-#post-content,
-#post-tags {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
-#post-tags {
-  font-weight: 600;
-}
-
-#post-tags::placeholder {
-  font-weight: 400;
-}
-
-#selectoption {
-  display: flex;
-  justify-content: space-between;
-}
-
-#post-content:focus,
-#post-tags:focus {
-  /* border: none!important; */
-  /* border-color: rgb(31, 32, 32); */
-  outline: none !important;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  /* border:1px solid red */
-}
-
-#removeprofile {
-  position: relative;
-  left: 280px;
-  height: 20px;
-}
-
-#imagepreview {
-  width: 100%;
-  height: 200px;
-}
-
-.feedback
-{
-  font-size: 0.8em;
-  border: red;
-  margin: 0;
-  
-}
-.instruction
-{
-  font-size: 0.8em!important;
-}
-
-
-
-@media only screen and (max-width: 1070px) {
-  #createpost {
-    height: 60%;
-    width: 25%;
-  }
-
-  #postBtn {
-    top: 0;
-  }
-
-  #postBtn .btn {
-    width: 60%;
-  }
-}
-
-@media only screen and (max-width:540px)
-{
-  #selectoption {
-  display: flex;
-  flex-direction: column;
-  row-gap: 5px;
-  
-}
-#selectoption div{
-  width: 100%;
-}
-/* #input-2::placeholder{
-  font-size:0.8em
-} */
-}
 </style>

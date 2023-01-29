@@ -35,14 +35,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 #createpost
 {
-  /* border:1px solid #41ca25; */
-  /* width: 50%; */
+
   height: 50%;
-  /* width: 70%; */
+
   display: flex;
   flex-direction: column;
   margin-top: 10px;

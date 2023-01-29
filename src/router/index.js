@@ -1,7 +1,6 @@
 
 import  Router from 'vue-router'
-// import AllPosts from '../components/HomePage/DisplayPosts.vue'
-// import  HomeRightSection from '../components/HomePage/RightSection'
+
 import PostDetail from '../components/PostExpand/PostDetail'
 import AllPosts from '../components/HomePage/Allposts.vue'
 import TaggedPosts from '../components/HomePage/TaggedPosts'
@@ -118,12 +117,6 @@ const router=new Router({
                 'main':SearchedResult,
                 'side':CreatePostCard
             },
-            // props: {
-            //     'main': {
-            //         searchTerm:'search',
-                 
-            //     }
-            // }
 
 
         },

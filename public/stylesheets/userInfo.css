@@ -1,0 +1,183 @@
+#userprofile {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  background-color: white;
+  border-radius: 5px;
+
+  position: fixed;
+  width: 20%;
+  top: 1;
+  height: inherit;
+}
+
+.info-label span {
+  font-weight: 500;
+  color: #838383;
+}
+
+#joined-info,
+#grad-info {
+  color: #c53f00;
+  font-size: 0.9em;
+}
+
+#removeprofile {
+  color: white;
+  position: relative;
+  bottom: 98px;
+  left: -15px;
+}
+
+#postBtn {
+  height: 40%;
+
+  display: flex;
+  justify-content: center;
+
+  gap: 1em;
+}
+
+#postBtn .btn {
+  border-radius: 1rem;
+  width: 40%;
+}
+
+#postBtn .btn a {
+  text-decoration: none;
+  color: white;
+}
+
+#graduation-cap,
+#calendar-icon {
+  color: black;
+  padding-right: 5px;
+}
+
+#info {
+  height: 60%;
+
+  padding: 10px;
+}
+
+#divider {
+  width: 90%;
+  border: 1px solid #fafafa;
+  border-top: 1px solid rgb(155 58 58 / 10%);
+
+  position: relative;
+  top: 35px;
+
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+#header {
+  height: 35%;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+
+  background-color: #33a8ff;
+}
+
+#user-info-header {
+  position: relative;
+  bottom: 60px;
+
+  justify-content: center;
+}
+
+#fullname {
+  font-weight: 600;
+  font-size: 20px;
+  text-align: left;
+}
+
+#username {
+  color: #979797;
+  font-size: 1em;
+}
+
+#update-btn a {
+  color: black !important;
+}
+
+#update-btn a:hover {
+  color: rgb(247, 247, 247) !important;
+}
+
+#update-btn:hover {
+  background-color: #838383;
+}
+
+.profile-image {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  position: relative;
+  margin-bottom: 10px;
+  left: 1%;
+  bottom: 60px;
+}
+
+#user-bio {
+  font-size: 0.9em;
+}
+
+#postBtn{
+  display: flex;
+    align-items: center;
+}
+
+@media screen and (max-width: 1200px) {
+  #user-info-header {
+    left: 0px;
+  }
+}
+
+@media only screen and (max-width: 1065px) {
+  #postBtn .btn {
+    font-size: 15px;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  #userprofile {
+    height: fit-content;
+  }
+}
+
+#removeprofile {
+  left: -15px;
+  height: 20px;
+}
+
+@media only screen and (max-width: 1070px) {
+  #postBtn {
+    position: relative;
+  }
+
+  .profile-image {
+    width: 100px;
+    height: 100px;
+  }
+
+  #userprofile {
+    width: 40vh;
+  }
+
+  #rightsection {
+    height: 90vh;
+  }
+
+  #postBtn .btn {
+    border-radius: 1rem;
+    width: 40%;
+  }
+
+  #divider {
+    position: relative;
+    top: 25px;
+    margin-top: 15px;
+  }
+}

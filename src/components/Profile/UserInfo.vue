@@ -1,10 +1,10 @@
 <!-- Profile Card which will be displayed in the right side of the homepage ,it will show user info -->
 <template>
-  <div v-if="!empty" id="userprofile" >
+  <div v-if="!empty" id="userprofile">
     <div id="header">
       <LoadingIcon :loading="loading" />
     </div>
-    <div id="info"  >
+    <div id="info">
       <b-img
         class="profile-image"
         :src="showProfileImage"
@@ -12,17 +12,16 @@
         alt="Profile Image"
       ></b-img>
 
- 
-
-      <img src="@/assets/cancel.svg" alt="Icon"  v-if="show && sameUser"
+      <img
+        src="@/assets/cancel.svg"
+        alt="Icon"
+        v-if="show && sameUser"
         @click="removeProf"
-        id="removeprofile"/> 
-  
+        id="removeprofile"
+      />
 
       <div v-if="!loading" id="user-info-header">
         <div id="user-info">
-  
-        
           <h4 id="fullname">{{ fullname }}</h4>
           <h5 id="username">@{{ username }}</h5>
           <p id="user-bio">
@@ -30,22 +29,20 @@
           </p>
 
           <p id="joined-info">
-            <span class="mr-1"
-              >
-         
-              <font-awesome-icon :icon="['fas','calendar-days']"   id="calendar-icon" />
-
-              
-               </span
+            <span class="mr-1">
+              <font-awesome-icon
+                :icon="['fas', 'calendar-days']"
+                id="calendar-icon"
+              /> </span
             >Joined {{ joined }}
           </p>
-          
+
           <p id="grad-info" v-if="university || yearofgraduation">
-            <!-- <bxBell size={20} color="#ff0000" /> -->
-            <!-- <bxsGraduation /> -->
             <span class="mr-1">
-              <font-awesome-icon :icon="['fas','graduation-cap']"   id="graduation-cap" />
-         
+              <font-awesome-icon
+                :icon="['fas', 'graduation-cap']"
+                id="graduation-cap"
+              />
             </span>
             <span>{{ university ,}}</span> {{ yearofgraduation }}
           </p>
@@ -55,18 +52,14 @@
     <hr id="divider" />
 
     <div id="postBtn">
-      
-      <!-- <b-button v-if="!sameUser" variant="outline-success" size="md">Follow</b-button> -->
       <b-button
-        
         variant="outline-secondary"
         id="update-btn"
         style="color: black"
         size="md"
-        v-if="sameUser && this.$route.name!='UserProfileEdit'"
-
+        v-if="sameUser && this.$route.name != 'UserProfileEdit'"
       >
-        <router-link  :to="`/user/profile/${uid}/edit`">Update</router-link>
+        <router-link :to="`/user/profile/${uid}/edit`">Update</router-link>
       </b-button>
     </div>
   </div>
@@ -74,13 +67,10 @@
 
 <script>
 import { eventBus } from "@/main";
-// deleteUserProfileImage
+
 import { getUserProfile } from "@/services/user";
-import {mapGetters} from 'vuex'
+import { mapGetters } from "vuex";
 
-
-
-// import axios from "axios";
 export default {
   name: "UserProfileCard",
   data() {
@@ -97,156 +87,133 @@ export default {
       loading: false,
       show: false,
       showupdatebtn: this.$router.currentRoute,
-      imageSelected:null,
-      empty:false,
+      imageSelected: null,
+      empty: false,
       default_image:
         "https://res.cloudinary.com/esakki/image/upload/v1672415855/getPlaced/no-image_cwaz3f.jpg",
     };
   },
   methods: {
-     removeProf() {
+    removeProf() {
       eventBus.$emit("removeProfileImage");
 
-   
-      // this.profileImage = this.default_image;
-      if(this.imageSelected) {
-        this.imageSelected='';
-        console.log("remove image selected")
-        eventBus.$emit("removeImageSelected1")
-        // if(this.profileImage==null) thi 
-    
-      }
-      else if(this.profileImage) {
-        this.profileImage=''
-        console.log("profile image removed")
-        eventBus.$emit("removeProfileImage1")
+      if (this.imageSelected) {
+        this.imageSelected = "";
+        console.log("remove image selected");
+        eventBus.$emit("removeImageSelected1");
+      } else if (this.profileImage) {
+        this.profileImage = "";
+        console.log("profile image removed");
+        eventBus.$emit("removeProfileImage1");
       }
 
-      if(!this.profileImage && !this.imageSelected) {
-       
-        console.log("all false")
-       this.show = false;
-       eventBus.$emit("deleteProfileImage")
-     }
-     console.log("check image",this.profileImage,"check",this.imageSelected)
-
-
-
+      if (!this.profileImage && !this.imageSelected) {
+        console.log("all false");
+        this.show = false;
+        eventBus.$emit("deleteProfileImage");
+      }
+      console.log(
+        "check image",
+        this.profileImage,
+        "check",
+        this.imageSelected
+      );
     },
 
- 
     async getProfile(id) {
       this.loading = true;
-  let res = {}
-  try{
-  res=await getUserProfile(id);
-  if(res) eventBus.$emit("profileInfo",res)
+      let res = {};
+      try {
+        res = await getUserProfile(id);
+        if (res) eventBus.$emit("profileInfo", res);
 
-  const {
-    name,
-    username,
-    yearofgrad,
-    university,
-    college,
-    profileImage,
-    joined,
-    bio
-  } = res.data.profile;
+        const {
+          name,
+          username,
+          yearofgrad,
+          university,
+          college,
+          profileImage,
+          joined,
+          bio,
+        } = res.data.profile;
 
+        Object.assign(this, {
+          fullname: name,
+          username,
+          collegename: college,
+          university,
+          yearofgraduation: yearofgrad,
+          joined,
+          bio,
+          profileImage: profileImage ? profileImage.url : null,
+        });
 
- 
-  Object.assign(this, {
-    fullname: name,
-    username,
-    collegename: college,
-    university,
-    yearofgraduation: yearofgrad,
-    joined,
-    bio,
-    profileImage: profileImage ? profileImage.url : null
-  });
-
-
-  this.loading = false;
-  //to show remove profile pic icon
-  if (profileImage && profileImage.url && this.$route.name=='UserProfileEdit') this.show = true;
-}
-catch(err)
-{
-   this.empty=true;
-   this.loading=false
-}
-},
-
-async updateProfile(res)
-{
-
-
-  const {
-    name,
-    username,
-    yearofgrad,
-    university,
-    college,
-    profileImage,
-    joined,
-    bio
-  } = res.data.profile;
-
-
- 
-  Object.assign(this, {
-    fullname: name,
-    username,
-    collegename: college,
-    university,
-    yearofgraduation: yearofgrad,
-    joined,
-    bio,
-    profileImage: profileImage ? profileImage.url : null
-  });
-
-
-  this.loading = false;
-  //to show remove profile pic icon
-  if (profileImage && profileImage.url && this.$route.name=='UserProfileEdit') this.show = true;
-
-
-}
-
-
-  },
-  computed:{
-      ...mapGetters(['getUid']),
-
-      showProfileImage()
-    {
-      
-      if(this.imageSelected) return this.imageSelected;
-      else if(this.profileImage) return this.profileImage;
-      else return this.default_image;
-
-    },
-
-      sameUser()
-      {
-   
-        return this.getUid==this.uid
+        this.loading = false;
+        if (
+          profileImage &&
+          profileImage.url &&
+          this.$route.name == "UserProfileEdit"
+        )
+          this.show = true;
+      } catch (err) {
+        this.empty = true;
+        this.loading = false;
       }
     },
+
+    async updateProfile(res) {
+      const {
+        name,
+        username,
+        yearofgrad,
+        university,
+        college,
+        profileImage,
+        joined,
+        bio,
+      } = res.data.profile;
+
+      Object.assign(this, {
+        fullname: name,
+        username,
+        collegename: college,
+        university,
+        yearofgraduation: yearofgrad,
+        joined,
+        bio,
+        profileImage: profileImage ? profileImage.url : null,
+      });
+
+      this.loading = false;
+      if (
+        profileImage &&
+        profileImage.url &&
+        this.$route.name == "UserProfileEdit"
+      )
+        this.show = true;
+    },
+  },
+  computed: {
+    ...mapGetters(["getUid"]),
+
+    showProfileImage() {
+      console.log("check prof userinfo",this.profileImage)
+      if (this.imageSelected) return this.imageSelected;
+      else if (this.profileImage) return this.profileImage;
+      else return this.default_image;
+    },
+
+    sameUser() {
+      return this.getUid == this.uid;
+    },
+  },
   async created() {
-  
-    // console.log("User Info created", this.showupdatebtn);
-    
-   
-
- 
-
     if (this.$route.matched[0].path == "/post/:id") {
       eventBus.$on("getProfileid", async (id) => {
         //to show the profile info in the details page of the post
-        // console.log("If Profile")
     
+
         this.getProfile(id);
       });
     } else {
@@ -254,44 +221,36 @@ async updateProfile(res)
       // console.log("Else Profile")
 
       //if it is a profile page then only fetch the profile otherwise u will get from the bus
-     if(this.$route.matched[0].path=="/user/profile/:id") this.getProfile(this.$route.params.id);
+      if (this.$route.matched[0].path == "/user/profile/:id")
+        this.getProfile(this.$route.params.id);
     }
 
-
     eventBus.$on("notfound", () => {
-      this.empty=true;
-    })
+      this.empty = true;
+    });
 
     eventBus.$on("imagepreview", (data) => {
-      // console.log("image bus",data)
-      this.imageSelected=data;
-      this.show=true;
-    })
+      this.imageSelected = data;
+      this.show = true;
+    });
 
-    eventBus.$on("profileInfo",(data)=>{
-      this.updateProfile(data)
+    eventBus.$on("profileInfo", (data) => {
+      this.updateProfile(data);
+    });
 
-    })
+    eventBus.$on("removeImageSelected2", () => {
+      this.imageSelected = null;
+      if (this.profileImage != null) {
+        this.show = true;
+      } else this.show = false;
+    });
 
-    eventBus.$on('removeImageSelected2',()=>{
-      this.imageSelected=null;
-      if(this.profileImage!=null){
-        // console.log("check image",this.profileImage)
-       this.show=true;
-      }
-      else this.show=false;
-    })
-
-    eventBus.$on('removeProfileImage2',()=>{
-      this.profileImage=null;
-      this.show=false;
-    })
-
-
+    eventBus.$on("removeProfileImage2", () => {
+      this.profileImage = null;
+      this.show = false;
+    });
 
     eventBus.$on("profileUpdated", (data) => {
-
-
       const {
         name,
         username,
@@ -310,7 +269,9 @@ async updateProfile(res)
         bio,
         profileImage: profileImage
           ? profileImage
-          : (!this.profileImage ? null : this.profileImage )
+          : !this.profileImage
+          ? null
+          : this.profileImage,
       });
       if (profileImage) this.show = true;
     });
@@ -319,12 +280,9 @@ async updateProfile(res)
 </script>
 
 <style scoped>
-#userprofile {
-  /* border:1px solid #41ca25; */
-  /* width: 50%; */
-  /* height: 85vh; */
+/* @import url("@/../public/stylesheets/userInfo.css"); */
 
-  /* width: 70%; */
+#userprofile {
   display: flex;
   flex-direction: column;
   margin-top: 10px;
@@ -335,7 +293,6 @@ async updateProfile(res)
   width: 20%;
   top: 1;
   height: inherit;
-  /* height: 70%; */
 }
 
 .info-label span {
@@ -357,11 +314,8 @@ async updateProfile(res)
 }
 
 #postBtn {
-  /* border: 1px solid red; */
   height: 40%;
-  /* display: flex;
-    justify-content: center;
-    align-items: center; */
+
   display: flex;
   justify-content: center;
 
@@ -378,30 +332,17 @@ async updateProfile(res)
   color: white;
 }
 
-
-#graduation-cap ,#calendar-icon{
+#graduation-cap,
+#calendar-icon {
   color: black;
   padding-right: 5px;
-
 }
-
-
-
-
-
 
 #info {
   height: 60%;
 
   padding: 10px;
 }
-
-#info p span {
-  /* font-weight: 400; */
-}
-/* #info p {
-  font-size: 1rem;
-} */
 
 #divider {
   width: 90%;
@@ -426,15 +367,9 @@ async updateProfile(res)
 #user-info-header {
   position: relative;
   bottom: 60px;
-  /* display: flex; */
-  /* left: -40px; */
-  justify-content: center;
-  /* text-align: center; */
-}
 
-/* #user-info p {
-  font-size: 1rem;
-} */
+  justify-content: center;
+}
 
 #fullname {
   font-weight: 600;
@@ -455,9 +390,8 @@ async updateProfile(res)
   color: rgb(247, 247, 247) !important;
 }
 
-#update-btn:hover{
+#update-btn:hover {
   background-color: #838383;
-
 }
 
 .profile-image {
@@ -474,11 +408,12 @@ async updateProfile(res)
   font-size: 0.9em;
 }
 
+#postBtn{
+  display: flex;
+    align-items: center;
+}
+
 @media screen and (max-width: 1200px) {
-  #userprofile {
-    /* border: 1px solid red; */
-    /* height: 85vh; */
-  }
   #user-info-header {
     left: 0px;
   }
@@ -490,47 +425,25 @@ async updateProfile(res)
   }
 }
 
-/* @media only screen and (max-width: 1235px) {
-  .profile-image {
-    left: 1%;
-  }
-} */
-
 @media only screen and (max-width: 900px) {
-  /* #userprofile
- {s
-   
-     height: 59%;
- }
-  */
-
   #userprofile {
     height: fit-content;
   }
 }
 
 #removeprofile {
-    /* bottom: 90px; */
-    left: -15px;
-    height: 20px;
-
-  }
-
+  left: -15px;
+  height: 20px;
+}
 
 @media only screen and (max-width: 1070px) {
   #postBtn {
     position: relative;
-    /* top: 20px; */
   }
-
-  /* #user-info p {
-    font-size: 1rem;
-} */
 
   .profile-image {
     width: 100px;
     height: 100px;
-    /* left: 31%; */
   }
 
   #userprofile {
@@ -546,15 +459,10 @@ async updateProfile(res)
     width: 40%;
   }
 
-
   #divider {
     position: relative;
     top: 25px;
     margin-top: 15px;
   }
-
-  /* #userprofile {
-    border: 1px solid red;
-  } */
 }
 </style>
