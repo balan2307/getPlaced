@@ -76,7 +76,7 @@ const router=new Router({
                 'main':UserPosts,
                 'side':UserProfileCard,
                
-            }
+            },
           
         },
         {
@@ -157,7 +157,7 @@ router.beforeEach(async(to, from, next) => {
       if(to.name=='PostForm'  || to.name=='UserProfileEdit' )
       {
         
-        console.log("inside check")
+      
         const reqId=to.params.id;
         const userID=store.getters.getUid;
         if(reqId!=userID)

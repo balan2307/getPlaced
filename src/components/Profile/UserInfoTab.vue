@@ -110,7 +110,7 @@ export default {
 
     eventBus.$on("profileInfo",(data)=>{
 
-      console.log("profile info buss")
+    
       res=data;
       const { profile } = res.data;
      this.username = profile.username;

@@ -112,7 +112,7 @@ export const getUserPosts=async(id,currpage,perpage)=>
             limit:perpage
         }
     })
-    console.log("no err")
+
     return posts;
    }
    catch(err)
