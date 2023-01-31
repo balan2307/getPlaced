@@ -68,7 +68,7 @@ export default {
     showProfileImage()
     {
       
-      console.log("check prof tab",this.profileImage)
+    
       if(this.imageSelected) return this.imageSelected;
       else if(this.profileImage) return this.profileImage;
       else return this.default_image;
@@ -94,11 +94,11 @@ export default {
 
       if(!this.profileImage && !this.imageSelected) {
        
-        console.log("all false")
+  
        this.show = false;
        eventBus.$emit("deleteProfileImage")
      }
-     console.log("check image",this.profileImage,"check",this.imageSelected)
+  
     },
     
   },
@@ -143,14 +143,14 @@ export default {
           ? null
           : this.profileImage
       });
-      console.log("upd",profileImage,this.profileImage)
+  
       if (profileImage) this.show = true;
     });
 
     eventBus.$on('removeImageSelected1',()=>{
       this.imageSelected=null;
       if(this.profileImage!=null){
-        console.log("check image",this.profileImage)
+   
        this.show=true;
       }
       else this.show=false;

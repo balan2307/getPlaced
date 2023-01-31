@@ -44,7 +44,7 @@ export default {
       eventBus.$emit("getProfileid", this.post.user._id);
       this.loading = false;
     } catch (err) {
-      console.log("Post err", err);
+
       this.loading = false;
       this.empty = true;
       eventBus.$emit("notfound");
@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     deletePost() {
-      console.log("post delte request");
+    
       this.showToast("Post is getting deleted");
     },
     alertclose(data) {

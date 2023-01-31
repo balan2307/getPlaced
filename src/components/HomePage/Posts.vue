@@ -148,7 +148,6 @@ export default {
     },
     visitProfile(event) {
       event.stopPropagation();
-      console.log("Visit profile");
       if(this.$route.params.id!=this.post.user._id) this.$router.push({
         name: "UserProfile",
         params: { id: this.post.user._id },

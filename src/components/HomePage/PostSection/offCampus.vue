@@ -53,16 +53,12 @@
           let postlimit=2;
        
   
-          try{
+       
           const post=await getPostsPages('offcampus',this.page,postlimit)
           this.pages=post.data.pages;
           this.posts=post.data.posts;
           this.loading=false;
-          }
-          catch(err)
-          {
-            console.log("Error off",err)
-          }
+       
   
       }
   

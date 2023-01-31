@@ -1,24 +1,6 @@
 import axios from 'axios';
 import { Buffer } from 'buffer';
-// const base_url='http://localhost:3000'
-// import { successHandler,errorHandler } from './helper';
 
-export const getUserName=async(uid)=>{
-
-    try{
-
-    const response=await axios.get(`/username/${uid}`);
-    // console.log("Username",response.data.username)
-    return response.data.username;
-    }
-    catch(err)
-    {
-        console.log("error in getting username",err)
-       
-
-    }
-
-}
 
 export const getUserId=function (token)
 {
@@ -42,53 +24,40 @@ export const registerUser=(userCred,router)=>{
       })
 }
 
-export const deleteUserProfileImage=async(id)=> {
 
-  try {
-    await axios.delete(`/user/deleteImage/${id}`);
-    // this.error = "";
-  } catch (err) {
-    console.log("error", err);
-    // this.error = err.response.data.error;
-  }
+
+
+export const getUserProfile=(id)=>{
+
+
+ return axios.get(`/user/profile/${id}`)
+  .then((res)=>{
+     return res
+
+  })
+  .catch((err)=>{
+    throw err
+  })
+
+
+
+
 }
 
 
+export const EditProfile=(id,fd)=>{
 
-export const getUserProfile=async(id)=>{
 
-  try {
-
-    const res=await axios.get(`/user/profile/${id}`);
-
-    if(res) {
+  return axios.patch(`/user/profile/${id}`, fd)
+  .then((res) =>{
+   return res
+  })
+  .catch((err)=>{ throw err})
    
-      return res;
-     
-    }
-    // this.error = "";
-  } catch (error) {
-    console.log("error serv", error);
-    throw error;
-    // this.error = err.response.data.error;
-  }
-
-
-}
-
-
-export const EditProfile=async(id,fd)=>{
-
-  try {
-    const res=await axios.patch(`/user/profile/${id}`, fd);
-    return res;
-    // this.error = "";
-  } catch (err) {
     
-    console.log("error edit profile", err.response);
-    throw err;
+  
 
-    // this.error = err.response.data.error;
-  }
+
+
 }
 

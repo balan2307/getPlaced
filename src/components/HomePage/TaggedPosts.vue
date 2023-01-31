@@ -46,17 +46,15 @@ export default {
   async created() {
     const { tag } = this.$route.params;
 
-    try {
       this.loading = true;
       let postlimit = 2;
       const posts = await getPostsPages(tag, this.page, postlimit);
       this.pages = posts.data.pages;
       this.posts = posts.data.posts;
-    } catch (err) {
-      console.log("Err", err);
-    } finally {
+    
+
       this.loading = false;
-    }
+   
   },
 };
 </script>

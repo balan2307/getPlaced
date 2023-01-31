@@ -2,21 +2,18 @@
   <div>
     <h5 id="search-header">Search results for {{ searchedfor }}</h5>
     <div v-if="empty">
-      <h4 style="color:grey">No posts found ,try searching something else</h4>
-
+      <h4 style="color: grey">No posts found ,try searching something else</h4>
     </div>
     <div v-if="!empty">
-    <LoadingIcon :loading="loading"></LoadingIcon>
-    <div v-if="!loading">
-
-    <UserPost
-      v-for="(post, index) in posts"
-      :key="index"
-      :post="post"
-    ></UserPost>
+      <LoadingIcon :loading="loading"></LoadingIcon>
+      <div v-if="!loading">
+        <UserPost
+          v-for="(post, index) in posts"
+          :key="index"
+          :post="post"
+        ></UserPost>
+      </div>
     </div>
-    </div>
-
 
     <PaginationComponent
       :pages="pages"
@@ -28,7 +25,7 @@
 <script>
 import { searchPost } from "@/services/post";
 import UserPost from "./Posts.vue";
-import PaginationComponent from '@/components/Utils/Pagination.vue'
+import PaginationComponent from "@/components/Utils/Pagination.vue";
 
 export default {
   name: "SearchedResult",
@@ -38,8 +35,8 @@ export default {
     return {
       posts: [],
       searchedfor: this.$route.query.search,
-      pages:0,
-      empty:false
+      pages: 0,
+      empty: false,
     };
   },
   computed: {
@@ -48,33 +45,24 @@ export default {
     },
   },
 
-
   async created() {
-    const postlimit=2;
-    this.loading=true;
-    if (this.searchedfor!= undefined) {
-        try{
-      const res = await searchPost(this.searchedfor,this.page,postlimit);
+    const postlimit = 2;
+    this.loading = true;
+    if (this.searchedfor != undefined) {
+      const res = await searchPost(this.searchedfor, this.page, postlimit);
       this.posts = res.data.posts;
-      if(this.posts.length==0) this.empty=true;
-   
-      this.pages=res.data.pages;
-      this.loading=false;
-        }
-        catch(err)
-        {
-            console.log("Error on fetching posts",err)
+      if (this.posts.length == 0) this.empty = true;
 
-        }
+      this.pages = res.data.pages;
+      this.loading = false;
     }
-
   },
 };
 </script>
 
 <style>
-#search-header{
-    color: #636363;
-    font-weight: bold;
+#search-header {
+  color: #636363;
+  font-weight: bold;
 }
 </style>

@@ -243,15 +243,13 @@ export default {
           );
         }
 
-        try {
+   
           const response = await createPost(fd);
 
           if (response.status == 200) {
             this.$router.push({ path: "/oncampus" });
           }
-        } catch (err) {
-          console.log("err", err);
-        }
+     
       }
     },
 

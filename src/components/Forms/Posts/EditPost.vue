@@ -280,7 +280,7 @@ export default {
         }
         fd.append("imagedeletion", imagedeletion);
 
-        try {
+
           this.loading = true;
 
           data.id = this.$route.params.id;
@@ -290,12 +290,11 @@ export default {
 
           if (response.status == 200) {
             this.showToast("Post updated successfully!");
+            this.loading = false;
           }
-        } catch (err) {
-          console.log("error in editing", err);
-        } finally {
-          this.loading = false;
-        }
+
+         
+        
       }
     },
 
@@ -367,7 +366,7 @@ export default {
         eventBus.$emit("notfound");
         this.loading = false;
         this.empty = true;
-        console.log("Error ", err);
+    
       }
     
   },

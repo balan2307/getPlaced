@@ -99,25 +99,19 @@ export default {
 
       if (this.imageSelected) {
         this.imageSelected = "";
-        console.log("remove image selected");
+      
         eventBus.$emit("removeImageSelected1");
       } else if (this.profileImage) {
         this.profileImage = "";
-        console.log("profile image removed");
+
         eventBus.$emit("removeProfileImage1");
       }
 
       if (!this.profileImage && !this.imageSelected) {
-        console.log("all false");
         this.show = false;
         eventBus.$emit("deleteProfileImage");
       }
-      console.log(
-        "check image",
-        this.profileImage,
-        "check",
-        this.imageSelected
-      );
+
     },
 
     async getProfile(id) {
@@ -198,7 +192,7 @@ export default {
     ...mapGetters(["getUid"]),
 
     showProfileImage() {
-      console.log("check prof userinfo",this.profileImage)
+  
       if (this.imageSelected) return this.imageSelected;
       else if (this.profileImage) return this.profileImage;
       else return this.default_image;
@@ -218,7 +212,7 @@ export default {
       });
     } else {
       //to show the profile info in the profile page of the user
-      // console.log("Else Profile")
+ 
 
       //if it is a profile page then only fetch the profile otherwise u will get from the bus
       if (this.$route.matched[0].path == "/user/profile/:id")

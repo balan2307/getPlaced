@@ -93,6 +93,7 @@ export default {
 
         if (uid) this.$router.push({ path: "/oncampus" });
       } catch (err) {
+     
         const { status } = err.response;
         if (this.$refs.form) this.$refs.form.reset();
 

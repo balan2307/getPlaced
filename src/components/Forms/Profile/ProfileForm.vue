@@ -143,7 +143,7 @@ export default {
       const userDetails = JSON.parse(JSON.stringify(this.form));
       if(this.$refs.file.files[0])
       {
-        console.log("image present")
+       
       this.image = URL.createObjectURL(this.$refs.file.files[0]);
       userDetails.profileImage=this.image;
       }
@@ -174,7 +174,7 @@ export default {
 
 
       if(this.form.profileimage) {
-        console.log("inside prof image")
+       
         fd.append("image", this.$refs.file.files[0], this.form.profileimage.name);
       }
        fd.append("imagedeletion",this.imagedeletion)
@@ -257,7 +257,7 @@ export default {
           eventBus.$emit("notfound")
           this.empty=true;
           this.loading=false
-          console.log("errro",err)
+         
         }
 
         

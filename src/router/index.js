@@ -162,8 +162,7 @@ router.beforeEach(async(to, from, next) => {
         const userID=store.getters.getUid;
         if(reqId!=userID)
         {
-            console.log("Unauthrouzzed")
-            // eventBus.$emit("UnAuth")
+
             store.commit('setAuthorized', false)
             throw new Error("UnAuthorized access")
         }
@@ -171,7 +170,7 @@ router.beforeEach(async(to, from, next) => {
     }
     catch(err)
     {
-        console.log("error inside router",err)
+       
     
         next({ path:'/oncampus'});
 

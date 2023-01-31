@@ -16,7 +16,7 @@ axios.interceptors.request.use(
         return request;
     },
     error =>{
-        console.log("reject error")
+  
      Promise.reject( error )
     }
 );

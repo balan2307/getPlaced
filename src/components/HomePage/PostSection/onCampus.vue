@@ -48,7 +48,6 @@ export default {
   },
   methods: {
     showToast() {
-      console.log("refs", this.$refs);
 
       this.$refs.alertcomp.showAlert();
     },
@@ -67,8 +66,8 @@ export default {
         this.loading = false;
     
       })
-      .catch((err) => {
-        console.log("Error oncampuss", err);
+      .catch(() => {
+    
         this.$router.push({ path: "/login" });
       });
   },

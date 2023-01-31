@@ -19,19 +19,19 @@ const auth={
         
          
         isAuthenticated(state){
-            // console.log("token ",state.token)
+          
             
             return (state.token!='')
         },
         getUserName(state)
         {
-            // console.log("called",state.token)
+           
             return state.username;
 
         },
         getUid(state)
         {
-            // console.log("Uid called",state.uid)
+        
             return state.uid;
         },
         getToken(state)
@@ -83,14 +83,14 @@ const auth={
 
             try{
                 const data=await login(credentials);
-                // console.log("Response",data)
+             
                 const {token,uid,username}=data.data;
               
                 localStorage.setItem(KEY_TOKEN,token);
                 localStorage.setItem(KEY_UID,uid);
                 localStorage.setItem(KEY_NAME,username);
 
-                // console.log("token,uid",token,uid,data)
+              
 
                 commit('setToken',token)
                 commit('setUid',uid)
@@ -100,7 +100,7 @@ const auth={
              
             }
             catch(err){
-                console.log("store Error ",err);
+                console.log(err);
                 throw err;
             }
 
