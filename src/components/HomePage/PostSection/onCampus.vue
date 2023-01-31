@@ -54,7 +54,7 @@ export default {
   },
   async created() {
   
-    store.commit("setAuthorized", true);
+    // store.commit("setAuthorized", true);
     this.loading = true;
 
     let postlimit = 2;
@@ -73,7 +73,8 @@ export default {
   },
   mounted() {
     if (!this.isAuthorized) {
-      this.errormessage = "Unauthorized Access";
+      this.errormessage = "The Page you requested either does not exist or you are not Authorized to access";
+      store.commit("setAuthorized",true);
       this.showToast();
     }
   },

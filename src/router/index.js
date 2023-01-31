@@ -156,6 +156,7 @@ router.beforeEach(async(to, from, next) => {
       try{
       if(to.name=='PostForm'  || to.name=='UserProfileEdit' )
       {
+        console.log("inside check")
         
       
         const reqId=to.params.id;

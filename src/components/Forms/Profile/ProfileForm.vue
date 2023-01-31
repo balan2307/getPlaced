@@ -254,7 +254,9 @@ export default {
         catch(err)
         {
 
+
           eventBus.$emit("notfound")
+          store.commit("setAuthorized", true);
           this.empty=true;
           this.loading=false
          
