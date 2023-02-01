@@ -22,20 +22,33 @@
 
         <InputField v-model="form.name" placeholder="Name" id="input-1"></InputField>
         <InputField v-model="form.username" placeholder="Username" id="input-2"></InputField>
-        <FormSelect v-model="form.bio" placeholder="Bio" row="3"></FormSelect>
+        <TextArea v-model="form.bio" placeholder="Bio" row="3"></TextArea>
 
 
 
         
         <InputField v-model="form.university" placeholder="University" id="input-4"></InputField>
-        <InputField v-model="form.yearofgraduation" placeholder="Year of Graduation" id="input-5"
+
+        <!-- <InputField v-model="form.yearofgraduation" placeholder="Year of Graduation" id="input-5"
         @blur="$v.form.yearofgraduation.$touch()"
         ></InputField>
         <p class="feedback" v-if="!$v.form.yearofgraduation.numeric">
               Please enter a valid year
-            </p>  
+            </p>   -->
 
-         {{ title }}
+          <div id="combine">
+            <div id="image-file">
+            <FormSelect
+              :options="years"
+              :choice="form.yearofgraduation"
+              v-model="form.yearofgraduation"
+              name="yearofgraduation"
+          
+            ></FormSelect>
+            </div>
+
+            <div >
+
         <b-form-file
           v-model="form.profileimage"
           ref="file"
@@ -43,15 +56,34 @@
           placeholder="Profile picture"
           drop-placeholder="Drop file here..."
           @input="imageSelected"
+          style="display: none"
         ></b-form-file>
 
 
-      
-        <div class="mt-3 mb-3">
-          Selected file: {{ form.profileimage ? form.profileimage.name : "" }}
+        <div id="image-upload" class="mb-3">
+  
+
+          <img
+            src="@/assets/image.svg"
+            alt="Icon"
+            id="post-image"
+            name="image-alt"
+            @click="selImage"
+          />
+         <span> Profile image </span>
         </div>
 
-        <b-button variant="primary" type="submit" :disabled="$v.$invalid">Update</b-button>
+
+        </div>
+      </div>
+
+
+      
+        <!-- <div class="mt-3 mb-3">
+          Selected file: {{ form.profileimage ? form.profileimage.name : "" }}
+        </div> -->
+
+        <b-button variant="primary" type="submit" class="mt-2" :disabled="$v.$invalid">Update</b-button>
       </b-form>
     </div>
   </div>
@@ -63,9 +95,10 @@ import { eventBus } from "@/main";
 
 import LoadingIcon from '../../Utils/Loading.vue'
 import InputField from '../Input/InputText.vue' 
-import FormSelect from  '../Input/TextArea.vue'
+import TextArea from  '../Input/TextArea.vue'
+import FormSelect from '../Input/SelectText.vue'
 import {getUserProfile,EditProfile} from '@/services/user'
-import { numeric } from "vuelidate/lib/validators";
+// import { numeric } from "vuelidate/lib/validators";
 import store from "@/store";
 
 
@@ -75,6 +108,7 @@ export default {
   components:{
     LoadingIcon,
     InputField,
+    TextArea,
     FormSelect
   },
   data() {
@@ -87,11 +121,10 @@ export default {
         yearofgraduation: "",
         profileimage:null,
       },
-      options: [
-          { value: null, text: 'Please select an option' },
-          { value: 'a', text: 'This is First option' },
-          { value: 'b', text: 'Selected Option' },
-          { value: 'd', text: 'This one is disabled' }
+
+      years: [
+          { value: null, text: "Select Graduation Year"},
+    
         ],
       image: "",
       loading:false,
@@ -103,17 +136,24 @@ export default {
 
     };
   },
+
   validations:{
     form:{
-      yearofgraduation:{
-        numeric
-      }
+      // yearofgraduation:{
+      //   numeric
+      // }
     }
 
 
   },
-  props:['title'],
+
   methods: {
+
+    selImage()
+    {
+      console.log("selImage")
+      this.$refs.file.$el.childNodes[0].click();
+    },
     imageSelected()
     {
       const image=this.$refs.file.files[0];
@@ -210,6 +250,11 @@ export default {
   async created() {
 
 
+    for (let i = new Date().getFullYear(); i >= 2012; i--) {
+      this.years.push({value:i,text:i});
+    }
+
+
 
     eventBus.$on("deleteProfileImage", () => {
     
@@ -255,10 +300,14 @@ export default {
         {
 
 
+       
           eventBus.$emit("notfound")
           store.commit("setAuthorized", true);
           this.empty=true;
           this.loading=false
+       
+
+       
          
         }
 
@@ -269,6 +318,19 @@ export default {
 </script>
 
 <style>
+
+#image-upload{
+  display: flex;
+    height: 100%;
+    align-items: center;
+}
+#image-file{
+  width: 40%;
+}
+#combine{
+  display: flex;
+  justify-content: space-between;
+}
   .feedback
 {
   font-size: 0.8em;

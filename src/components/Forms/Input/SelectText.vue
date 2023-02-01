@@ -29,7 +29,7 @@ export default {
       type: Array,
     },
     choice: {
-      type: String,
+      type: [String,Number],
     },
     name: {
       type: String,

@@ -363,9 +363,13 @@ export default {
         eventBus.$emit("modeUpdated", data);
         this.loading = false;
       } catch (err) {
+
+     
         eventBus.$emit("notfound");
         this.loading = false;
         this.empty = true;
+
+    
     
       }
     

@@ -244,6 +244,7 @@ export default {
         }
 
    
+        
           const response = await createPost(fd);
 
           if (response.status == 200) {
@@ -271,6 +272,122 @@ export default {
 </script>
 
 <style scoped>
-@import url("@/../public/stylesheets/createPost.css");
+/* @import url("@/../public/stylesheets/createPost.css"); */
+#postform {
+    margin-top: 20px;
+    padding-bottom: 10px;
+  }
+  #form-header {
+    font-size: 1.2em;
+    font-weight: 600;
+  }
+  form input {
+    margin-bottom: 5px;
+  }
+  
+  #formbody {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  #modeselect,
+  #modedifficulty {
+    width: 48%;
+    display: inline-block;
+  }
+  
+  #post-image {
+    position: relative;
+    height: 20px;
+  }
+  
+  #image-placeholder {
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+    padding: 5px;
+    width: 50%;
+  }
+  
+  #image-upload {
+    color: #7d858c;
+  }
+  #post-content::-webkit-scrollbar,
+  #post-tags::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  #post-content,
+  #post-tags {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  #post-tags {
+    font-weight: 600;
+  }
+  
+  #post-tags::placeholder {
+    font-weight: 400;
+  }
+  
+  #selectoption {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  #post-content:focus,
+  #post-tags:focus {
+    outline: none !important;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+  
+  #removeprofile {
+    position: relative;
+    left: 280px;
+    height: 20px;
+  }
+  
+  #imagepreview {
+    width: 100%;
+    height: 200px;
+  }
+  
+  .feedback {
+    font-size: 0.8em;
+    border: red;
+    margin: 0;
+  }
+  .instruction {
+    font-size: 0.8em !important;
+  }
+  
+  @media only screen and (max-width: 1070px) {
+    #createpost {
+      height: 60%;
+      width: 25%;
+    }
+  
+    #postBtn {
+      top: 0;
+    }
+  
+    #postBtn .btn {
+      width: 60%;
+    }
+  }
+  
+  @media only screen and (max-width: 540px) {
+    #selectoption {
+      display: flex;
+      flex-direction: column;
+      row-gap: 5px;
+    }
+    #selectoption div {
+      width: 100%;
+    }
+  }
 
 </style>
