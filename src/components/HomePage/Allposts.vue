@@ -3,7 +3,7 @@
 <template>
   <div id="displayallposts">
     <LoadingIcon :loading="loading"></LoadingIcon>
-    <ShowBtn btntext="Create Post" name="PostForm"></ShowBtn>
+    <ShowBtn btntext="Create Post" :link="link"></ShowBtn>
 
     <div>
       <div id="tab">
@@ -31,10 +31,15 @@
 
 <script>
 import ShowBtn from "../Utils/ShowBtn.vue";
+import {mapGetters} from 'vuex'
 
 export default {
   name: "AllPosts",
   components: { ShowBtn },
+  computed:
+    {  ...mapGetters(['getUid','getUserName'])
+        
+    },
   data() {
     return {
       posts: [],
@@ -43,10 +48,17 @@ export default {
       tab2active: "",
       link1active: "",
       link2active: "",
+      link:''
     };
   },
 
   async created() {
+
+
+    this.link=`/user/posts/${this.getUid}/add`
+    console.log("check",this.getUid)
+
+    // this.link=`/user/posts/${getUid}/add`
     if (this.$route.path == "/oncampus") {
       this.tab1active = "active";
       this.tab2active = "";

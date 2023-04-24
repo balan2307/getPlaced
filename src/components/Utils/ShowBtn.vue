@@ -1,7 +1,7 @@
 <template>
       <div class="mb-3 btn-mob" >
       <b-button>
-        <router-link :to="{name:`${name}` }">{{ btntext }}</router-link>
+        <router-link :to="link"  >{{ btntext }}</router-link>
        </b-button>
     </div>
 </template>
@@ -9,7 +9,11 @@
 <script>
 export default {
     name:'ShowBtn',
-    props:['btntext','name']
+    props:['btntext','link'],
+    created(){
+      console.log("inside showBtn")
+      console.log("link",this.link)
+    }
 
 }
 </script>

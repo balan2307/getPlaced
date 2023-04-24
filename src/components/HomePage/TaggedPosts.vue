@@ -3,7 +3,7 @@
 <template>
   <div id="displayallposts">
     <LoadingIcon :loading="loading"></LoadingIcon>
-    <ShowBtn btntext="Create Post" name="PostForm"></ShowBtn>
+    <ShowBtn btntext="Create Post" :link="link"></ShowBtn>
     <div v-if="!loading">
       <div id="tagposts">#{{ $route.params.tag }}</div>
 
@@ -26,6 +26,7 @@ import UserPost from "./Posts.vue";
 import { getPostsPages } from "@/services/post";
 import ShowBtn from "../Utils/ShowBtn.vue";
 import PaginationComponent from "@/components/Utils/Pagination.vue";
+import {mapGetters} from 'vuex'
 
 export default {
   name: "TaggedPosts",
@@ -35,15 +36,18 @@ export default {
       posts: [],
       loading: false,
       pages: 0,
+      link:''
     };
   },
   computed: {
+    ...mapGetters(['getUid','getUserName']),
     page() {
       return this.$route.query.page || 1;
     },
   },
 
   async created() {
+    this.link=`/user/posts/${this.getUid}/add`
     const { tag } = this.$route.params;
 
       this.loading = true;
