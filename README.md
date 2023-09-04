@@ -1,4 +1,4 @@
-
+https://getplacedwith.netlify.app/login - will take time to load since it is deployed on a free server
 
 # getplaced-project
 
